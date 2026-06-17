@@ -1,0 +1,24 @@
+{
+  "name": "sdd-workflow",
+  "displayName": "SDD — Spec-Driven Development",
+  "description": "Fluxo de desenvolvimento guiado por spec (brainstorm → spec → plan → execute → review) com TDD, debugging sistemático e verificação por evidência. Genérico e portável entre projetos.",
+  "version": "0.1.0",
+  "author": {
+    "name": "guskuma"
+  },
+  "homepage": "https://github.com/guskuma/sdd-workflow",
+  "repository": "https://github.com/guskuma/sdd-workflow",
+  "license": "MIT",
+  "keywords": [
+    "sdd",
+    "spec-driven-development",
+    "tdd",
+    "debugging",
+    "workflow",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "commands": "./commands/",
+  "hooks": "./hooks/hooks-cursor.json"
+}

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# SessionStart hook do plugin SDD.
+# Injeta o conteúdo da skill `using-sdd` no contexto inicial da sessão,
+# detectando a plataforma para emitir o formato JSON correto.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+using_sdd_content=$(cat "${PLUGIN_ROOT}/skills/using-sdd/SKILL.md" 2>&1 || echo "Erro ao ler a skill using-sdd")
+
+# Escapa string para embutir em JSON usando substituição de parâmetro bash.
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+using_sdd_escaped=$(escape_for_json "$using_sdd_content")
+
+session_context="<EXTREMELY_IMPORTANT>\nEste projeto usa o fluxo SDD.\n\n**Abaixo está o conteúdo da skill 'using-sdd' — sua introdução ao uso das skills SDD. Para as demais skills, use o mecanismo de skill da sua plataforma:**\n\n${using_sdd_escaped}\n</EXTREMELY_IMPORTANT>"
+
+# Cursor espera additional_context (snake_case).
+# Claude Code espera hookSpecificOutput.additionalContext (aninhado).
+# Copilot CLI (1.0.11+) e outros esperam additionalContext (top-level, padrão SDK).
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "additional_context": "%s"\n}\n' "$session_context"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$session_context"
+else
+  printf '{\n  "additionalContext": "%s"\n}\n' "$session_context"
+fi
+
+exit 0

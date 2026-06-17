@@ -1,0 +1,3 @@
+# Garante line endings LF nos scripts de hook (evita quebra no Windows/Git)
+hooks/session-start text eol=lf
+*.sh text eol=lf

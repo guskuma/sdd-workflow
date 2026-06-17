@@ -1,0 +1,35 @@
+# Changelog
+
+Todas as mudanças relevantes deste plugin são documentadas aqui.
+
+O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
+e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
+
+## Política de versão
+
+- **MAJOR**: mudanças incompatíveis no contrato de uso (skills, `AGENTS.md`, comandos).
+- **MINOR**: novas skills/comandos ou capacidades de forma retrocompatível.
+- **PATCH**: correções e ajustes de texto sem mudança de comportamento.
+
+Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`,
+`.cursor-plugin/plugin.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`,
+`.github/plugin/marketplace.json`, `gemini-extension.json`, `package.json`) e registre aqui.
+
+## [Unreleased]
+
+## [0.1.0] - 2026-06-17
+
+### Added
+
+- Fluxo SDD completo em 9 skills (`sdd-01-new` … `sdd-09-docs`) generalizado e
+  desacoplado de qualquer projeto, com configuração específica via `AGENTS.md` do repo-alvo.
+- Skills transversais: `using-sdd` (bootstrap), `verification`, `debugging`,
+  `parallel-execution` e `commit-message`.
+- Templates SDD empacotados em `skills/sdd-01-new/templates/`, scaffoldados no projeto-alvo.
+- Slash commands `/sdd-0X` para Cursor/Claude/Gemini.
+- Subagente `code-reviewer` (`agents/code-reviewer.agent.md`).
+- Suporte multiplataforma: Cursor, Claude Code, Codex, GitHub Copilot CLI, Gemini CLI e OpenCode,
+  com manifestos próprios e hook `session-start` (com wrapper `run-hook.cmd` para Windows).
+
+[Unreleased]: https://github.com/guskuma/sdd-workflow/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/guskuma/sdd-workflow/releases/tag/v0.1.0

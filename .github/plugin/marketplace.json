@@ -1,0 +1,12 @@
+{
+  "name": "sdd-marketplace",
+  "description": "Marketplace do plugin SDD (Spec-Driven Development) para GitHub Copilot CLI",
+  "plugins": [
+    {
+      "name": "sdd-workflow",
+      "description": "Fluxo de desenvolvimento guiado por spec com TDD, debugging sistemático e verificação por evidência.",
+      "version": "0.1.0",
+      "source": "./"
+    }
+  ]
+}
