@@ -1,6 +1,6 @@
 {
   "name": "sdd-workflow",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "SDD (Spec-Driven Development) skills — plugin multiplataforma (Cursor, Claude Code, Codex, GitHub Copilot CLI, Gemini CLI, OpenCode).",
   "license": "MIT",
   "type": "module",

@@ -2,7 +2,7 @@
   "name": "sdd-workflow",
   "displayName": "SDD — Spec-Driven Development",
   "description": "Fluxo de desenvolvimento guiado por spec (brainstorm → spec → plan → execute → review) com TDD, debugging sistemático e verificação por evidência. Genérico e portável entre projetos.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "guskuma"
   },

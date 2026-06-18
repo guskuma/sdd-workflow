@@ -17,6 +17,22 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-18
+
+### Added
+
+- Template bundled `mr-template.md` em `skills/sdd-01-new/templates/` (scaffoldado em
+  `specs/templates/` na primeira spec do projeto).
+
+### Changed
+
+- `sdd-01-new`: discovery automático de template MR/PR (`.gitlab/merge_request_templates/`,
+  `.github/PULL_REQUEST_TEMPLATE*`, ou template bundled); origem registrada em `executions.md`.
+- `sdd-09-docs`: mesma cascata de discovery para specs legadas; título do MR conforme convenção
+  de branches no `AGENTS.md`.
+- `sdd-init`: removida seção "Template de MR/PR" do `AGENTS.md` gerado — templates resolvidos
+  por discovery nas skills SDD.
+
 ## [0.2.0] - 2026-06-18
 
 ### Added
@@ -44,6 +60,7 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 - Suporte multiplataforma: Cursor, Claude Code, Codex, GitHub Copilot CLI, Gemini CLI e OpenCode,
   com manifestos próprios e hook `session-start` (com wrapper `run-hook.cmd` para Windows).
 
-[Unreleased]: https://github.com/guskuma/sdd-workflow/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/guskuma/sdd-workflow/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/guskuma/sdd-workflow/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/guskuma/sdd-workflow/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/guskuma/sdd-workflow/releases/tag/v0.1.0
