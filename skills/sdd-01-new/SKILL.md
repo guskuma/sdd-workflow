@@ -14,7 +14,7 @@ Criar a pasta e os arquivos iniciais de uma spec SDD, coletar informações esse
 
 ## Contexto do projeto
 
-Consultar o `AGENTS.md` (raiz do repositório) para: issue tracker/MR, branch base, template de MR, integrações excluídas de TDD por padrão, subsistemas do projeto.
+Consultar o `AGENTS.md` (raiz do repositório) para: issue tracker/MR, branch base, integrações excluídas de TDD por padrão, subsistemas do projeto.
 
 ## Escopo do SDD
 
@@ -34,8 +34,8 @@ Os templates do SDD ficam **empacotados no plugin** (`skills/sdd-01-new/template
 1. Verificar se existe `specs/templates/` no projeto.
 2. Se **não** existir, copiar os templates do plugin para `specs/templates/` do repositório:
    - `spec-template.md`, `executions-template.md`, `tasks-template.md`, `design-template.md`,
-     `issue-summary-template.md`, `sdd-tdd.md`, `sdd-restricoes.md`, `sdd-branch.md`,
-     `implementation-log-entry.md`
+     `issue-summary-template.md`, `mr-template.md`, `sdd-tdd.md`, `sdd-restricoes.md`,
+     `sdd-branch.md`, `implementation-log-entry.md`
 3. Garantir que existe `specs/implementation-log.md` (criar vazio com cabeçalho se faltar).
 
 > Onde a skill referencia `specs/templates/X.md`, é esse o local (já no repositório após o scaffold).
@@ -82,7 +82,12 @@ Perguntar ao dev:
    - resumo do body;
    - anexos `.md` incorporados (quando aplicável);
    - anexos não `.md` apenas como referência (nome/link), sem versionar arquivo.
-5. Copiar o template de MR/PR do projeto (`AGENTS.md`) → `mr-template.md` (esqueleto; preenchimento só no `/sdd-09-docs`)
+5. Resolver o template de MR/PR (esqueleto; preenchimento só no `/sdd-09-docs`) e copiar para `mr-template.md` na pasta da spec:
+   1. Se existir `.gitlab/`, procurar em `.gitlab/merge_request_templates/`.
+   2. Senão, se existir `.github/`, procurar em `.github/PULL_REQUEST_TEMPLATE.md` ou `.github/PULL_REQUEST_TEMPLATE/`.
+   3. Senão, usar `specs/templates/mr-template.md` (template bundled do plugin).
+   4. **Seleção entre múltiplos templates:** tentar deduzir pelo `tipo` da spec (ex.: `feat.md`, `fix.md`, `Default.md`). Se não houver correspondência clara, **perguntar ao dev**.
+   5. Registrar em `executions.md` a origem do template escolhido (path do arquivo).
 
 ### 5. Branch Git
 

@@ -36,15 +36,20 @@ Ao **finalizar a spec** (após `/sdd-08-spec-review` aprovado), antes de `implem
 
 ## Passos — MR/PR (`mr-template.md`)
 
-1. Se `mr-template.md` não existir na pasta da spec (spec legada), copiar o template de MR/PR de `AGENTS.md`.
+1. Se `mr-template.md` não existir na pasta da spec (spec legada), resolver o template pela cascata de discovery:
+   1. Se existir `.gitlab/`, procurar em `.gitlab/merge_request_templates/`.
+   2. Senão, se existir `.github/`, procurar em `.github/PULL_REQUEST_TEMPLATE.md` ou `.github/PULL_REQUEST_TEMPLATE/`.
+   3. Senão, usar `specs/templates/mr-template.md` (template bundled do plugin).
+   4. **Seleção entre múltiplos templates:** tentar deduzir pelo `tipo` da spec (ex.: `feat.md`, `fix.md`, `Default.md`). Se não houver correspondência clara, **perguntar ao dev**.
+   5. Copiar o template escolhido para `mr-template.md` na pasta da spec.
 2. **Preencher** as seções narrativas a partir de `spec.md` (**Por quê?**, To Be, goals, **restrições**) e `executions.md` (como testar, evidências, gates):
-   - **Descrição:** resumo do que foi feito e por quê
+   - **Resumo / Descrição:** resumo do que foi feito e por quê
    - **Issues / Tasks relacionadas:** link da issue + "Closes" se aplicável
    - **Tipo de mudança:** marcar o checkbox correspondente ao `tipo` da spec
    - **Como testar:** passos extraídos dos critérios de aceite e gates
    - **Impactos e riscos:** riscos residuais e como as **restrições** foram respeitadas
    - **Evidências:** gates verdes, testes relevantes, registros de `executions.md`
-3. Título do MR/PR conforme `AGENTS.md`.
+3. Título do MR/PR conforme convenção de branches em `AGENTS.md`.
 4. Checklist do template: marcar **apenas** itens já comprovados.
 5. Registrar em `executions.md` → seção **MR**: arquivo preenchido ou "N/A" com justificativa.
 
@@ -74,4 +79,4 @@ Ao **finalizar a spec** (após `/sdd-08-spec-review` aprovado), antes de `implem
 
 ## Saída esperada
 
-Documentação alinhada à spec (ou justificativa N/A); `mr-template.md` preenchido; `executions.md` atualizado. Ao concluir: entrada em `specs/implementation-log.md`, `status: done` em `spec.md`, MR/PR conforme `AGENTS.md`.
+Documentação alinhada à spec (ou justificativa N/A); `mr-template.md` preenchido; `executions.md` atualizado. Ao concluir: entrada em `specs/implementation-log.md`, `status: done` em `spec.md`, MR/PR aberto com o conteúdo de `mr-template.md`.

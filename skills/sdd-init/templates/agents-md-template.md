@@ -84,30 +84,6 @@ specs/
 <!-- Padrão de flags do projeto; N/A se não usar -->
 - {padrao-ou-NA}
 
-## Template de MR/PR
-
-<!-- Esqueleto copiado para mr-template.md em cada spec (/sdd-01-new) -->
-```markdown
-## Descrição
-
-## Issues / Tasks relacionadas
-
-## Tipo de mudança
-
-- [ ] feat
-- [ ] fix
-- [ ] refactor
-- [ ] perf
-- [ ] chore
-- [ ] docs
-
-## Como testar
-
-## Impactos e riscos
-
-## Evidências
-```
-
 ## ADR (opcional)
 
 <!-- Path para Architecture Decision Records; N/A se não usar -->

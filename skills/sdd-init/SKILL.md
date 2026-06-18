@@ -78,7 +78,7 @@ Explorar o projeto **antes** de perguntar. Fontes de detecção:
 
 ### Seções obrigatórias (conforme contrato)
 
-Stack, Gate de qualidade, Issue tracker, Branches Git, Integrações externas, Restrições padrão, Convenção de pastas (specs), Mapa de research, Mapa de documentação, Feature flags, Template de MR/PR.
+Stack, Gate de qualidade, Issue tracker, Branches Git, Integrações externas, Restrições padrão, Convenção de pastas (specs), Mapa de research, Mapa de documentação, Feature flags.
 
 ## Passo 4 — Gerar `CLAUDE.md`
 
