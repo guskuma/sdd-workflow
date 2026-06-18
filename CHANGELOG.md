@@ -17,6 +17,19 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-18
+
+### Added
+
+- Comando `/sdd-init` e skill `sdd-init` para bootstrap automático do projeto-alvo:
+  análise do repositório, geração de `AGENTS.md`, `CLAUDE.md` e `GEMINI.md`.
+- Templates em `skills/sdd-init/templates/` (`agents-md-template.md`, `claude-md-template.md`,
+  `gemini-md-template.md`).
+
+### Changed
+
+- `using-sdd` passa a sugerir `/sdd-init` quando o projeto não tiver `AGENTS.md`.
+
 ## [0.1.0] - 2026-06-17
 
 ### Added
@@ -31,5 +44,6 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 - Suporte multiplataforma: Cursor, Claude Code, Codex, GitHub Copilot CLI, Gemini CLI e OpenCode,
   com manifestos próprios e hook `session-start` (com wrapper `run-hook.cmd` para Windows).
 
-[Unreleased]: https://github.com/guskuma/sdd-workflow/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/guskuma/sdd-workflow/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/guskuma/sdd-workflow/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/guskuma/sdd-workflow/releases/tag/v0.1.0

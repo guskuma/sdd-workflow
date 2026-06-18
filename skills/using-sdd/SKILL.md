@@ -26,7 +26,7 @@ As skills SDD sobrepõem o comportamento padrão do modelo, mas **as instruçõe
 As skills SDD são **genéricas**. Tudo que é específico do projeto (stack, comandos de build/test, integrações, issue tracker, branch base, mapas de código e documentação) vive no **`AGENTS.md` na raiz do repositório**.
 
 - **Sempre** consulte o `AGENTS.md` do projeto antes de assumir comandos, paths ou convenções.
-- Se o projeto **não tiver** `AGENTS.md`, avise o dev e ofereça criar um a partir de `skills/using-sdd/references/agents-md-contract.md`.
+- Se o projeto **não tiver** `AGENTS.md`, avise o dev e sugira rodar `/sdd-init` para análise automática do repositório e geração guiada.
 - Onde uma skill disser "gate de qualidade", "issue tracker", "integrações externas" ou "branch base", o valor concreto está no `AGENTS.md`.
 
 ## Como acessar skills
@@ -53,7 +53,7 @@ Se a sua plataforma **não** tiver um recurso citado (ex.: `SwitchMode` para Pla
 ## Fluxo SDD (visão geral)
 
 ```
-/sdd-01-new → /sdd-02-research → /sdd-03-specify → /sdd-04-plan → /sdd-05-review (plano)
+/sdd-init (bootstrap do projeto) → /sdd-01-new → /sdd-02-research → /sdd-03-specify → /sdd-04-plan → /sdd-05-review (plano)
  → /sdd-06-execute ⇄ /sdd-07-task-review (por task) [TDD opcional, decidido no 01]
  → /sdd-08-spec-review → /sdd-09-docs
 ```
