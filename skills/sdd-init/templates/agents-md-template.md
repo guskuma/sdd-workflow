@@ -81,8 +81,14 @@ specs/
 
 ## Feature flags
 
-<!-- Padrão de flags do projeto; N/A se não usar -->
-- {padrao-ou-NA}
+<!-- N/A se o projeto não usar feature flags -->
+
+| Campo | Valor |
+|-------|-------|
+| **Mecanismo** | {env-var \| arquivo-config \| servico-externo \| N/A} <!-- ex.: variável de ambiente, config/app.yaml, LaunchDarkly, GitLab Feature Flags --> |
+| **Convenção de nome** | {prefixo.flag.nome} |
+| **Default seguro** | {false / off} |
+| **Path / registro no código** | {path-ou-N/A} |
 
 ## ADR (opcional)
 
