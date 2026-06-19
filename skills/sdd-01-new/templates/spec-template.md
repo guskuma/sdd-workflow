@@ -5,6 +5,7 @@ titulo: Título curto da mudança
 branch: feat/PROJ-XXXX
 tdd: false
 tdd_integracao: fora
+feature_flag: nao
 status: draft
 criado: YYYY-MM-DD
 autor: @usuario
@@ -20,6 +21,7 @@ autor: @usuario
 | Tipo | feat \| fix \| refactor \| perf \| chore \| docs |
 | Branch | `feat/PROJ-XXXX` (ver [sdd-branch.md](../templates/sdd-branch.md)) |
 | TDD | `false` · integrações: `fora` (ver [sdd-tdd.md](../templates/sdd-tdd.md) e [AGENTS.md](../../AGENTS.md)) |
+| Feature flag | `nao` (ver [AGENTS.md](../../AGENTS.md)) |
 | Pasta | `specs/YYYY-MM-PROJ-XXXX-slug/` |
 | Status | draft \| research \| specified \| planned \| in-review \| executing \| done |
 
