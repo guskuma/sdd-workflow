@@ -15,7 +15,22 @@ As skills SDD são genéricas. O específico do projeto vive no `AGENTS.md` na *
 | **Convenção de pastas (specs)** | Onde ficam as specs e templates | todas as fases |
 | **Mapa de research (As Is)** | Onde procurar código por área | sdd-02 |
 | **Mapa de documentação** | Onde documentar mudanças públicas | sdd-09 |
-| **Feature flags** | Padrão de flags do projeto | sdd-04 |
+| **Feature flags** | Mecanismo (env, arquivo, serviço), convenção de nome, default seguro, path no código | sdd-init, sdd-04-plan |
+
+## Exemplo mínimo de Feature flags
+
+```markdown
+## Feature flags
+
+| Campo | Valor |
+|-------|-------|
+| **Mecanismo** | env-var |
+| **Convenção de nome** | FEATURE_{NOME} |
+| **Default seguro** | false |
+| **Path / registro no código** | src/config/feature-flags.ts |
+```
+
+> Adapte ao projeto. Se não usar feature flags, marque **Mecanismo** como `N/A`.
 
 ## Exemplo mínimo de "Gate de qualidade"
 

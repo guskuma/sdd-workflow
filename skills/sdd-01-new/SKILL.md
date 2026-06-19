@@ -2,15 +2,15 @@
 name: sdd-01-new
 description: >-
   Fase New do SDD: inicia uma mudança rastreável (feat, fix, refactor, etc.). Lê a issue,
-  cria a pasta da spec, pergunta sobre TDD e sugere a branch. Use com /sdd-01-new ou ao
-  começar qualquer mudança que deva ser registrada em spec.
+  cria a pasta da spec, pergunta sobre TDD e feature flag, e sugere a branch. Use com
+  /sdd-01-new ou ao começar qualquer mudança que deva ser registrada em spec.
 ---
 
 # SDD — Nova spec
 
 ## Objetivo
 
-Criar a pasta e os arquivos iniciais de uma spec SDD, coletar informações essenciais (incluindo a issue), e registrar decisões de TDD e branch.
+Criar a pasta e os arquivos iniciais de uma spec SDD, coletar informações essenciais (incluindo a issue), e registrar decisões de TDD, feature flag e branch.
 
 ## Contexto do projeto
 
@@ -69,11 +69,20 @@ Perguntar ao dev:
 - Registrar a resposta no frontmatter de `spec.md`: `tdd: true | false`.
 - Seguir as convenções de `specs/templates/sdd-tdd.md` e as integrações em `AGENTS.md`.
 
+### 3.1 Perguntar feature flag
+
+Perguntar ao dev **independentemente do `tipo`**:
+
+> "Esta spec usará **feature flag** (habilitar/desabilitar o comportamento sem impactar outras partes do sistema)?"
+
+- Registrar a resposta no frontmatter de `spec.md`: `feature_flag: sim | nao | tbd`.
+- Consultar `AGENTS.md` § **Feature flags** para o padrão de implementação do projeto-alvo (mecanismo, convenção, default, path) — **não** hardcodar ferramenta na skill.
+
 ### 4. Criar pasta e copiar templates
 
 1. Pasta: `specs/{YYYY-MM}-{ISSUE-KEY-ou-slug}/`
 2. Copiar `specs/templates/spec-template.md` → `spec.md`
-   - Preencher frontmatter: `issue`, `tipo`, `titulo`, `branch`, `tdd`, `tdd_integracao`, `criado`, `autor`
+   - Preencher frontmatter: `issue`, `tipo`, `titulo`, `branch`, `tdd`, `tdd_integracao`, `feature_flag`, `criado`, `autor`
    - Preencher o link da issue com a URL base de `AGENTS.md` (ou `N/A`)
    - Preencher a seção **Por quê?** com o contexto coletado no passo 2
 3. Copiar `specs/templates/executions-template.md` → `executions.md`

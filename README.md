@@ -45,7 +45,7 @@ specs/
 |-------|------|----------------|
 | `using-sdd` | bootstrap | Disciplina de uso + adaptação entre plataformas |
 | `sdd-init` | bootstrap | Análise do repositório + geração de `AGENTS.md`, `CLAUDE.md` e `GEMINI.md` (idempotente) |
-| `sdd-01-new` … `sdd-09-docs` | fases | Ciclo SDD ponta a ponta (TDD opcional, decidido no `01-new`) |
+| `sdd-01-new` … `sdd-09-docs` | fases | Ciclo SDD ponta a ponta (TDD e feature flag decididos no `01-new`; padrão de implementação no `AGENTS.md` via `/sdd-init`) |
 | `debugging` | transversal | Causa raiz antes do fix (4 fases) |
 | `verification` | transversal | Evidência antes de afirmar sucesso |
 | `parallel-execution` | transversal | Tasks independentes via subagentes |

@@ -19,7 +19,7 @@ Consultar o `AGENTS.md` para: gate iterativo, feature flags, integrações, subs
 ## Entregável
 
 - Análise de consequências intencionais e não intencionais
-- Proposta de feature flag (ou N/A justificado)
+- Reavaliação de feature flag (ou N/A justificado); opt-in para atualizar `AGENTS.md` quando § Feature flags vazio
 - `tasks.md` se ≥ 5 tarefas **com fases de implementação**; senão, tasks em `spec.md` §5
 - Dependências e paralelismo explícitos
 - `executions.md` inicializado
@@ -69,13 +69,31 @@ Seguir `specs/templates/sdd-tdd.md` e as integrações em `AGENTS.md`:
 - Respeitar `tdd_integracao`: integrações excluídas em `AGENTS.md` → **avisar o dev** e não exigir test-first nessas áreas.
 - Se o dev optar por incluir integrações no TDD durante o plan, atualizar `spec.md` antes de fechar as tasks.
 
-### 3. Feature flags (quando condizente)
+### 3. Feature flags
 
-Se a spec envolver comportamento novo em produção, risco de rollback ou ativação gradual:
+Ler `feature_flag` do frontmatter de `spec.md`:
 
-- Propor **feature flag** conforme o padrão em `AGENTS.md`.
-- Incluir task para a flag + default seguro + documentar em spec/design.
-- Se não aplicável, registrar **"Feature flag: N/A"** com justificativa.
+| Valor | Ação |
+|-------|------|
+| `sim` | **Reavaliar** com o dev: impactos, complexidade adicional, consequências intencionais e não intencionais. Confirmar ou ajustar antes de detalhar flag. |
+| `nao` | Registrar **"Feature flag: N/A"** em `tasks.md` com justificativa (decisão do New). |
+| `tbd` | Conduzir decisão com a mesma análise; atualizar frontmatter após alinhamento. |
+| ausente (legado) | Avaliar "quando condizente" (comportamento legado). |
+
+**Consultar `AGENTS.md` § Feature flags** (mecanismo, convenção, default, path).
+
+**Se § Feature flags vazio, placeholder ou `N/A` genérico** e a spec confirmar uso de flag (`sim`/`tbd`):
+
+1. **Perguntar** ao dev: mecanismo, convenção de nome, default seguro, path/registro no código.
+2. **Perguntar explicitamente:** "Deseja que eu **atualize o `AGENTS.md`** com esse padrão?"
+3. **Só alterar `AGENTS.md`** após **confirmação expressa** do dev.
+4. Se o dev **recusar** atualizar: documentar o padrão apenas em `tasks.md` § Feature flag (spec corrente); **não** modificar `AGENTS.md`.
+
+Quando confirmado `sim`:
+
+- Propor nome/default/task conforme padrão do `AGENTS.md` (ou o informado no passo 1).
+- Documentar em `tasks.md` § Feature flag.
+- Atualizar frontmatter se decisão mudar após reavaliação.
 
 ### 4. Quebra em tasks
 

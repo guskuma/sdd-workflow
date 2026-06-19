@@ -44,19 +44,23 @@ Explorar o projeto **antes** de perguntar. Fontes de detecção:
 | **Estrutura de pastas** | Diretórios top-level e primeiro nível (`src/`, `lib/`, `app/`, `tests/`, `docs/`, etc.) |
 | **Integrações externas** | Docker/docker-compose, configs de DB, clients HTTP, SDKs de serviços |
 | **Docs existentes** | `README.md`, `docs/`, `CONTRIBUTING.md`, OpenAPI/Swagger |
+| **Feature flags** | `package.json`/deps (LaunchDarkly, Unleash, Flagsmith), `.gitlab-ci.yml`, configs (`config/*.yml`, `.env.example`), código (`featureFlag`, `FEATURE_`) |
 | **Nome/descrição do projeto** | `package.json` (`name`, `description`), `pyproject.toml`, `README.md` (primeiro parágrafo) |
 
 **Não inventar valores.** Se não conseguir detectar com confiança, marcar como incerto e perguntar no passo 2.
 
 ## Passo 2 — Apresentar descobertas e confirmar
 
-1. Resumir no chat: stack, gates sugeridos, issue tracker, branch base, estrutura de pastas, integrações.
+1. Resumir no chat: stack, gates sugeridos, issue tracker, branch base, estrutura de pastas, integrações, feature flags (quando detectado ou perguntado).
 2. Perguntar o que falta ou precisa de ajuste — **uma pergunta por mensagem**, preferindo múltipla escolha.
 3. Questões típicas:
    - "O gate iterativo é `{comandos detectados}`?"
    - "O issue tracker é GitHub Issues em `{url}`?"
    - "A branch base é `{branch}`?"
    - "Integração `{X}` fica fora do TDD por padrão?"
+   - "O projeto usa feature flags? Se sim, qual o **mecanismo** (env var, arquivo, serviço externo)?"
+   - "Qual a **convenção de nome** e o **default seguro**?"
+   - "Onde ficam registradas no código (**path**)?"
 4. Se o dev dispensar confirmações (modo rápido), prosseguir com o que foi detectado e deixar placeholders onde faltar.
 
 ## Passo 3 — Gerar ou atualizar `AGENTS.md`
@@ -74,7 +78,8 @@ Explorar o projeto **antes** de perguntar. Fontes de detecção:
 2. **Não alterar** seções com conteúdo real preenchido pelo dev.
 3. Inserir seções ausentes a partir do template.
 4. Atualizar apenas linhas com placeholder, `TODO`, `{...}` ou valores claramente genéricos.
-5. Se houver conflito (detecção difere do manual), **perguntar** antes de sobrescrever.
+5. Preencher § **Feature flags** com a tabela do template (`agents-md-template.md`) quando detectado ou confirmado pelo dev.
+6. Se houver conflito (detecção difere do manual), **perguntar** antes de sobrescrever.
 
 ### Seções obrigatórias (conforme contrato)
 
