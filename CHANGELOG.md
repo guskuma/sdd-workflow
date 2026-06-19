@@ -17,6 +17,16 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-06-19
+
+### Added
+
+- `/sdd-01-new` pergunta feature flag (qualquer tipo) e registra `feature_flag` no frontmatter.
+- `/sdd-04-plan` reavalia feature flag; se § Feature flags do `AGENTS.md` vazio, pergunta padrão e opt-in para atualizar o arquivo (só com confirmação expressa).
+- `/sdd-init` detecta ou pergunta padrão de feature flags no bootstrap.
+- § Feature flags estruturado em `agents-md-template.md` e `agents-md-contract.md`.
+- Campo `feature_flag` em `spec-template.md`.
+
 ## [0.3.0] - 2026-06-18
 
 ### Added
