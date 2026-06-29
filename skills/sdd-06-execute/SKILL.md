@@ -119,6 +119,8 @@ Seguir `specs/templates/sdd-tdd.md` e as integrações em `AGENTS.md`:
 - O agente **não** alterna de modo sozinho — usa o recurso da plataforma e o dev aprova.
 - Commits apenas se o dev pedir.
 - Nunca declarar gate verde sem a skill **`verification`**.
+- **Disciplina (Execute):** código **mínimo** — só o que a task/Steps exigem; nada especulativo (refator extra, feature futura, abstração antecipada).
+- **Disciplina (Execute):** tocar **só** arquivos/trechos do escopo (**Onde**, Steps, micro-plano). Limpar ou refatorar código adjacente só se **você** o alterou nesta task e for necessário para o DoD.
 
 ## Saída esperada
 

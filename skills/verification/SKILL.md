@@ -38,6 +38,8 @@ Antes de qualquer afirmação de sucesso:
 4. **VERIFICAR** — o output confirma a afirmação?
 5. **SÓ ENTÃO** — registrar em `executions.md` ou reportar no chat.
 
+Se o passo 4 falhar → corrigir e **repetir** a gate function até a evidência confirmar a afirmação ou o dev decidir parar. Não declarar sucesso no meio do loop.
+
 ## Comandos por contexto
 
 Os comandos concretos do projeto estão no `AGENTS.md` (seção **Gate de qualidade**). Padrão:

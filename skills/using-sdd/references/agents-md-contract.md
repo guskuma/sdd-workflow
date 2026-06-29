@@ -11,7 +11,7 @@ As skills SDD são genéricas. O específico do projeto vive no `AGENTS.md` na *
 | **Issue tracker** | Nome, URL base e como ler issues (ex.: Jira, GitHub Issues) | sdd-01, sdd-09, commit-message |
 | **Branches Git** | Convenção de nome, branch base padrão, plataforma de MR/PR | sdd-01, sdd-09 |
 | **Integrações externas** | Quais integrações existem e quais ficam **fora do TDD por padrão** | sdd-02/03/04/06, debugging, parallel-execution |
-| **Restrições padrão** | Limites que nenhuma spec pode violar (contratos, segurança, dados) | sdd-03/04/05/07/08, debugging |
+| **Restrições padrão** | Limites que nenhuma spec pode violar (contratos, segurança, dados); opcionalmente a **disciplina de implementação** do projeto (reforço das 4 regras em `using-sdd`) | sdd-03/04/05/07/08, debugging |
 | **Convenção de pastas (specs)** | Onde ficam as specs e templates | todas as fases |
 | **Mapa de research (As Is)** | Onde procurar código por área | sdd-02 |
 | **Mapa de documentação** | Onde documentar mudanças públicas | sdd-09 |

@@ -59,6 +59,7 @@ Se o To Be incluir integrações excluídas do TDD em `AGENTS.md` e `tdd: true`:
 - Não duplicar o mesmo item em non-goals e restrições sem necessidade.
 - Sem código de produção nesta fase.
 - Solução que violaria restrição → parar, alinhar com o dev, ajustar a spec antes do Plan.
+- **Disciplina (Specify):** não assumir lacunas — perguntar. Abordagens com tradeoffs explícitos na tabela. **Critérios de sucesso** mensuráveis e verificáveis (comando, comportamento observável ou gate do `AGENTS.md`) — não vagos (“funciona bem”).
 
 ## Saída esperada
 

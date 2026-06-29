@@ -50,6 +50,15 @@ Se a sua plataforma **não** tiver um recurso citado (ex.: `SwitchMode` para Pla
 
 **Invoque as skills relevantes ANTES de qualquer resposta ou ação.** Mesmo 1% de chance de aplicar = invoque para checar. Se a skill invocada não servir, você não precisa usá-la.
 
+## Disciplina de implementação
+
+Regras transversais — valem em **qualquer** fase do SDD (e nas skills transversais). O projeto pode reforçá-las no `AGENTS.md` (seção **Restrições padrão**); nesse caso, as do `AGENTS.md` prevalecem.
+
+1. **Não assumir. Não esconder confusão. Expor tradeoffs.** — Consulte `AGENTS.md`, spec e código antes de inferir. Lacuna ou ambiguidade → **pergunte** (uma por vez). Escolha com tradeoffs → deixe explícito na spec ou no chat.
+2. **Código mínimo que resolve o problema. Nada especulativo.** — Implemente só o pedido aprovado. Sem refator “de brinde”, feature futura ou abstração antecipada.
+3. **Tocar só o necessário. Limpar só o que você bagunçou.** — Altere apenas arquivos e trechos do escopo da task. Não “aproveite” para consertar código adjacente que você não tocou.
+4. **Definir critérios de sucesso. Iterar até verificar.** — Sucesso precisa ser verificável (spec, DoD, gate). Não declarar pronto sem evidência — use a skill **`verification`**.
+
 ## Fluxo SDD (visão geral)
 
 ```

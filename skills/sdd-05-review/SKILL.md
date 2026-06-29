@@ -31,6 +31,7 @@ Dependências externas e integrações: `AGENTS.md`.
    - Restrições respeitadas no plano? (ver `specs/templates/sdd-restricoes.md` e `AGENTS.md`)
    - Edge cases cobertos por tasks?
    - Riscos / dependências externas (ver `AGENTS.md`)
+   - **Suposições não validadas** ou tradeoffs ainda implícitos na spec/plano?
    - Tasks candidatas a paralelo
 3. Checklist para o dev marcar:
    - [ ] Spec reflete o que quero entregar
@@ -50,6 +51,7 @@ Dependências externas e integrações: `AGENTS.md`.
 
 - Não implementar código nesta fase.
 - Questionar shadow code: task sem rastro em goals/US → remover ou atualizar a spec.
+- **Disciplina (Review):** expor suposições e tradeoffs antes do Execute — não deixar o implementador adivinhar. Critérios de sucesso do §2 devem ter caminho de verificação no plano (task, teste ou gate).
 
 ## Saída esperada
 

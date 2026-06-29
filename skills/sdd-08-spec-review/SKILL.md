@@ -25,7 +25,7 @@ Após todas as tasks com revisão de código aprovada (`/sdd-07-task-review`).
 2. Ler `executions.md`: todas as tasks devem estar `done` com revisão aprovada.
 3. Cruzar spec × código × testes:
    - Cada goal marcado como atendido ou justificado
-   - **Critérios de sucesso** verificados ou gap justificado
+   - **Critérios de sucesso** verificados com evidência (skill **`verification`**, gate completo) ou gap justificado
    - Non-goals respeitados (nada extra entregue)
    - Restrições respeitadas (ver `specs/templates/sdd-restricoes.md` e `AGENTS.md`); violação = reprovar ou exigir atualização da spec com consenso
    - Cada US: critérios de aceite verificáveis
