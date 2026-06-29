@@ -17,6 +17,17 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-06-29
+
+### Added
+
+- **Disciplina de implementação** — 4 regras transversais em `using-sdd` (injetadas no `session-start`):
+  não assumir / expor tradeoffs; código mínimo sem especulação; tocar só o necessário; critérios de
+  sucesso com loop de verificação.
+- Reforço por fase: `sdd-03-specify`, `sdd-05-review`, `sdd-06-execute`, `sdd-07-task-review`,
+  `verification`, `sdd-08-spec-review`.
+- `agents-md-contract.md`: projetos podem espelhar a disciplina em **Restrições padrão** do `AGENTS.md`.
+
 ## [0.4.0] - 2026-06-19
 
 ### Added
