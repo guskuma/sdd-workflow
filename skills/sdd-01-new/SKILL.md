@@ -103,7 +103,7 @@ Perguntar ao dev **independentemente do `tipo`**:
 Seguir o fluxo completo em `specs/templates/sdd-branch.md` e a branch base em `AGENTS.md`:
 
 - Comunicar a branch base padrão e perguntar se o dev prefere outra antes de criar.
-- Criar a branch de trabalho `{tipo}/{ISSUE-KEY-ou-slug}` só após confirmação explícita.
+- Criar a branch de trabalho `{tipo}/{ISSUE-KEY}` (ou `{tipo}/{slug}` sem issue tracker) só após confirmação explícita.
 - Registrar a branch de trabalho **e** a branch base usada em `spec.md` e `executions.md`.
 
 ### 6. TDD — escopo de integrações (se `tdd: true`)

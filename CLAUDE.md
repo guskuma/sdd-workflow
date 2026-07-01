@@ -45,7 +45,7 @@ Checklist do [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.
 ## Branches Git
 
 - **Branch base:** `main`
-- **Convenção:** `feat/{ISSUE-KEY}`, `fix/{ISSUE-KEY}`, `chore/{ISSUE-KEY}` (ex.: `feat/42-add-sdd-init`)
+- **Convenção:** `feat/{ISSUE-KEY}`, `fix/{ISSUE-KEY}`, `chore/{ISSUE-KEY}` (ex.: `feat/42`)
 - **Plataforma de MR/PR:** GitHub
 - **Título MR/PR:** `{ISSUE-KEY}-{slug}` ou descrição curta alinhada ao Conventional Commits
 

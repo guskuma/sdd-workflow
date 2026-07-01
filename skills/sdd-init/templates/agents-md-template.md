@@ -36,7 +36,7 @@
 ## Branches Git
 
 - **Branch base:** `{main | master | develop}`
-- **Convenção:** `{tipo}/{ISSUE-KEY}` ou `{tipo}/{slug}`
+- **Convenção:** `{tipo}/{ISSUE-KEY}` (ex.: `feat/PROJ-1234`); sem issue tracker: `{tipo}/{slug}`
 - **Plataforma de MR/PR:** {GitHub | GitLab | ...}
 - **Título MR/PR:** `{ISSUE-KEY}-{slug}`
 
