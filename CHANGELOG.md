@@ -17,6 +17,13 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-07-01
+
+### Changed
+
+- Convenção de branch no `/sdd-01-new`: `{tipo}/{ISSUE-KEY}` (sem slug); fallback `{tipo}/{slug}` apenas
+  sem issue tracker. Atualizados `sdd-branch.md`, `sdd-01-new` e template do `sdd-init`.
+
 ## [0.5.0] - 2026-06-29
 
 ### Added
@@ -81,7 +88,10 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 - Suporte multiplataforma: Cursor, Claude Code, Codex, GitHub Copilot CLI, Gemini CLI e OpenCode,
   com manifestos próprios e hook `session-start` (com wrapper `run-hook.cmd` para Windows).
 
-[Unreleased]: https://github.com/guskuma/sdd-workflow/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/guskuma/sdd-workflow/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/guskuma/sdd-workflow/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/guskuma/sdd-workflow/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/guskuma/sdd-workflow/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/guskuma/sdd-workflow/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/guskuma/sdd-workflow/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/guskuma/sdd-workflow/releases/tag/v0.1.0
