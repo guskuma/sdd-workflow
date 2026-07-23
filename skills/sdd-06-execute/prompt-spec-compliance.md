@@ -1,6 +1,6 @@
-# Prompt — Estágio 1: Spec compliance (subagente readonly ou mesma sessão)
+# Prompt — Estágio 1: Spec compliance (subagente readonly)
 
-Copiar e preencher. Substituir `{...}`.
+Copiar e preencher. Substituir `{...}`. Subagente **não altera código**.
 
 ```
 Você revisa APENAS a aderência à spec da task {TN} em {caminho-pasta-spec}. NÃO altere código.
@@ -16,6 +16,7 @@ Você revisa APENAS a aderência à spec da task {TN} em {caminho-pasta-spec}. N
 3. Há shadow code (algo fora da spec/plano sem desvio documentado)?
 4. Há escopo EXTRA (non-goals, features não pedidas)?
 5. Há escopo FALTANTE (requisitos omitidos)?
+6. Há código especulativo ou alterações fora de "Onde"/Steps?
 
 ## Retornar
 - **Resultado:** ✅ | ❌

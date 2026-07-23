@@ -1,5 +1,5 @@
 ---
-description: "SDD 06 — Execute: implementa a task/fase aprovada, com opção de planejar antes e gate de qualidade."
+description: Implementar task/fase SDD com loop de revisão (execute + task review)
 ---
 
-Use a skill `sdd-06-execute` para implementar a task/fase aprovada. Siga-a integralmente. Consulte o `AGENTS.md` do projeto.
+Use a skill `sdd-06-execute` para implementar a task/fase aprovada e concluir a revisão por task (loop implement → review → fix). Siga-a integralmente. Consulte o `AGENTS.md` do projeto.

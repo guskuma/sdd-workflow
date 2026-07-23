@@ -37,9 +37,8 @@ Se um item for ambíguo, registrar nos dois ou escolher o papel dominante e refe
 |------|-----------------|
 | **Plan** (`/sdd-04-plan`) | Tasks e DoD não violam restrições; impactos documentados |
 | **Review plano** (`/sdd-05-review`) | Plano respeita restrições e non-goals |
-| **Execute** (`/sdd-06-execute`) | Implementação dentro das restrições; desvio → atualizar spec |
-| **Task review** (`/sdd-07-task-review`) | Diff não viola restrições explícitas |
-| **Spec review** (`/sdd-08-spec-review`) | Entrega final respeita todas as restrições |
+| **Execute** (`/sdd-06-execute`) | Implementação + loop de revisão dentro das restrições; desvio → atualizar spec |
+| **Spec review** (`/sdd-07-spec-review`) | Entrega final respeita todas as restrições |
 
 ## Legado
 

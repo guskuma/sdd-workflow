@@ -38,9 +38,10 @@ Legenda: `pending` · `in_progress` · `blocked` · `done` · `skipped`
 | gate iterativo (testes) | | |
 | gate iterativo (build) | | |
 
-#### Revisão de task (`/sdd-07-task-review`)
+#### Revisão de task (loop do `/sdd-06-execute`)
 
-- **Resultado:** Aprovada | Aprovada com ressalvas | Reprovada
+- **Modo:** subagentes | mesma sessão
+- **Resultado:** Aprovada | Aprovada com ressalvas | Reprovada | Escalada ao dev
 - **Data:**
 - **Itens:** ...
 
@@ -48,25 +49,25 @@ Legenda: `pending` · `in_progress` · `blocked` · `done` · `skipped`
 
 ---
 
-## Validação final (gate completo — `/sdd-08-spec-review`)
+## Validação final (gate completo — `/sdd-07-spec-review`)
 
 | Comando | Resultado |
 |---------|-----------|
 | gate completo (ver AGENTS.md) | |
 
-## Revisão da spec (`/sdd-08-spec-review`)
+## Revisão da spec (`/sdd-07-spec-review`)
 
 - **Resultado:** Aprovada | Reprovada
 - **Data:**
 - **Goals:** ...
 - **Gaps:** ...
 
-## Documentação (`/sdd-09-docs`)
+## Documentação (`/sdd-08-docs`)
 
 - **Arquivos de documentação alterados:** ...
 - **N/A:** [ ] Sim — justificativa: ...
 
-## MR/PR (`/sdd-09-docs`)
+## MR/PR (`/sdd-08-docs`)
 
 - **`mr-template.md` preenchido:** [ ] Sim | [ ] N/A — justificativa: ...
 - **Título MR/PR:** `{ISSUE-KEY}-{slug}`
@@ -89,10 +90,10 @@ Legenda: `pending` · `in_progress` · `blocked` · `done` · `skipped`
 
 ## Checklist final da feature
 
-- [ ] Todas as tasks `done` com `/sdd-07-task-review` aprovado (gate iterativo por task)
+- [ ] Todas as tasks `done` com revisão do `/sdd-06-execute` aprovada (gate iterativo por task)
 - [ ] Validação final: gate completo verde (`AGENTS.md`)
-- [ ] `/sdd-08-spec-review` aprovado
-- [ ] `/sdd-09-docs` concluído (documentação + `mr-template.md`)
+- [ ] `/sdd-07-spec-review` aprovado
+- [ ] `/sdd-08-docs` concluído (documentação + `mr-template.md`)
 - [ ] Fechamento na issue opcional registrado
 - [ ] ADR opcional registrado (quando aplicável)
 - [ ] Entrada em `specs/implementation-log.md`

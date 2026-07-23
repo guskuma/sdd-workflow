@@ -63,8 +63,8 @@ Regras transversais — valem em **qualquer** fase do SDD (e nas skills transver
 
 ```
 /sdd-init (bootstrap do projeto) → /sdd-01-new → /sdd-02-research → /sdd-03-specify → /sdd-04-plan → /sdd-05-review (plano)
- → /sdd-06-execute ⇄ /sdd-07-task-review (por task) [TDD opcional, decidido no 01]
- → /sdd-08-spec-review → /sdd-09-docs
+ → /sdd-06-execute (implement + review loop por task) [TDD opcional, decidido no 01]
+ → /sdd-07-spec-review → /sdd-08-docs
 ```
 
 **Skills transversais** (invocadas dentro das fases, não as substituem): `debugging`, `verification`, `parallel-execution`, `commit-message`.

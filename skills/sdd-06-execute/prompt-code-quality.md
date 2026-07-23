@@ -1,6 +1,6 @@
-# Prompt — Estágio 2: Code quality (subagente readonly ou mesma sessão)
+# Prompt — Estágio 2: Code quality (subagente readonly)
 
-Só após o Estágio 1 ✅. Copiar e preencher. Substituir `{...}`.
+Só após o Estágio 1 ✅. Copiar e preencher. Substituir `{...}`. Subagente **não altera código**. Preferir o agente `code-reviewer` se a plataforma tiver.
 
 ```
 Você revisa a QUALIDADE do código da task {TN} em {caminho-pasta-spec}. NÃO altere código.
@@ -8,7 +8,7 @@ Você revisa a QUALIDADE do código da task {TN} em {caminho-pasta-spec}. NÃO a
 ## Material
 - git diff dos arquivos da task
 - spec.md §2 (Restrições), AGENTS.md (restrições padrão e convenções)
-- executions.md (bloco Verificação da task, se houver)
+- Evidência do gate (verification) desta task, se o orquestrador fornecer
 
 ## Verificar (Estágio 2 — code quality)
 1. Respeita as restrições da spec + AGENTS.md + convenções do projeto?

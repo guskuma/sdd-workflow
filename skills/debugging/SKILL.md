@@ -2,8 +2,8 @@
 name: debugging
 description: >-
   Debugging sistemático: causa raiz antes do fix. Invocar em falhas de teste, build,
-  integração externa ou comportamento inesperado durante Execute (06), Task review (07)
-  ou Spec review (08). Não substitui as fases SDD. Genérico para qualquer stack.
+  integração externa ou comportamento inesperado durante Execute (06) ou Spec review (07).
+  Não substitui as fases SDD. Genérico para qualquer stack.
 ---
 
 # Debugging sistemático
@@ -23,10 +23,10 @@ NENHUM FIX SEM INVESTIGAÇÃO DE CAUSA RAIZ
 | Situação | Quem dispara |
 |----------|--------------|
 | Gate iterativo falhou | `/sdd-06-execute` |
-| Teste que passava passou a falhar | `/sdd-06-execute`, `/sdd-07-task-review` |
+| Teste que passava passou a falhar | `/sdd-06-execute` |
 | Erro de integração externa inesperado | `/sdd-06-execute` |
 | Build/compile falhou após mudança | `/sdd-06-execute` |
-| Task review reprovada por bug | `/sdd-06-execute` (reentrada) |
+| Loop de revisão reprovado por bug | `/sdd-06-execute` (fix no loop) |
 
 **Não pular quando:** parece simples, há pressa, ou "só um quick fix".
 

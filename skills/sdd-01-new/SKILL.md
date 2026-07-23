@@ -91,7 +91,7 @@ Perguntar ao dev **independentemente do `tipo`**:
    - resumo do body;
    - anexos `.md` incorporados (quando aplicável);
    - anexos não `.md` apenas como referência (nome/link), sem versionar arquivo.
-5. Resolver o template de MR/PR (esqueleto; preenchimento só no `/sdd-09-docs`) e copiar para `mr-template.md` na pasta da spec:
+5. Resolver o template de MR/PR (esqueleto; preenchimento só no `/sdd-08-docs`) e copiar para `mr-template.md` na pasta da spec:
    1. Se existir `.gitlab/`, procurar em `.gitlab/merge_request_templates/`.
    2. Senão, se existir `.github/`, procurar em `.github/PULL_REQUEST_TEMPLATE.md` ou `.github/PULL_REQUEST_TEMPLATE/`.
    3. Senão, usar `specs/templates/mr-template.md` (template bundled do plugin).

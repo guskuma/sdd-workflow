@@ -8,13 +8,13 @@ As skills SDD são genéricas. O específico do projeto vive no `AGENTS.md` na *
 |---|---|---|
 | **Stack** | Linguagem, framework, gerenciador de build | research, plan, execute |
 | **Gate de qualidade** | Comandos exatos de lint/compile, teste e build (iterativo) e o gate completo (antes de merge) | `verification`, sdd-06, sdd-07, sdd-08 |
-| **Issue tracker** | Nome, URL base e como ler issues (ex.: Jira, GitHub Issues) | sdd-01, sdd-09, commit-message |
-| **Branches Git** | Convenção de nome, branch base padrão, plataforma de MR/PR | sdd-01, sdd-09 |
+| **Issue tracker** | Nome, URL base e como ler issues (ex.: Jira, GitHub Issues) | sdd-01, sdd-08, commit-message |
+| **Branches Git** | Convenção de nome, branch base padrão, plataforma de MR/PR | sdd-01, sdd-08 |
 | **Integrações externas** | Quais integrações existem e quais ficam **fora do TDD por padrão** | sdd-02/03/04/06, debugging, parallel-execution |
-| **Restrições padrão** | Limites que nenhuma spec pode violar (contratos, segurança, dados); opcionalmente a **disciplina de implementação** do projeto (reforço das 4 regras em `using-sdd`) | sdd-03/04/05/07/08, debugging |
+| **Restrições padrão** | Limites que nenhuma spec pode violar (contratos, segurança, dados); opcionalmente a **disciplina de implementação** do projeto (reforço das 4 regras em `using-sdd`) | sdd-03/04/05/06/07, debugging |
 | **Convenção de pastas (specs)** | Onde ficam as specs e templates | todas as fases |
 | **Mapa de research (As Is)** | Onde procurar código por área | sdd-02 |
-| **Mapa de documentação** | Onde documentar mudanças públicas | sdd-09 |
+| **Mapa de documentação** | Onde documentar mudanças públicas | sdd-08 |
 | **Feature flags** | Mecanismo (env, arquivo, serviço), convenção de nome, default seguro, path no código | sdd-init, sdd-04-plan |
 
 ## Exemplo mínimo de Feature flags
@@ -57,7 +57,7 @@ specs/
     ├── design.md          # opcional
     ├── tasks.md           # opcional (≥ 5 tasks)
     ├── executions.md
-    ├── mr-template.md     # preenchido em /sdd-09-docs
+    ├── mr-template.md     # preenchido em /sdd-08-docs
     └── issue-summary.md
 ```
 

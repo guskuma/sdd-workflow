@@ -1,8 +1,8 @@
 ---
-name: sdd-09-docs
+name: sdd-08-docs
 description: >-
   Fase Docs do SDD: atualiza a documentação pública e preenche o mr-template.md ao
-  finalizar uma spec. Use com /sdd-09-docs após /sdd-08-spec-review aprovado.
+  finalizar uma spec. Use com /sdd-08-docs após /sdd-07-spec-review aprovado.
 ---
 
 # SDD — Documentação + MR/PR
@@ -17,7 +17,7 @@ Consultar o `AGENTS.md` para: mapa de documentação, issue tracker/MR, ADR, che
 
 ## Quando rodar
 
-Ao **finalizar a spec** (após `/sdd-08-spec-review` aprovado), antes de `implementation-log.md` e do MR/PR.
+Ao **finalizar a spec** (após `/sdd-07-spec-review` aprovado), antes de `implementation-log.md` e do MR/PR.
 
 ## Passos — Documentação
 

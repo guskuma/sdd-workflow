@@ -73,7 +73,7 @@ specs/
     ├── design.md              # opcional
     ├── tasks.md               # opcional (≥ 5 tasks)
     ├── executions.md
-    ├── mr-template.md         # preenchido em /sdd-09-docs
+    ├── mr-template.md         # preenchido em /sdd-08-docs
     └── issue-summary.md
 ```
 

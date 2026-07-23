@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
 description: |
-  Use este agente quando uma etapa relevante do projeto for concluída e precisar ser revisada contra o plano e os padrões de código. Ideal como apoio ao Estágio 2 de code quality do /sdd-07-task-review em tasks complexas.
+  Use este agente quando uma etapa relevante do projeto for concluída e precisar ser revisada contra o plano e os padrões de código. Ideal como apoio ao Estágio 2 de code quality do /sdd-06-execute (loop de revisão) em tasks complexas.
 model: inherit
 ---
 

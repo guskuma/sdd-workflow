@@ -14,8 +14,8 @@ Em `/sdd-01-new` o agente **pergunta** ao dev se a spec usará TDD.
 **Red → green → refactor** por task, em código testável sem depender de infra externa real.
 
 - No **plan** (`/sdd-04-plan`): o DoD das tasks inclui a ordem explícita (teste falhando → implementação mínima → refactor).
-- No **execute** (`/sdd-06-execute`): micro-plano ou Steps; registrar em `executions.md`; gate via skill **`verification`**.
-- No **task-review** (`/sdd-07-task-review`): Estágio 1 spec compliance → Estágio 2 code quality; validar o teste de aceite.
+- No **execute** (`/sdd-06-execute`): micro-plano ou Steps; implement + loop de revisão (Estágio 1 → Estágio 2); registrar em `executions.md` **ao concluir**; gate via skill **`verification`**.
+- No loop de revisão do execute: Estágio 1 spec compliance → Estágio 2 code quality; validar o teste de aceite.
 
 ## Exclusão padrão de integrações
 

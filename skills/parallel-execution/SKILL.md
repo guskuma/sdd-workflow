@@ -3,7 +3,8 @@ name: parallel-execution
 description: >-
   Execução paralela de tasks SDD independentes via subagentes. Invocar quando tasks.md
   marcar Paralelo?=sim para a fase e o dev aprovar dispatch paralelo em /sdd-06-execute.
-  Não substitui a revisão por task (/sdd-07). Requer suporte a subagentes na plataforma.
+  Após integração, o loop de revisão por task fica a cargo do /sdd-06-execute.
+  Requer suporte a subagentes na plataforma.
 ---
 
 # Execução paralela
@@ -39,18 +40,18 @@ Se houver overlap → executar **sequencial** via `/sdd-06-execute`.
 
 ```
 1. Validar elegibilidade (Onde disjunto, plano aprovado)
-2. Montar pacote por task (prompt-task.md + Context pack + Steps de tasks.md)
+2. Montar pacote por task (prompt-implement.md canônico + Context pack + Steps)
 3. Dispatch via Task — 1 subagente por task (NUNCA 2 no mesmo arquivo)
 4. Aguardar todos; coletar summaries
 5. git diff — detectar conflitos ou edições inesperadas
 6. Se conflito → parar; resolver sequencialmente ou pedir ao dev
 7. Gate iterativo da fase via skill verification (uma vez)
-8. /sdd-07-task-review POR TASK (sequencial, dois estágios cada)
+8. Loop de revisão do /sdd-06-execute POR TASK (sequencial: Estágio 1 → Estágio 2 → fix até aprovar/escalar)
 ```
 
 ## Pacote por subagente
 
-Usar o template [`prompt-task.md`](./prompt-task.md). Incluir **texto integral** da task — o subagente **não** deve ler `tasks.md` sozinho.
+Usar o template canônico [`../sdd-06-execute/prompt-implement.md`](../sdd-06-execute/prompt-implement.md) (espelho local: [`prompt-task.md`](./prompt-task.md)). Incluir **texto integral** da task — o subagente **não** deve ler `tasks.md` sozinho.
 
 ## Status do subagente
 
@@ -64,16 +65,16 @@ Usar o template [`prompt-task.md`](./prompt-task.md). Incluir **texto integral**
 ## Red flags
 
 - Paralelizar tasks com mesmo arquivo ou pacote em refactor amplo
-- Pular `/sdd-07-task-review` por task após paralelo
+- Pular o loop de revisão do `/sdd-06-execute` por task após paralelo
 - Confiar no report do subagente — verificar diff + `verification`
 - Dois implementadores editando o mesmo path
 
 ## Após integração
 
-1. Registrar em `executions.md` por task: implementação paralela, arquivos alterados.
-2. Invocar **`verification`** — gate iterativo da fase.
-3. Para cada task: **`/sdd-07-task-review`** (Estágio 1 → Estágio 2).
+1. Invocar **`verification`** — gate iterativo da fase.
+2. Para cada task: executar o **loop de revisão** de `/sdd-06-execute` (Estágio 1 → Estágio 2 → fix; máx. 5 iterações; subagentes padrão).
+3. **Só ao concluir** cada task: registrar em `executions.md` (implementação paralela, arquivos, revisão final).
 
 ## Saída esperada
 
-Tasks da fase implementadas sem conflito; gate da fase verificado; revisões por task pendentes ou aprovadas.
+Tasks da fase implementadas sem conflito; gate da fase verificado; revisões por task concluídas (aprovadas ou escaladas ao dev).

@@ -1,9 +1,6 @@
-# Template — prompt de subagente (task paralela SDD)
+# Prompt — Implementador (subagente)
 
-> **Fonte canônica:** [`../sdd-06-execute/prompt-implement.md`](../sdd-06-execute/prompt-implement.md).
-> Manter este arquivo alinhado ao canônico (atalho para dispatch paralelo).
-
-Copiar e preencher ao dispatch via `Task`. Substituir `{...}`.
+Fonte canônica para implementação sequencial e paralela. Copiar e preencher ao dispatch via `Task`. Substituir `{...}`.
 
 ```
 Você implementa APENAS a task {TN} da spec em {caminho-pasta-spec}.

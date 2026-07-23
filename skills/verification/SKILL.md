@@ -23,8 +23,8 @@ NENHUMA AFIRMAÇÃO DE SUCESSO SEM OUTPUT FRESCO DO COMANDO
 | Momento | Skill que dispara |
 |---------|-------------------|
 | Fim de task/fase em Execute | `/sdd-06-execute` |
-| Estágio 2 de Task review | `/sdd-07-task-review` |
-| Validação final da spec | `/sdd-08-spec-review` |
+| Estágio 2 do loop de revisão (Execute) | `/sdd-06-execute` |
+| Validação final da spec | `/sdd-07-spec-review` |
 | Após debug resolvido | `debugging` |
 | Após execução paralela integrada | `parallel-execution` |
 

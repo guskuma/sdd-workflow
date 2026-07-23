@@ -104,7 +104,7 @@ Rodar lint/compile + testes + build (`AGENTS.md`); registrar em `executions.md` 
 - [ ] Steps concluídos
 - [ ] Código + testes
 - [ ] Gate iterativo verde (skill `verification` em `executions.md`)
-- [ ] `/sdd-07-task-review` aprovado (Estágio 1 + Estágio 2)
+- [ ] Revisão do `/sdd-06-execute` aprovada (Estágio 1 + Estágio 2)
 - [ ] Sem shadow code (tudo rastreável na spec)
 - [ ] Docs (passo 09) se impacto em API/contrato público
 
