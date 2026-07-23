@@ -17,6 +17,26 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-23
+
+### Breaking
+
+- **Fusão Execute + Task review:** `/sdd-06-execute` passa a orquestrar implementação e o loop de
+  revisão por task (Estágio 1 spec compliance → Estágio 2 code quality → fix). Máximo **5** iterações;
+  depois escala ao dev. “Aprovada com ressalvas” também escala (não auto-aprova).
+- **Subagentes padrão** no `/sdd-06-execute` (implementador, revisores, fix). Mesma sessão só se a
+  plataforma não tiver `Task` ou se o dev pedir explicitamente.
+- **`executions.md`:** registro **somente ao concluir** a task (não a cada iteração do loop).
+- **Removido** `/sdd-07-task-review` (skill e comando).
+- **Renumeração:** `sdd-08-spec-review` → `sdd-07-spec-review`; `sdd-09-docs` → `sdd-08-docs`
+  (comandos `/sdd-07-spec-review` e `/sdd-08-docs`). Sem aliases dos comandos antigos.
+
+### Added
+
+- Prompts em `skills/sdd-06-execute/`: `prompt-implement.md`, `prompt-fix.md`,
+  `prompt-spec-compliance.md`, `prompt-code-quality.md` (fonte canônica; parallel-execution referencia
+  o implement).
+
 ## [0.6.0] - 2026-07-01
 
 ### Changed
