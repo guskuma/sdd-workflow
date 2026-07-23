@@ -156,14 +156,35 @@ autor: @usuario
 
 ## 5. Tasks
 
-<!-- Se < 5 tarefas, listar aqui. Se ≥ 5, usar tasks.md -->
+<!-- Se < 5 tarefas, listar aqui (mesmo rigor zero-context quando o tipo exigir). Se ≥ 5, usar tasks.md -->
+
+> Quando o formato completo for obrigatório (`feat`/`refactor`/`perf`/`fix` multi-arquivo): incluir **Global Constraints**, **Mapa de arquivos**, **`plan_depth`**, e por task **Context pack** + **Interfaces** + **Steps** (ver `specs/templates/tasks-template.md` e `/sdd-04-plan` §4.0).
+
+### Global Constraints
+
+- ...
+
+### Mapa de arquivos
+
+| Path | Ação | Responsabilidade | Task |
+|------|------|------------------|------|
+| | | | |
+
+### Profundidade (`plan_depth`)
+
+| Campo | Valor |
+|-------|-------|
+| **plan_depth** | `snippets` \| `contracts` |
+| **Critério** | ... |
 
 ### Task 01: Título
 
 - **Entregável:** ...
 - **Onde:** ...
 - **Depende de:** —
+- **Interfaces:** Consumes: … · Produces: …
 - **DoD:** ...
+- **Context pack / Steps:** (obrigatório conforme `/sdd-04-plan` §4.1)
 
 ---
 

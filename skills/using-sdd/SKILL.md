@@ -63,11 +63,11 @@ Regras transversais — valem em **qualquer** fase do SDD (e nas skills transver
 
 ```
 /sdd-init (bootstrap do projeto) → /sdd-01-new → /sdd-02-research → /sdd-03-specify → /sdd-04-plan → /sdd-05-review (plano)
- → /sdd-06-execute (implement + review loop por task) [TDD opcional, decidido no 01]
- → /sdd-07-spec-review → /sdd-08-docs
+ → /sdd-06-execute (implement + review → receiving-review → fix; worktree opt-in) [TDD opcional, decidido no 01]
+ → /sdd-07-spec-review → /sdd-08-docs → finish-branch
 ```
 
-**Skills transversais** (invocadas dentro das fases, não as substituem): `debugging`, `verification`, `parallel-execution`, `commit-message`.
+**Skills transversais** (invocadas dentro das fases, não as substituem): `debugging`, `verification`, `tdd` (se `tdd: true`), `parallel-execution`, `worktrees` (opt-in no 06), `receiving-review`, `finish-branch`, `commit-message`, `writing-skills` (ao editar skills do plugin).
 
 ## Red flags — você está racionalizando
 
@@ -81,7 +81,7 @@ Regras transversais — valem em **qualquer** fase do SDD (e nas skills transver
 
 ## Tipos de skill
 
-- **Rígidas** (TDD, debugging, verification): siga exatamente; não relaxe a disciplina.
-- **Flexíveis** (padrões): adapte os princípios ao contexto.
+- **Rígidas** (`tdd` quando `tdd: true`, `debugging`, `verification`, `receiving-review`, `finish-branch`): siga exatamente; não relaxe a disciplina.
+- **Flexíveis** (padrões, `worktrees` opt-in): adapte os princípios ao contexto.
 
 A própria skill indica qual é.

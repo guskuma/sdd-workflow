@@ -2,7 +2,7 @@
 
 Fluxo de desenvolvimento guiado por spec, empacotado como **plugin de skills** instalável em **Cursor, Claude Code, OpenAI Codex, GitHub Copilot CLI, Gemini CLI e OpenCode**.
 
-As skills cobrem o ciclo completo — `/sdd-init` (bootstrap) → `01 New` → `02 Research` → `03 Specify` → `04 Plan` → `05 Review` → `06 Execute` (implement + review loop) → `07 Spec review` → `08 Docs` — mais skills transversais de **debugging sistemático**, **verificação por evidência**, **execução paralela** e **commit message**.
+As skills cobrem o ciclo completo — `/sdd-init` (bootstrap) → `01 New` → `02 Research` → `03 Specify` → `04 Plan` → `05 Review` → `06 Execute` (implement + review loop; worktree opt-in) → `07 Spec review` → `08 Docs` → `finish-branch` — mais skills transversais de **TDD condicional**, **debugging**, **verificação**, **worktrees**, **receber review**, **execução paralela** e **commit message**.
 
 Em cada mudança rastreável, o fluxo também **gera documentação de histórico** versionada no repositório — pasta `specs/` com spec (As Is → To Be), plano, execuções, revisões e `implementation-log.md` — registrando o porquê, o que mudou e como foi validado.
 
@@ -31,7 +31,7 @@ specs/
 |---------|----------------|----------------|
 | `spec.md` | 02 Research → 03 Specify | Contexto, As Is, To Be, goals, non-goals, restrições |
 | `design.md` | 03 Specify | Decisões de design quando a complexidade exige |
-| `tasks.md` | 04 Plan | Backlog com dependências e fases (ou §5 de `spec.md` se < 5 tasks) |
+| `tasks.md` | 04 Plan | Backlog zero-context: Constraints, mapa, Interfaces, Steps; em specs grandes, **Plan em ondas** (progresso + checkpoints) |
 | `executions.md` | 06 Execute → 08 Docs | O que foi feito, gates, revisões, documentação |
 | `issue-summary.md` | 01 New | Snapshot da issue no início |
 | `mr-template.md` | 08 Docs | Descrição pronta para abrir o MR/PR |
@@ -46,10 +46,15 @@ specs/
 | `using-sdd` | bootstrap | Disciplina de uso + adaptação entre plataformas |
 | `sdd-init` | bootstrap | Análise do repositório + geração de `AGENTS.md`, `CLAUDE.md` e `GEMINI.md` (idempotente) |
 | `sdd-01-new` … `sdd-08-docs` | fases | Ciclo SDD ponta a ponta (TDD e feature flag decididos no `01-new`; padrão de implementação no `AGENTS.md` via `/sdd-init`) |
-| `debugging` | transversal | Causa raiz antes do fix (4 fases) |
+| `tdd` | transversal | Red → green → refactor com Iron Law (só se `tdd: true`) |
+| `debugging` | transversal | Causa raiz antes do fix (4 fases + instrumentação multi-camada) |
 | `verification` | transversal | Evidência antes de afirmar sucesso |
+| `worktrees` | transversal | Isolamento via git worktree (opt-in no `/sdd-06-execute`) |
 | `parallel-execution` | transversal | Tasks independentes via subagentes |
+| `receiving-review` | transversal | Filtra findings (loop 06 + review externo) antes de implementar |
+| `finish-branch` | transversal | Menu pós-docs: merge / MR/PR / manter / descartar |
 | `commit-message` | transversal | Mensagens Conventional Commits (+ issue key opcional) |
+| `writing-skills` | meta | Endurecer/criar skills com pressure scenarios |
 
 Inclui ainda: `commands/` (slash `/sdd-init` e `/sdd-0X`), `agents/code-reviewer.agent.md`, templates SDD empacotados (scaffoldados em `specs/` pelo `/sdd-01-new`; bootstrap de projeto pelo `/sdd-init`).
 

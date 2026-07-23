@@ -77,6 +77,16 @@ Ao **finalizar a spec** (após `/sdd-07-spec-review` aprovado), antes de `implem
 - Se for só mudança interna sem impacto em contrato público: registrar N/A com justificativa.
 - Comentário na issue e ADR são opcionais, mas a decisão do dev deve ficar registrada no `executions.md`.
 
+## Após docs — finalizar branch
+
+Com documentação e `mr-template.md` prontos:
+
+1. Atualizar `specs/implementation-log.md` e `status: done` em `spec.md` (se ainda não).
+2. Invocar a skill **`finish-branch`**: gate completo via **`verification`** → menu (merge local / abrir MR/PR / manter / descartar) → executar a escolha.
+3. Não abrir MR/PR nem mergear **sem** passar por `finish-branch` (Iron Law de verificação fresca).
+
+Feedback de review no MR depois de aberto → skill **`receiving-review`**.
+
 ## Saída esperada
 
-Documentação alinhada à spec (ou justificativa N/A); `mr-template.md` preenchido; `executions.md` atualizado. Ao concluir: entrada em `specs/implementation-log.md`, `status: done` em `spec.md`, MR/PR aberto com o conteúdo de `mr-template.md`.
+Documentação alinhada à spec (ou justificativa N/A); `mr-template.md` preenchido; `executions.md` atualizado; `implementation-log.md` + `status: done`; transição para **`finish-branch`**.

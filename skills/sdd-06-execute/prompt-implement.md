@@ -8,11 +8,14 @@ Você implementa APENAS a task {TN} da spec em {caminho-pasta-spec}.
 ## Context pack
 {copiar integral de tasks.md — seção Context pack da task}
 
+## Interfaces
+{copiar integral — Consumes / Produces; se ausente e o tipo exige, ESCALAR ao orquestrador}
+
 ## Steps
 {copiar integral de tasks.md — seção Steps da task}
 
 ## Restrições
-{copiar bullets relevantes de spec.md §2 Restrições}
+{Global Constraints da tasks.md + bullets relevantes de spec.md §2}
 {restrições aplicáveis do AGENTS.md — integrações, stack, mapeamento de erros}
 
 ## Proibido
@@ -26,8 +29,10 @@ Você implementa APENAS a task {TN} da spec em {caminho-pasta-spec}.
 - Respeitar a separação de camadas do projeto (ver AGENTS.md)
 - Mapeamento de erros de integração: conforme AGENTS.md
 
-## TDD (se a spec tiver tdd: true)
-- Respeitar Steps test-first quando aplicável
+## TDD (se a spec tiver tdd: true) — Iron Law
+- NENHUM código de produção sem teste falhando pelo motivo certo primeiro
+- Se já escreveu produção antes do RED: apagar e recomeçar pelo teste
+- Ciclo: red → green → refactor; evidência de cada passo
 - Integrações excluídas em AGENTS.md: test-first N/A salvo tdd_integracao opt-in
 
 ## Ao terminar, retornar

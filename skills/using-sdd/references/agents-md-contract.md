@@ -7,11 +7,11 @@ As skills SDD são genéricas. O específico do projeto vive no `AGENTS.md` na *
 | Seção | Para que serve | Usada por |
 |---|---|---|
 | **Stack** | Linguagem, framework, gerenciador de build | research, plan, execute |
-| **Gate de qualidade** | Comandos exatos de lint/compile, teste e build (iterativo) e o gate completo (antes de merge) | `verification`, sdd-06, sdd-07, sdd-08 |
-| **Issue tracker** | Nome, URL base e como ler issues (ex.: Jira, GitHub Issues) | sdd-01, sdd-08, commit-message |
-| **Branches Git** | Convenção de nome, branch base padrão, plataforma de MR/PR | sdd-01, sdd-08 |
-| **Integrações externas** | Quais integrações existem e quais ficam **fora do TDD por padrão** | sdd-02/03/04/06, debugging, parallel-execution |
-| **Restrições padrão** | Limites que nenhuma spec pode violar (contratos, segurança, dados); opcionalmente a **disciplina de implementação** do projeto (reforço das 4 regras em `using-sdd`) | sdd-03/04/05/06/07, debugging |
+| **Gate de qualidade** | Comandos exatos de lint/compile, teste e build (iterativo) e o gate completo (antes de merge) | `verification`, `finish-branch`, sdd-06, sdd-07, sdd-08 |
+| **Issue tracker** | Nome, URL base e como ler issues (ex.: Jira, GitHub Issues) | sdd-01, sdd-08, `finish-branch`, commit-message |
+| **Branches Git** | Branch base, convenção de nomes, plataforma de MR/PR | sdd-01, sdd-08, `worktrees`, `finish-branch` |
+| **Integrações externas** | Quais integrações existem e quais ficam **fora do TDD por padrão** | sdd-02/03/04/06, `tdd`, debugging, parallel-execution |
+| **Restrições padrão** | Limites que nenhuma spec pode violar (contratos, segurança, dados); opcionalmente a **disciplina de implementação** do projeto (reforço das 4 regras em `using-sdd`) | sdd-03/04/05/06/07, debugging, `receiving-review` |
 | **Convenção de pastas (specs)** | Onde ficam as specs e templates | todas as fases |
 | **Mapa de research (As Is)** | Onde procurar código por área | sdd-02 |
 | **Mapa de documentação** | Onde documentar mudanças públicas | sdd-08 |

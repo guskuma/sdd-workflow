@@ -125,6 +125,7 @@ specs/
 
 ## Ao editar skills
 
+- Invocar a skill **`writing-skills`** (pressure scenario → skill → re-teste).
 - Mantenha os nomes de tools no estilo Claude Code/Cursor; o mapeamento para outras plataformas está em `skills/using-sdd/references/*-tools.md`.
 - Não reintroduza acoplamento a um projeto específico. Em vez disso, referencie o `AGENTS.md`.
 - Versione: ao mudar comportamento, suba a versão em todos os manifestos (`*plugin.json`, `marketplace.json`, `gemini-extension.json`, `package.json`) e registre em `CHANGELOG.md` (SemVer).

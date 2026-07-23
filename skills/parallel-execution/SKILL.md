@@ -15,6 +15,8 @@ Implementar **tasks independentes da mesma fase** em paralelo via subagentes, se
 
 > **Suporte por plataforma:** depende de subagentes (`Task`). Se a plataforma não tiver (ver `using-sdd/references/*-tools.md`), execute **sequencialmente** via `/sdd-06-execute`.
 
+> Se o `/sdd-06-execute` ativou **`worktrees`**, os subagentes devem operar no mesmo CWD/worktree isolado.
+
 ## Pré-condições (todas obrigatórias)
 
 | # | Condição |
@@ -40,18 +42,18 @@ Se houver overlap → executar **sequencial** via `/sdd-06-execute`.
 
 ```
 1. Validar elegibilidade (Onde disjunto, plano aprovado)
-2. Montar pacote por task (prompt-implement.md canônico + Context pack + Steps)
+2. Montar pacote por task (prompt-implement.md canônico + Context pack + Interfaces + Steps + Global Constraints)
 3. Dispatch via Task — 1 subagente por task (NUNCA 2 no mesmo arquivo)
 4. Aguardar todos; coletar summaries
 5. git diff — detectar conflitos ou edições inesperadas
 6. Se conflito → parar; resolver sequencialmente ou pedir ao dev
 7. Gate iterativo da fase via skill verification (uma vez)
-8. Loop de revisão do /sdd-06-execute POR TASK (sequencial: Estágio 1 → Estágio 2 → fix até aprovar/escalar)
+8. Loop de revisão do /sdd-06-execute POR TASK (sequencial: Estágio 1 → Estágio 2 → receiving-review antes de fix → fix até aprovar/escalar)
 ```
 
 ## Pacote por subagente
 
-Usar o template canônico [`../sdd-06-execute/prompt-implement.md`](../sdd-06-execute/prompt-implement.md) (espelho local: [`prompt-task.md`](./prompt-task.md)). Incluir **texto integral** da task — o subagente **não** deve ler `tasks.md` sozinho.
+Usar o template canônico [`../sdd-06-execute/prompt-implement.md`](../sdd-06-execute/prompt-implement.md) (espelho local: [`prompt-task.md`](./prompt-task.md)). Incluir **texto integral** da task (Context pack + Interfaces + Steps) e Global Constraints — o subagente **não** deve ler `tasks.md` sozinho.
 
 ## Status do subagente
 
@@ -72,7 +74,7 @@ Usar o template canônico [`../sdd-06-execute/prompt-implement.md`](../sdd-06-ex
 ## Após integração
 
 1. Invocar **`verification`** — gate iterativo da fase.
-2. Para cada task: executar o **loop de revisão** de `/sdd-06-execute` (Estágio 1 → Estágio 2 → fix; máx. 5 iterações; subagentes padrão).
+2. Para cada task: executar o **loop de revisão** de `/sdd-06-execute` (Estágio 1 → Estágio 2 → **receiving-review** → fix; máx. 5 iterações; subagentes padrão).
 3. **Só ao concluir** cada task: registrar em `executions.md` (implementação paralela, arquivos, revisão final).
 
 ## Saída esperada

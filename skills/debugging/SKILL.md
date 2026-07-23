@@ -18,6 +18,8 @@ Encontrar **causa raiz** antes de alterar código. Patches no sintoma geram rewo
 NENHUM FIX SEM INVESTIGAÇÃO DE CAUSA RAIZ
 ```
 
+Se a Fase 1 não terminou, **não** propor fix.
+
 ## Quando invocar
 
 | Situação | Quem dispara |
@@ -43,10 +45,14 @@ Completar cada fase antes da próxima.
 **Antes de editar código de produção:**
 
 1. Ler mensagens de erro e stack trace por completo (linha, arquivo, código).
-2. Reproduzir de forma confiável rodando o teste/comando relevante (ver `AGENTS.md` — Gate de qualidade).
+2. Reproduzir de forma confiável rodando o teste/comando relevante (ver `AGENTS.md` — Gate de qualidade). **Se não reproduzir → reunir mais dados; não chutar.**
 3. Verificar mudanças recentes (`git diff`, commits da task).
 4. Em integrações externas: consultar o mapa em `AGENTS.md`; verificar o mapeamento de erros do projeto.
-5. Em sistemas multi-camada (entrada → serviço → cliente): rastrear onde o valor/comportamento errado **entra** — corrigir na origem, não no sintoma.
+5. **Sistemas multi-camada** (entrada → serviço → cliente, CI → build → deploy): **antes** de fix, instrumentar boundaries:
+   - Logar o que **entra** e o que **sai** em cada camada relevante
+   - Rodar uma vez para ver **onde** quebra
+   - Só então investigar o componente falho
+6. Erro fundo na call stack: rastrear o valor/comportamento errado **para trás** até a origem; corrigir na origem, não no sintoma.
 
 Registrar em `executions.md` (seção da task):
 
@@ -58,18 +64,27 @@ Registrar em `executions.md` (seção da task):
 - **Evidência:** ...
 ```
 
-### Fase 2 — Fix mínimo alinhado à spec
+### Fase 2 — Padrão e hipótese
+
+1. Comparar com exemplo que **funciona** no mesmo codebase (se houver).
+2. Listar diferenças — não descartar “isso não pode importar”.
+3. Formar **uma** hipótese explícita: "A causa é X porque Y".
+4. Testar a hipótese com a **menor** mudança possível (uma variável). Se falhar → nova hipótese; **não** empilhar fixes.
+
+### Fase 3 — Fix mínimo alinhado à spec
 
 - O fix deve resolver a **causa**, não mascarar o sintoma.
 - Respeitar restrições da spec e as restrições padrão do projeto (`AGENTS.md`).
 - Se a causa exigir **mudança de escopo** → parar; seguir o fluxo de **desvio** SDD (atualizar spec/tasks antes de codar).
+- Se `tdd: true`: criar/ajustar teste do sintoma **primeiro** (skill **`tdd`**) — deve falhar; depois o fix.
 - Integrações excluídas de TDD (`AGENTS.md`): pode usar mocks/stubs existentes; não impor test-first retroativo sem opt-in.
+- **Um** fix por vez. Sem "já que estou aqui".
 
-### Fase 3 — Verificar
+**Se ≥ 3 tentativas de fix falharam:** parar. Questionar arquitetura/padrão com o dev — não tentar o 4º patch no escuro.
+
+### Fase 4 — Verificar e registrar
 
 Invocar a skill **`verification`** antes de declarar resolvido.
-
-### Fase 4 — Registrar
 
 Atualizar `executions.md`:
 
@@ -78,6 +93,16 @@ Atualizar `executions.md`:
 - **Fix:** ...
 - **Verificação:** [link ao bloco verification em executions.md]
 ```
+
+## Red flags — voltar à Fase 1
+
+| Racionalização | Realidade |
+|----------------|-----------|
+| "Quick fix agora, investigo depois" | O primeiro fix define o padrão — faça certo |
+| "É simples, não precisa de processo" | Bugs simples também têm causa raiz |
+| "Mudo várias coisas e rodo o teste" | Não isola o que funcionou |
+| "Provavelmente é X" | Evidência antes do fix |
+| "Mais uma tentativa" (após 2+ falhas) | ≥3 falhas → discutir arquitetura |
 
 ## Restrições
 

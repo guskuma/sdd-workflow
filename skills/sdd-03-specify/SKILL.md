@@ -11,6 +11,16 @@ description: >-
 
 Definir **o que deve existir** (To Be). Tudo que for implementado depois precisa estar aqui.
 
+**Iron Law:**
+
+```
+NENHUM PLAN NEM CÓDIGO ATÉ CONFIRMAÇÃO EXPLÍCITA DO TO BE PELO DEV
+```
+
+## Anti-padrão: "É simples demais para especificar"
+
+Toda mudança rastreável passa por Specify — mesmo ajuste de uma função ou config. Specs “simples” são onde pressupostos não examinados mais geram rework. O To Be pode ser curto (poucas frases), mas **deve** existir, passar pela auto-revisão e ser confirmado.
+
 ## Contexto do projeto
 
 Restrições padrão do repositório: `AGENTS.md`. Convenção geral: `specs/templates/sdd-restricoes.md`.
@@ -29,13 +39,17 @@ Restrições padrão do repositório: `AGENTS.md`. Convenção geral: `specs/tem
 3. **Abordagens (2–3 opções)** — quando a matriz exigir:
    - Comparar caminhos plausíveis na tabela; indicar **recomendação** e marcar **escolhida** após alinhamento com o dev
    - Se só um caminho razoável: `N/A — abordagem única` + justificativa em uma frase
+   - Apresentar trade-offs de forma conversacional; liderar com a recomendação e o porquê
 4. **Gate de decomposição** — após esboçar o To Be:
    - Se goals/RF indicarem escopo grande (≥2 subsistemas independentes ou entregáveis desacoplados), propor divisão em **Escopo da entrega**
    - Não definir `status: specified` sem decisão explícita do dev (uma spec, N specs ou fases)
 5. **Uma pergunta por vez** — para lacunas em RF, edge cases, restrições ou abordagens; preferir múltipla escolha; não enviar várias perguntas na mesma mensagem
 6. Preencher **§4 User stories** (Como/Quero/Para + critérios de aceite)
-7. Se a complexidade for alta: criar `design.md` (`specs/templates/design-template.md`) → fluxo **incremental** (blocos 1–3 com OK do dev); linkar em §3
+7. Se a complexidade for alta: criar `design.md` (`specs/templates/design-template.md`) → fluxo **incremental** (blocos 1–3 com OK do dev após cada bloco); linkar em §3
+   - Cobrir conforme a complexidade: arquitetura, componentes, fluxo de dados, erros, teste
+   - Unidades com um propósito claro e interfaces definidas; não propor refactor não relacionado ao goal
 8. **Auto-revisão da spec** — preencher o checklist **Revisão da spec (Specify)** em §2; corrigir inline; itens críticos em aberto impedem a confirmação
+   - Checar também: placeholders/TBD, contradições entre seções, ambiguidade em RF/critérios, escopo inchado vs non-goals
 9. **Confirmação de entendimento** (obrigatório):
    - Paráfrase em §2; perguntar: "Está correto? O que ajustar?"
    - **Não** sugerir `/sdd-04-plan` até o dev confirmar
@@ -49,7 +63,7 @@ Se o To Be revelar escopo diferente do registrado em **Por quê?**, refinar com 
 
 Se o To Be incluir integrações excluídas do TDD em `AGENTS.md` e `tdd: true`:
 
-- Reavaliar `tdd_integracao` e **avisar** o dev (ver `specs/templates/sdd-tdd.md`).
+- Reavaliar `tdd_integracao` e **avisar** o dev (ver `specs/templates/sdd-tdd.md` e skill **`tdd`**).
 - Registrar a decisão no frontmatter antes de avançar para o Plan.
 
 ## Regras
@@ -60,6 +74,15 @@ Se o To Be incluir integrações excluídas do TDD em `AGENTS.md` e `tdd: true`:
 - Sem código de produção nesta fase.
 - Solução que violaria restrição → parar, alinhar com o dev, ajustar a spec antes do Plan.
 - **Disciplina (Specify):** não assumir lacunas — perguntar. Abordagens com tradeoffs explícitos na tabela. **Critérios de sucesso** mensuráveis e verificáveis (comando, comportamento observável ou gate do `AGENTS.md`) — não vagos (“funciona bem”).
+
+## Red flags — parar
+
+| Racionalização | Realidade |
+|----------------|-----------|
+| "É óbvio, vamos pro plan" | Confirmação do To Be é obrigatória |
+| "Spec curta não precisa de auto-revisão" | Placeholders e contradições nascem aí |
+| "Já perguntei tudo de uma vez" | Uma pergunta por mensagem |
+| "Design depois, na implementação" | Se a complexidade pediu `design.md`, fechar blocos aqui |
 
 ## Saída esperada
 

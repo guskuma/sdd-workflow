@@ -7,16 +7,17 @@ Você revisa APENAS a aderência à spec da task {TN} em {caminho-pasta-spec}. N
 
 ## Material
 - spec.md (goals, non-goals, RF/US, restrições) da pasta {caminho-pasta-spec}
-- tasks.md / §5 (DoD, Onde, Steps da task {TN})
+- tasks.md / §5 (DoD, Onde, Interfaces, Steps da task {TN}; Global Constraints se houver)
 - git diff dos arquivos listados em "Onde"
 
 ## Verificar (Estágio 1 — spec compliance)
 1. O entregável corresponde ao DoD e aos Steps planejados?
-2. Os critérios de aceite da US / RF foram cobertos?
-3. Há shadow code (algo fora da spec/plano sem desvio documentado)?
-4. Há escopo EXTRA (non-goals, features não pedidas)?
-5. Há escopo FALTANTE (requisitos omitidos)?
-6. Há código especulativo ou alterações fora de "Onde"/Steps?
+2. Interfaces Consumes/Produces respeitadas (nomes/assinaturas), se existirem?
+3. Os critérios de aceite da US / RF foram cobertos?
+4. Há shadow code (algo fora da spec/plano sem desvio documentado)?
+5. Há escopo EXTRA (non-goals, features não pedidas)?
+6. Há escopo FALTANTE (requisitos omitidos)?
+7. Há código especulativo ou alterações fora de "Onde"/Steps?
 
 ## Retornar
 - **Resultado:** ✅ | ❌

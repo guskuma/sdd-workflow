@@ -17,6 +17,39 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-07-23
+
+### Added
+
+- Skills transversais: `tdd` (Iron Law condicional a `tdd: true`), `receiving-review`,
+  `finish-branch`, `worktrees` (opt-in no `/sdd-06-execute`), `writing-skills` (meta).
+- `/sdd-06-execute`: pergunta de **worktree** antes de implementar; registro no `executions.md`.
+- `/sdd-08-docs`: transição obrigatória para `finish-branch` (menu merge/MR/PR).
+- `/sdd-03-specify`: Iron Law (confirmação do To Be), anti-padrão “simples demais”, red flags.
+- `debugging`: instrumentação multi-camada, hipótese única, stop após ≥3 fixes; red flags.
+- `verification`: gatilhos para `finish-branch`, `receiving-review` e `tdd`.
+- `/sdd-04-plan` §4.2 **Plan em ondas**: checkpoints por skeleton/fase, lembrete de nova sessão,
+  retomada via § Progresso do Plan; subagente **planejador** (`prompt-plan-phase.md`) **sequencial**
+  escreve direto em `tasks.md`; material A–F (As Is + gate AGENTS) obrigatório para qualidade dos Steps.
+- `prompt-plan-compliance.md`: escopos `skeleton` | `fase-N` | `cross` (review por onda).
+- `tasks-template`: seção **Progresso do Plan (ondas)**.
+
+### Changed
+
+- `using-sdd`: lista de transversais e fluxo até `finish-branch`.
+- Templates `sdd-tdd.md` e `prompt-implement.md`: apontam para skill `tdd` + Iron Law.
+- README: tabela de skills atualizada.
+- `/sdd-06-execute`: gate obrigatório **`receiving-review`** antes de qualquer `prompt-fix`
+  (filtra findings Aceito/Rejeitado/Ambíguo); `prompt-receiving-review.md`; `prompt-fix`
+  só recebe Aceitos. Sem dual review.
+- `/sdd-04-plan` + `tasks-template`: **zero-context / bite-sized** — Global Constraints, Mapa de
+  arquivos, **Interfaces** (Consumes/Produces), Steps 2–5 min; **`plan_depth`** `snippets`|
+  `contracts` (Iron Law calibrada: snippet completo vs contratos/scaffold).
+- `/sdd-04-plan` §4.4: gate **plan compliance** por escopo (subagente readonly, máx. 2 iterações)
+  antes de `planned` / `/sdd-05-review`; `planned` só após `cross` quando ondas ativas.
+- `/sdd-05-review`: checklist de Interfaces, bite-size, `plan_depth`, executabilidade isolada;
+  pré-requisito alinhado a ondas + cross.
+
 ## [1.0.0] - 2026-07-23
 
 ### Breaking

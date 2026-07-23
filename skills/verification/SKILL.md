@@ -18,6 +18,8 @@ description: >-
 NENHUMA AFIRMAÇÃO DE SUCESSO SEM OUTPUT FRESCO DO COMANDO
 ```
 
+Violação da letra = violação do espírito. Se o comando não rodou **nesta** sessão/turno, não pode afirmar que passou.
+
 ## Quando invocar
 
 | Momento | Skill que dispara |
@@ -27,6 +29,9 @@ NENHUMA AFIRMAÇÃO DE SUCESSO SEM OUTPUT FRESCO DO COMANDO
 | Validação final da spec | `/sdd-07-spec-review` |
 | Após debug resolvido | `debugging` |
 | Após execução paralela integrada | `parallel-execution` |
+| Antes de merge/MR em `finish-branch` | `finish-branch` |
+| Após aplicar item de review externo | `receiving-review` |
+| Ciclo red/green com `tdd: true` | `tdd` |
 
 ## Gate function (obrigatório)
 

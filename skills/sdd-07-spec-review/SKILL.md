@@ -45,7 +45,7 @@ Após todas as tasks com revisão de código aprovada (via `/sdd-06-execute`).
    - Desvios spec↔código (código sem spec = reprovar; desvio só válido se a spec foi atualizada com consenso)
    - Riscos residuais para o revisor humano do MR/PR
 7. Registrar em `executions.md` a seção "Revisão da spec" com data e resultado.
-8. Se aprovado: sugerir `/sdd-08-docs` e depois a entrada em `implementation-log.md`.
+8. Se aprovado: sugerir `/sdd-08-docs` (docs + `finish-branch` para merge/MR).
 9. Se reprovado: listar gaps e tasks de correção (novas ou reabrir).
 
 ## Regras
