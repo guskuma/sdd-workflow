@@ -17,6 +17,19 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-07-28
+
+### Added
+
+- Skill transversal `postgresql-table-design`: wrapper SDD em PT + guia técnico EN
+  (tipos, indexes, constraints, partitioning, JSONB, gotchas).
+- Hooks de invocação em `/sdd-03-specify`, `/sdd-04-plan` e `/sdd-06-execute` quando
+  o trabalho toca schema/migrations PostgreSQL.
+
+### Changed
+
+- `using-sdd` e README: lista de transversais atualizada.
+
 ## [1.1.0] - 2026-07-23
 
 ### Added

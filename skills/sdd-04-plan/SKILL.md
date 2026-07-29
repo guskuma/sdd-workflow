@@ -28,6 +28,8 @@ NENHUM STEP DE CÓDIGO SEM ARTEFATO EXECUTÁVEL SUFICIENTE PARA O plan_depth
 
 Consultar o `AGENTS.md` para: gate iterativo, feature flags, integrações, subsistemas e restrições padrão.
 
+Se o plano incluir schema, migrations ou indexes **PostgreSQL** → invocar **`postgresql-table-design`** ao detalhar Steps de DDL (tipos, FK+index, evolução segura).
+
 ## Entregável
 
 - Análise de consequências intencionais e não intencionais

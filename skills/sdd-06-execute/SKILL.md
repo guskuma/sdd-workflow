@@ -24,7 +24,7 @@ Findings do Estágio 1/2 são hipóteses — verificar antes de alterar código.
 
 Gates, convenções de código e integrações: `AGENTS.md` (e as rules/convenções do projeto).
 
-Skills transversais: [`debugging`](../debugging/SKILL.md), [`verification`](../verification/SKILL.md), [`parallel-execution`](../parallel-execution/SKILL.md), [`tdd`](../tdd/SKILL.md) (se `tdd: true`), [`worktrees`](../worktrees/SKILL.md) (opt-in), [`receiving-review`](../receiving-review/SKILL.md) (gate antes do fix).
+Skills transversais: [`debugging`](../debugging/SKILL.md), [`verification`](../verification/SKILL.md), [`parallel-execution`](../parallel-execution/SKILL.md), [`tdd`](../tdd/SKILL.md) (se `tdd: true`), [`worktrees`](../worktrees/SKILL.md) (opt-in), [`receiving-review`](../receiving-review/SKILL.md) (gate antes do fix), [`postgresql-table-design`](../postgresql-table-design/SKILL.md) (schema/migrations Postgres).
 
 ## Escopo do SDD
 
@@ -275,6 +275,7 @@ Invocar e seguir a skill **`tdd`** + `specs/templates/sdd-tdd.md` e integraçõe
 - Commits apenas se o dev pedir.
 - Nunca declarar gate verde sem a skill **`verification`**.
 - Nunca dispatch `prompt-fix` sem skill **`receiving-review`** nos apontamentos (só Aceitos vão ao fix).
+- Se a task criar/alterar tabelas, indexes ou migrations **PostgreSQL** → invocar **`postgresql-table-design`** antes do DDL.
 - **Disciplina (Execute):** código **mínimo** — só o que a task/Steps exigem; nada especulativo (refator extra, feature futura, abstração antecipada).
 - **Disciplina (Execute):** tocar **só** arquivos/trechos do escopo (**Onde**, Steps, micro-plano). Limpar ou refatorar código adjacente só se **alterado nesta task** e for necessário para o DoD.
 - A task só avança após **Revisão de task (final)** aprovada (ou ressalvas aceitas pelo dev).

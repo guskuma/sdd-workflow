@@ -66,6 +66,10 @@ Se o To Be incluir integrações excluídas do TDD em `AGENTS.md` e `tdd: true`:
 - Reavaliar `tdd_integracao` e **avisar** o dev (ver `specs/templates/sdd-tdd.md` e skill **`tdd`**).
 - Registrar a decisão no frontmatter antes de avançar para o Plan.
 
+## Schema PostgreSQL
+
+Se o To Be ou `design.md` incluir modelo de dados, tabelas ou migrations **PostgreSQL** → invocar a skill **`postgresql-table-design`** antes de fechar tipos, restrições e edge cases de persistência.
+
 ## Regras
 
 - **Non-goals** e **restrições** obrigatórios (ver `specs/templates/sdd-restricoes.md`).

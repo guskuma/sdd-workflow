@@ -2,7 +2,7 @@
 
 Fluxo de desenvolvimento guiado por spec, empacotado como **plugin de skills** instalável em **Cursor, Claude Code, OpenAI Codex, GitHub Copilot CLI, Gemini CLI e OpenCode**.
 
-As skills cobrem o ciclo completo — `/sdd-init` (bootstrap) → `01 New` → `02 Research` → `03 Specify` → `04 Plan` → `05 Review` → `06 Execute` (implement + review loop; worktree opt-in) → `07 Spec review` → `08 Docs` → `finish-branch` — mais skills transversais de **TDD condicional**, **debugging**, **verificação**, **worktrees**, **receber review**, **execução paralela** e **commit message**.
+As skills cobrem o ciclo completo — `/sdd-init` (bootstrap) → `01 New` → `02 Research` → `03 Specify` → `04 Plan` → `05 Review` → `06 Execute` (implement + review loop; worktree opt-in) → `07 Spec review` → `08 Docs` → `finish-branch` — mais skills transversais de **TDD condicional**, **debugging**, **verificação**, **worktrees**, **receber review**, **execução paralela**, **commit message** e **design de schema PostgreSQL**.
 
 Em cada mudança rastreável, o fluxo também **gera documentação de histórico** versionada no repositório — pasta `specs/` com spec (As Is → To Be), plano, execuções, revisões e `implementation-log.md` — registrando o porquê, o que mudou e como foi validado.
 
@@ -54,6 +54,7 @@ specs/
 | `receiving-review` | transversal | Filtra findings (loop 06 + review externo) antes de implementar |
 | `finish-branch` | transversal | Menu pós-docs: merge / MR/PR / manter / descartar |
 | `commit-message` | transversal | Mensagens Conventional Commits (+ issue key opcional) |
+| `postgresql-table-design` | transversal | Schema PostgreSQL (tipos, indexes, constraints, gotchas) |
 | `writing-skills` | meta | Endurecer/criar skills com pressure scenarios |
 
 Inclui ainda: `commands/` (slash `/sdd-init` e `/sdd-0X`), `agents/code-reviewer.agent.md`, templates SDD empacotados (scaffoldados em `specs/` pelo `/sdd-01-new`; bootstrap de projeto pelo `/sdd-init`).

@@ -34,7 +34,7 @@ Se não viu o agente falhar sem a skill, não sabe se a skill ensina a coisa cer
 |------|----------------------|
 | Técnica (passos rígidos) | `verification`, `debugging`, `tdd` |
 | Padrão (postura) | `receiving-review`, disciplina em `using-sdd` |
-| Referência | `using-sdd/references/*-tools.md` |
+| Referência | `postgresql-table-design`, `using-sdd/references/*-tools.md` |
 
 ## Ciclo (TDD de processo)
 
