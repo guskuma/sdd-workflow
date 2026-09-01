@@ -1,6 +1,9 @@
 {
   "name": "sdd-marketplace",
   "description": "Marketplace do plugin SDD (Spec-Driven Development) para GitHub Copilot CLI",
+  "owner": {
+    "name": "guskuma"
+  },
   "plugins": [
     {
       "name": "sdd-workflow",
