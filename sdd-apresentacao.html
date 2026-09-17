@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDD — Spec-Driven Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12131C;
+    --ink-2:#171927;
+    --panel:#1B1D2A;
+    --panel-2:#22243440;
+    --line:#2C2F42;
+    --paper:#EFE9DC;
+    --paper-ink:#20222E;
+    --amber:#F0A93B;
+    --amber-soft:#F0A93B22;
+    --cyan:#56C7D6;
+    --cyan-soft:#56C7D622;
+    --text:#E7E7EC;
+    --muted:#8A8FA3;
+    --muted-2:#5C6076;
+    --display:'Archivo',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+    --body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .deck{
+    height:100vh;
+    overflow-y:scroll;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  .slide{
+    min-height:100vh;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:clamp(28px,5vw,90px);
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .slide-inner{width:100%;max-width:1180px;margin:0 auto;position:relative;z-index:2}
+
+  /* ---- shared type ---- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:clamp(12px,1.05vw,14px);
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--amber);
+    display:flex;align-items:center;gap:12px;
+    margin-bottom:26px;
+  }
+  .eyebrow::before{content:"";width:30px;height:1px;background:var(--amber)}
+  h1,h2{font-family:var(--display);font-weight:900;line-height:.98;letter-spacing:-.02em}
+  h2{font-size:clamp(33px,4.9vw,62px);margin-bottom:26px}
+  h2 em{font-style:normal;color:var(--amber)}
+  p.lead{font-size:clamp(17px,1.6vw,23px);color:var(--muted);max-width:60ch;line-height:1.55}
+  .mono{font-family:var(--mono)}
+
+  /* ---- bg texture: faint grid + rail ---- */
+  .grid-bg{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    opacity:.16;
+    mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 100%);
+  }
+
+  /* =================== SLIDE 1 : HERO =================== */
+  #s1{background:radial-gradient(ellipse 90% 60% at 15% 0%,#1a1c2e 0%,var(--ink) 55%)}
+  .hero-tag{
+    font-family:var(--mono);font-size:14px;letter-spacing:.2em;color:var(--muted);
+    display:flex;gap:18px;flex-wrap:wrap;margin-bottom:40px;
+  }
+  .hero-tag span{color:var(--cyan)}
+  .hero-title{
+    font-family:var(--display);font-weight:900;
+    font-size:clamp(52px,12vw,168px);line-height:.86;letter-spacing:-.04em;
+    color:#FFB01F;
+    text-shadow:0 0 60px #F0A93B33;
+  }
+  .hero-title .sub{
+    display:block;font-size:clamp(16px,2.15vw,28px);font-weight:600;letter-spacing:.02em;
+    color:var(--text);margin-top:22px;max-width:24ch;line-height:1.15;
+  }
+  .hero-strip{
+    margin-top:48px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+    font-family:var(--mono);font-size:14px;color:var(--muted);
+  }
+  .chip{
+    border:1px solid var(--line);border-radius:999px;padding:7px 15px;
+    color:var(--text);background:var(--panel-2);
+  }
+  .chip.amber{border-color:var(--amber);color:var(--amber)}
+  .flow-line{
+    margin-top:46px;font-family:var(--mono);font-size:clamp(12px,1.25vw,16px);
+    color:var(--muted-2);letter-spacing:.02em;line-height:2.1;
+  }
+  .flow-line b{color:var(--amber);font-weight:500}
+  .flow-line .arw{color:var(--cyan)}
+
+  /* =================== SLIDE 2 : WHY =================== */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:20px}
+  .why-col h3{font-family:var(--mono);font-size:14px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:18px}
+  .why-col.old h3{color:var(--muted)}
+  .why-col.new h3{color:var(--amber)}
+  .why-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .why-list li{
+    padding:15px 18px;border-radius:12px;font-size:16.5px;line-height:1.4;
+    border:1px solid var(--line);
+  }
+  .why-col.old .why-list li{color:var(--muted);background:#00000030}
+  .why-col.new .why-list li{color:var(--text);background:var(--amber-soft);border-color:#F0A93B44}
+  .why-list li b{color:var(--paper);font-weight:600}
+
+  /* =================== SLIDE 3 : PIPELINE (signature) =================== */
+  .rail-wrap{margin-top:14px}
+  .rail{
+    display:grid;grid-template-columns:repeat(11,1fr);gap:0;position:relative;
+    padding:60px 0 20px;
+  }
+  .rail::before{
+    content:"";position:absolute;left:2%;right:2%;top:78px;height:2px;
+    background:linear-gradient(90deg,var(--cyan),var(--amber));opacity:.5;
+  }
+  .station{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 3px}
+  .station .dot{
+    width:16px;height:16px;border-radius:50%;background:var(--ink);
+    border:2px solid var(--cyan);position:relative;z-index:2;margin-bottom:16px;
+    transition:transform .2s;
+  }
+  .station.exec .dot{border-color:var(--amber);width:22px;height:22px;box-shadow:0 0 0 5px var(--amber-soft)}
+  .station .num{font-family:var(--mono);font-size:13px;color:var(--muted-2);margin-bottom:4px}
+  .station .nm{font-family:var(--display);font-weight:800;font-size:clamp(12px,1.1vw,15px);letter-spacing:-.01em}
+  .station .ds{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.3;font-family:var(--mono)}
+  .station.exec .nm{color:var(--amber)}
+  .rail-note{
+    margin-top:24px;font-family:var(--mono);font-size:14px;color:var(--muted);
+    display:flex;gap:26px;flex-wrap:wrap;
+  }
+  .rail-note span{display:flex;align-items:center;gap:8px}
+  .rail-note i{width:11px;height:11px;border-radius:50%;display:inline-block;font-style:normal}
+  .dot-cyan{background:transparent;border:2px solid var(--cyan)}
+  .dot-amber{background:transparent;border:2px solid var(--amber)}
+
+  /* =================== SLIDE 3b : phase summaries =================== */
+  .phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+  .pcard{
+    border:1px solid var(--line);border-radius:13px;padding:13px 16px;
+    background:linear-gradient(180deg,var(--panel-2),transparent);
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .pcard .ph{display:flex;align-items:baseline;gap:10px}
+  .pcard .pk{
+    font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--cyan);
+    border:1px solid var(--cyan);border-radius:6px;padding:2px 8px;letter-spacing:.03em;
+  }
+  .pcard h4{font-family:var(--display);font-weight:800;font-size:16.5px;letter-spacing:-.01em}
+  .pcard p{font-size:13px;color:var(--muted);line-height:1.42}
+  .pcard p b{color:var(--text);font-weight:600}
+  .pcard.exec{border-color:#F0A93B55;background:var(--amber-soft)}
+  .pcard.exec .pk{color:var(--amber);border-color:var(--amber)}
+  .pcard.exec h4{color:var(--amber)}
+
+  /* =================== SLIDE 4 : specs/ tree =================== */
+  .tree-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:36px;align-items:center}
+  .tree{
+    background:var(--ink-2);border:1px solid var(--line);border-radius:16px;
+    padding:26px 28px;font-family:var(--mono);font-size:14.5px;line-height:1.95;color:var(--muted);
+    white-space:pre;overflow-x:auto;
+  }
+  .tree .d{color:var(--cyan)}
+  .tree .f{color:var(--text)}
+  .tree .c{color:var(--muted-2)}
+  .tree .k{color:var(--amber)}
+  .art-list{display:flex;flex-direction:column;gap:14px}
+  .art{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline}
+  .art .file{font-family:var(--mono);font-size:14px;color:var(--amber);white-space:nowrap}
+  .art .what{font-size:16px;color:var(--muted);line-height:1.4}
+  .art .what b{color:var(--text);font-weight:600}
+
+  /* =================== SLIDE 4b : context isolation =================== */
+  .iso-flow{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;margin-top:6px}
+  .iso-source{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:22px 22px}
+  .iso-cap{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
+  .iso-file{font-family:var(--mono);font-size:14px;color:var(--muted);padding:9px 0;border-bottom:1px solid var(--line)}
+  .iso-file:last-child{border-bottom:none}
+  .iso-file .k{color:var(--amber)}
+  .iso-fan{display:flex;flex-direction:column;justify-content:space-around;align-self:stretch;align-items:center;padding:6px 0}
+  .iso-fan span{width:46px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--amber));position:relative}
+  .iso-fan span::after{
+    content:"";position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+    border-left:8px solid var(--amber);border-top:5px solid transparent;border-bottom:5px solid transparent;
+  }
+  .iso-execs{display:flex;flex-direction:column;gap:12px}
+  .exec{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:linear-gradient(180deg,var(--panel-2),transparent)}
+  .exec .et{font-family:var(--display);font-weight:800;font-size:16.5px;margin-bottom:3px}
+  .exec .ec{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  .iso-banner{margin-top:26px;border:1px solid #F0A93B44;background:var(--amber-soft);border-radius:14px;padding:20px 24px;font-size:16.5px;line-height:1.55;color:var(--muted)}
+  .iso-banner b{color:var(--paper);font-weight:600}
+
+  /* =================== SLIDE 5 : transversal skills =================== */
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+  .card{
+    border:1px solid var(--line);border-radius:14px;padding:20px 18px;
+    background:linear-gradient(180deg,var(--panel-2),transparent);
+    transition:border-color .2s,transform .2s;
+  }
+  .card:hover{border-color:var(--amber);transform:translateY(-3px)}
+  .card .cn{font-family:var(--mono);font-size:13.5px;color:var(--amber);margin-bottom:10px}
+  .card h4{font-family:var(--display);font-weight:800;font-size:17.5px;margin-bottom:8px;letter-spacing:-.01em}
+  .card p{font-size:14px;color:var(--muted);line-height:1.45}
+
+  /* =================== SLIDE 6 : generic / AGENTS.md =================== */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+  .code-card{
+    background:var(--ink-2);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    font-family:var(--mono);font-size:14px;
+  }
+  .code-head{
+    padding:12px 18px;border-bottom:1px solid var(--line);color:var(--muted);
+    display:flex;align-items:center;gap:8px;background:#00000030;
+  }
+  .code-head i{width:10px;height:10px;border-radius:50%;background:var(--muted-2);display:inline-block}
+  .code-body{padding:20px 22px;line-height:1.85;color:var(--muted)}
+  .code-body .h{color:var(--amber)}
+  .code-body .v{color:var(--cyan)}
+  .principle{display:flex;flex-direction:column;gap:20px}
+  .principle .pill{
+    font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--cyan);
+  }
+  .principle p{font-size:17.5px;color:var(--muted);line-height:1.6}
+  .principle p b{color:var(--paper);font-weight:600}
+
+  /* =================== SLIDE 7 : platforms matrix =================== */
+  .matrix{width:100%;border-collapse:collapse;font-size:15px;margin-top:8px}
+  .matrix th,.matrix td{padding:14px 12px;text-align:center;border-bottom:1px solid var(--line)}
+  .matrix th{font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--text);font-weight:500}
+  .matrix td:first-child,.matrix th:first-child{text-align:left;color:var(--muted);font-family:var(--body);font-size:15px}
+  .matrix tbody th{text-align:left;font-family:var(--body);font-weight:500;color:var(--text)}
+  .yes{color:var(--amber);font-family:var(--mono)}
+  .no{color:var(--muted-2);font-family:var(--mono)}
+  .partial{color:var(--cyan);font-family:var(--mono);font-size:13px}
+
+  /* =================== SLIDE 8 : execute loop =================== */
+  .loop-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:44px;align-items:center}
+  .loop-steps{display:flex;flex-direction:column;gap:0}
+  .lstep{display:grid;grid-template-columns:auto 1fr;gap:20px;position:relative;padding-bottom:26px}
+  .lstep::before{content:"";position:absolute;left:15px;top:34px;bottom:-4px;width:2px;background:var(--line)}
+  .lstep:last-child::before{display:none}
+  .lstep .ln{
+    width:32px;height:32px;border-radius:9px;border:1px solid var(--amber);color:var(--amber);
+    font-family:var(--mono);font-size:13px;display:flex;align-items:center;justify-content:center;
+    background:var(--ink);z-index:2;
+  }
+  .lstep h4{font-family:var(--display);font-weight:800;font-size:17.5px;margin-bottom:4px}
+  .lstep p{font-size:14.5px;color:var(--muted);line-height:1.45}
+  .iron{
+    background:var(--amber-soft);border:1px solid #F0A93B55;border-radius:16px;padding:28px 26px;
+  }
+  .iron .lbl{font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:16px}
+  .iron .law{font-family:var(--mono);font-size:16.5px;line-height:1.6;color:var(--paper)}
+  .iron .exp{font-size:14.5px;color:var(--muted);margin-top:16px;line-height:1.5}
+
+  /* =================== SLIDE 9 : install / close =================== */
+  #s9{background:radial-gradient(ellipse 90% 70% at 85% 100%,#1a1c2e 0%,var(--ink) 60%)}
+  .close-grid{display:grid;grid-template-columns:1fr 0.85fr;gap:50px;align-items:end}
+  .install{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .install .ih{padding:14px 20px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:13px;color:var(--muted);background:#00000030}
+  .install pre{padding:20px;font-family:var(--mono);font-size:14px;line-height:1.9;color:var(--text);overflow-x:auto}
+  .install pre .cm{color:var(--cyan)}
+  .close-cta h2{font-size:clamp(34px,5vw,64px)}
+  .footer-meta{
+    margin-top:36px;font-family:var(--mono);font-size:13.5px;color:var(--muted-2);
+    display:flex;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:22px;
+  }
+  .footer-meta b{color:var(--amber)}
+
+  /* =================== SLIDE 3 (merged) =================== */
+  .rail.slim{margin-top:0;padding:40px 0 10px}
+  .rail.slim::before{top:58px}
+  #sflow .eyebrow{margin-bottom:16px}
+  #sflow h2{margin-bottom:14px}
+
+  /* ---- progress rail (fixed) ---- */
+  .prog{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:14px}
+  .prog a{
+    width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted-2);
+    display:block;transition:all .25s;
+  }
+  .prog a.on{background:var(--amber);border-color:var(--amber);transform:scale(1.35)}
+  .counter{
+    position:fixed;left:26px;bottom:22px;z-index:50;font-family:var(--mono);font-size:12px;color:var(--muted);
+  }
+  .counter b{color:var(--amber)}
+  .hint{
+    position:fixed;right:26px;bottom:22px;z-index:50;font-family:var(--mono);font-size:11px;color:var(--muted-2);
+    letter-spacing:.05em;
+  }
+
+  /* ---- responsive ---- */
+  @media(max-width:860px){
+    .why-grid,.tree-grid,.split,.loop-grid,.close-grid,.iso-flow{grid-template-columns:1fr;gap:24px}
+    .iso-fan{display:none}
+    .phase-grid{grid-template-columns:1fr 1fr}
+    .cards{grid-template-columns:1fr 1fr}
+    .rail{grid-template-columns:repeat(3,1fr);gap:22px 10px;padding-top:20px}
+    .rail::before{display:none}
+    .station{align-items:flex-start;text-align:left}
+    .prog{display:none}
+    .matrix{font-size:12px}
+    .matrix th,.matrix td{padding:10px 6px}
+    .hint{display:none}
+  }
+  @media(max-width:560px){
+    .cards,.phase-grid{grid-template-columns:1fr}
+    .rail{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto!important;transition:none!important}
+    .deck{scroll-snap-type:none}
+  }
+
+  /* ---- print / PDF (landscape, one slide per page) ---- */
+  @page{size:1280px 720px;margin:0}
+  @media print{
+    html,body{background:var(--ink)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .deck{height:auto!important;overflow:visible!important;scroll-snap-type:none!important;display:block!important}
+    .slide{
+      height:720px!important;min-height:720px!important;width:1280px!important;
+      scroll-snap-align:none!important;border-bottom:none!important;
+      page-break-after:always;break-after:page;overflow:hidden!important;
+      justify-content:center;padding:48px 64px!important;
+    }
+    .slide-inner{zoom:.9}
+    .slide:last-child{page-break-after:auto;break-after:auto}
+    .prog,.counter,.hint{display:none!important}
+    .card:hover,.station .dot{transform:none!important}
+    /* force desktop multi-column layouts (print viewport can be narrow) */
+    .why-grid{grid-template-columns:1fr 1fr!important;gap:26px!important}
+    .tree-grid{grid-template-columns:0.9fr 1.1fr!important;gap:36px!important}
+    .iso-flow{grid-template-columns:1fr auto 1fr!important;gap:24px!important}
+    .iso-fan{display:flex!important}
+    .cards{grid-template-columns:repeat(4,1fr)!important}
+    .phase-grid{grid-template-columns:repeat(3,1fr)!important;gap:14px!important}
+    .split{grid-template-columns:1fr 1fr!important;gap:46px!important}
+    .loop-grid{grid-template-columns:1.15fr 0.85fr!important;gap:44px!important}
+    .close-grid{grid-template-columns:1fr 0.85fr!important;gap:50px!important}
+    .rail{grid-template-columns:repeat(11,1fr)!important;gap:0!important;padding-top:40px!important}
+    .rail::before{display:block!important}
+    .station{align-items:center!important;text-align:center!important}
+    #sflow .slide-inner{zoom:.85}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 · HERO -->
+  <section class="slide" id="s1" data-label="Capa">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="hero-tag">
+        <span>PLUGIN v1.1.0</span> MULTIPLATAFORMA · MIT · <span>guskuma/sdd-workflow</span>
+      </div>
+      <div class="hero-title">
+        SDD
+        <span class="sub">Spec-Driven Development — a intenção vira spec antes de virar código.</span>
+      </div>
+      <div class="hero-strip">
+        <span class="chip amber">Cursor</span>
+        <span class="chip">Claude Code</span>
+        <span class="chip">Codex</span>
+        <span class="chip">Copilot CLI</span>
+        <span class="chip">Gemini CLI</span>
+        <span class="chip">OpenCode</span>
+      </div>
+      <div class="flow-line">
+        /sdd-init <span class="arw">→</span> <b>01</b> New <span class="arw">→</span> <b>02</b> Research <span class="arw">→</span> <b>03</b> Specify <span class="arw">→</span> <b>04</b> Plan <span class="arw">→</span> <b>05</b> Review <span class="arw">→</span> <b>06</b> Execute ⇄ <b>07</b> Spec review <span class="arw">→</span> <b>08</b> Docs <span class="arw">→</span> finish-branch
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · WHY -->
+  <section class="slide" id="s2" data-label="Por quê">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">O problema</div>
+      <h2>Código sem spec vira <em>decisão sem memória</em>.</h2>
+      <p class="lead">O SDD transforma cada mudança relevante em um artefato rastreável: por que mudou, o que mudou e como foi validado — antes de tocar no código.</p>
+      <div class="why-grid">
+        <div class="why-col old">
+          <h3>Sem SDD</h3>
+          <ul class="why-list">
+            <li>Prompt solto → agente <b>assume</b> stack, escopo e convenções</li>
+            <li>Decisões de design <b>sem registro</b>; contexto morre no chat</li>
+            <li>Review reativo, no fim, quando o custo do erro já é alto</li>
+          </ul>
+        </div>
+        <div class="why-col new">
+          <h3>Com SDD</h3>
+          <ul class="why-list">
+            <li><b>Fases numeradas</b>: research → specify → plan → execute → review</li>
+            <li>Pasta <b>specs/</b> versionada: As Is, To Be, plano, execuções e gates</li>
+            <li>Gate de review <b>por task</b> e Iron Law contra fix sem verificação</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · FLOW: slim rail + phase summaries (merged) -->
+  <section class="slide" id="sflow" data-label="O fluxo">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">O fluxo · fase a fase</div>
+      <h2>Uma <em>esteira de fases</em>, não um prompt heroico.</h2>
+      <div class="rail slim">
+        <div class="station"><div class="dot"></div><div class="num">init</div><div class="nm">Bootstrap</div></div>
+        <div class="station"><div class="dot"></div><div class="num">01</div><div class="nm">New</div></div>
+        <div class="station"><div class="dot"></div><div class="num">02</div><div class="nm">Research</div></div>
+        <div class="station"><div class="dot"></div><div class="num">03</div><div class="nm">Specify</div></div>
+        <div class="station"><div class="dot"></div><div class="num">04</div><div class="nm">Plan</div></div>
+        <div class="station"><div class="dot"></div><div class="num">05</div><div class="nm">Review</div></div>
+        <div class="station exec"><div class="dot"></div><div class="num">06</div><div class="nm">Execute</div></div>
+        <div class="station"><div class="dot"></div><div class="num">07</div><div class="nm">Spec rev.</div></div>
+        <div class="station"><div class="dot"></div><div class="num">08</div><div class="nm">Docs</div></div>
+        <div class="station"><div class="dot"></div><div class="num">fin</div><div class="nm">Finish</div></div>
+        <div class="station"><div class="dot" style="border-color:var(--muted-2)"></div><div class="num">log</div><div class="nm">Registro</div></div>
+      </div>
+      <div class="phase-grid">
+        <div class="pcard"><div class="ph"><span class="pk">init</span><h4>Bootstrap</h4></div><p>Analisa o repositório e gera <span class="mono">AGENTS.md</span>, <span class="mono">CLAUDE.md</span> e <span class="mono">GEMINI.md</span>. Idempotente.</p></div>
+        <div class="pcard"><div class="ph"><span class="pk">01</span><h4>New</h4></div><p>Abre a mudança rastreável: lê a issue, cria a pasta da spec, define TDD e feature flag, sugere a branch.</p></div>
+        <div class="pcard"><div class="ph"><span class="pk">02</span><h4>Research</h4></div><p>Mapeia o As Is — código e documentação — na spec ativa.</p></div>
+        <div class="pcard"><div class="ph"><span class="pk">03</span><h4>Specify</h4></div><p>Define o To Be <b>junto com o dev, em brainstorming</b>: goals, critérios de sucesso, non-goals, restrições e edge cases.</p></div>
+        <div class="pcard"><div class="ph"><span class="pk">04</span><h4>Plan</h4></div><p>Backlog executável zero-context: interfaces, mapa de arquivos, steps bite-sized e dependências.</p></div>
+        <div class="pcard"><div class="ph"><span class="pk">05</span><h4>Review</h4></div><p><b>Revisão humana</b> da spec + plano — o dev aprova antes de escrever qualquer linha de código.</p></div>
+        <div class="pcard exec"><div class="ph"><span class="pk">06</span><h4>Execute</h4></div><p>Implementa a task/fase e roda o loop implement → review → receiving-review → fix. Worktree opt-in.</p></div>
+        <div class="pcard"><div class="ph"><span class="pk">07</span><h4>Spec review</h4></div><p>Valida se goals e user stories foram atingidos após todas as tasks.</p></div>
+        <div class="pcard"><div class="ph"><span class="pk">08</span><h4>Docs</h4></div><p>Atualiza a documentação pública e preenche o <span class="mono">mr-template.md</span>; encaminha para finish-branch.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · specs/ artifacts -->
+  <section class="slide" id="s4" data-label="Artefatos">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">Documentação de histórico</div>
+      <h2>Cada mudança deixa uma <em>pasta datada</em>.</h2>
+      <div class="tree-grid">
+        <div class="tree">
+<span class="d">specs/</span>
+├── <span class="d">templates/</span>            <span class="c"># 1ª spec</span>
+├── <span class="f">implementation-log.md</span> <span class="c"># índice global</span>
+└── <span class="d">YYYY-MM-<span class="k">{ISSUE}</span>-slug/</span>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="f">spec.md</span>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="f">design.md</span>        <span class="c"># opcional</span>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="f">tasks.md</span>         <span class="c"># ≥ 5 tasks</span>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="f">executions.md</span>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="f">issue-summary.md</span>
+&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="f">mr-template.md</span>
+        </div>
+        <div class="art-list">
+          <div class="art"><div class="file">spec.md</div><div class="what"><b>As Is → To Be.</b> Contexto, goals, non-goals e restrições.</div></div>
+          <div class="art"><div class="file">design.md</div><div class="what"><b>Decisões de design</b> quando a complexidade exige.</div></div>
+          <div class="art"><div class="file">tasks.md</div><div class="what"><b>Backlog zero-context</b>: interfaces, mapa de arquivos, steps bite-sized.</div></div>
+          <div class="art"><div class="file">executions.md</div><div class="what"><b>O que foi feito</b>: gates, revisões, desvios e fechamento.</div></div>
+          <div class="art"><div class="file">mr-template.md</div><div class="what"><b>Corpo do MR/PR</b> pronto, preenchido na fase Docs.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4b · CONTEXT ISOLATION -->
+  <section class="slide" id="siso" data-label="Contexto isolado">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">Contexto isolado · menos alucinação, menos tokens</div>
+      <h2>Registro em disco = execução em <em>contexto limpo</em>.</h2>
+      <p class="lead">Porque spec, tasks e execuções ficam escritos e versionados, cada fase ou task roda em contexto próprio — lendo só o artefato que precisa, não o histórico inteiro do chat.</p>
+      <div class="iso-flow">
+        <div class="iso-source">
+          <div class="iso-cap">Fonte escrita &amp; verificada</div>
+          <div class="iso-file"><span class="k">spec.md</span> · As Is → To Be</div>
+          <div class="iso-file"><span class="k">tasks.md</span> · zero-context, bite-sized</div>
+          <div class="iso-file"><span class="k">executions.md</span> · gates &amp; decisões</div>
+        </div>
+        <div class="iso-fan"><span></span><span></span><span></span></div>
+        <div class="iso-execs">
+          <div class="exec"><div class="et">Subagente readonly</div><div class="ec">contexto: só a spec + o finding</div></div>
+          <div class="exec"><div class="et">Worktree isolado</div><div class="ec">contexto: só a task + interfaces</div></div>
+          <div class="exec"><div class="et">Nova sessão / outra fase</div><div class="ec">contexto: só o artefato relevante</div></div>
+        </div>
+      </div>
+      <div class="iso-banner">
+        <b>Menos histórico à deriva → menos alucinação e menos tokens.</b> Cada rodada lê só o artefato que precisa — não a conversa inteira —, gastando uma fração dos tokens de contexto. E como o registro vive em disco, tasks independentes rodam <b>em paralelo</b> e a execução fica <b>reproduzível</b>.
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · generic by design -->
+  <section class="slide" id="s6" data-label="Genérico">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">Genérico por design</div>
+      <h2>As skills não sabem <em>nada</em> do seu projeto.</h2>
+      <div class="split">
+        <div class="principle">
+          <div>
+            <div class="pill">Contrato único</div>
+            <p>Stack, comandos de build, issue tracker, integrações e branch base vivem no <b>AGENTS.md</b> do repositório — não hardcoded na skill.</p>
+          </div>
+          <div>
+            <div class="pill">Bootstrap automático</div>
+            <p><b>/sdd-init</b> analisa o repositório, detecta as convenções e gera <b>AGENTS.md</b>, <b>CLAUDE.md</b> e <b>GEMINI.md</b>. Idempotente: preserva edições e preenche lacunas.</p>
+          </div>
+        </div>
+        <div class="code-card">
+          <div class="code-head"><i></i> AGENTS.md — contrato do projeto</div>
+          <div class="code-body">
+<span class="h">## Gate de qualidade</span><br>
+lint&nbsp;&nbsp;→ <span class="v">npm run lint</span><br>
+test&nbsp;→ <span class="v">npm test</span><br>
+build → <span class="v">npm run build</span><br><br>
+<span class="h">## Issue tracker</span><br>
+GitHub Issues<br><br>
+<span class="h">## Branches</span><br>
+base&nbsp;→ <span class="v">main</span><br>
+conv&nbsp;→ <span class="v">feat/{ISSUE-KEY}</span><br><br>
+<span class="h">## Restrições padrão</span><br>
+código mínimo · tocar só o necessário
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · execute loop -->
+  <section class="slide" id="s8" data-label="Execute">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">Fase 06 · o coração</div>
+      <h2>Execute é um <em>loop</em>, não um disparo.</h2>
+      <div class="loop-grid">
+        <div class="loop-steps">
+          <div class="lstep"><div class="ln">1</div><div><h4>Implementar</h4><p>Subagente escreve só o plano aprovado. Orquestrador não coda.</p></div></div>
+          <div class="lstep"><div class="ln">2</div><div><h4>Spec compliance</h4><p>Revisor readonly — bate o resultado contra a spec.</p></div></div>
+          <div class="lstep"><div class="ln">3</div><div><h4>Code quality</h4><p>Revisor readonly (+ agente code-reviewer) avalia o código.</p></div></div>
+          <div class="lstep"><div class="ln">4</div><div><h4>receiving-review</h4><p>Filtra findings: aceito / rejeitado / ambíguo. Gate obrigatório.</p></div></div>
+          <div class="lstep"><div class="ln">5</div><div><h4>Fix → repete</h4><p>Só findings aceitos viram fix. Loop até aprovar ou escalar.</p></div></div>
+        </div>
+        <div class="iron">
+          <div class="lbl">Iron Law · review interno</div>
+          <div class="law">NENHUM FIX DE APONTAMENTO DE REVIEW SEM PASSAR POR receiving-review</div>
+          <div class="exp">Findings dos estágios 1 e 2 são <b>hipóteses</b> — verificadas no código antes de qualquer alteração. Nada de fix reativo.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · transversal skills -->
+  <section class="slide" id="s5" data-label="Skills">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">Skills transversais</div>
+      <h2>Disciplina que atravessa <em>todas</em> as fases.</h2>
+      <div class="cards">
+        <div class="card"><div class="cn">tdd</div><h4>TDD condicional</h4><p>Red → green → refactor com Iron Law. Só quando <span class="mono">tdd: true</span>.</p></div>
+        <div class="card"><div class="cn">debugging</div><h4>Causa raiz</h4><p>4 fases + instrumentação multi-camada antes de qualquer fix.</p></div>
+        <div class="card"><div class="cn">verification</div><h4>Evidência</h4><p>Rodar o comando, ler o output — só então afirmar sucesso.</p></div>
+        <div class="card"><div class="cn">worktrees</div><h4>Isolamento</h4><p>git worktree opt-in no Execute; protege o checkout atual.</p></div>
+        <div class="card"><div class="cn">parallel-execution</div><h4>Paralelismo</h4><p>Tasks independentes via subagentes isolados.</p></div>
+        <div class="card"><div class="cn">receiving-review</div><h4>Filtrar review</h4><p>Entender → verificar → pushback → só então implementar.</p></div>
+        <div class="card"><div class="cn">finish-branch</div><h4>Fechar ciclo</h4><p>Menu: merge, abrir MR/PR, manter ou descartar branch.</p></div>
+        <div class="card"><div class="cn">commit-message</div><h4>Commits</h4><p>Conventional Commits, com a chave do issue tracker.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · platform matrix -->
+  <section class="slide" id="s7" data-label="Compatibilidade">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">Compatibilidade</div>
+      <h2>Uma fonte de skills, <em>seis</em> plataformas.</h2>
+      <table class="matrix">
+        <thead>
+          <tr><th>Recurso</th><th>Cursor</th><th>Claude</th><th>Codex</th><th>Copilot</th><th>Gemini</th><th>OpenCode</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Skills</th><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><th>Slash /sdd-0X</th><td class="yes">✓</td><td class="yes">✓</td><td class="partial">nome</td><td class="no">—</td><td class="yes">✓</td><td class="no">—</td></tr>
+          <tr><th>Subagentes</th><td class="yes">✓</td><td class="yes">✓</td><td class="partial">multi</td><td class="yes">✓</td><td class="no">—</td><td class="partial">dep.</td></tr>
+          <tr><th>Plan mode (06)</th><td class="yes">✓</td><td class="yes">✓</td><td class="partial">adapta</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><th>Hook SessionStart</th><td class="yes">✓</td><td class="yes">✓</td><td class="no">n/a</td><td class="yes">✓</td><td class="no">n/a</td><td class="no">n/a</td></tr>
+        </tbody>
+      </table>
+      <p class="lead" style="margin-top:26px;font-size:15px">Onde um recurso não existe, as skills <em style="color:var(--cyan);font-style:normal">se adaptam graciosamente</em> — sem Plan mode, descrevem o micro-plano no chat; sem subagentes, executam sequencialmente.</p>
+    </div>
+  </section>
+
+  <!-- 9 · install / close -->
+  <section class="slide" id="s9" data-label="Instalação">
+    <div class="grid-bg"></div>
+    <div class="slide-inner">
+      <div class="eyebrow">Começar</div>
+      <div class="close-grid">
+        <div class="close-cta">
+          <h2>Instale e rode <em>/sdd-init</em>.</h2>
+          <p class="lead" style="margin-top:18px">Uma linha instala; o init lê o repositório e escreve o contrato. Da próxima mudança em diante, é só seguir a esteira.</p>
+          <div class="footer-meta">
+            <span>19 skills</span><span>9 slash commands</span><span>6 plataformas</span><span><b>v1.1.0</b></span><span>MIT</span>
+          </div>
+        </div>
+        <div class="install">
+          <div class="ih">Claude Code</div>
+          <pre><span class="cm"># adiciona o marketplace</span>
+/plugin marketplace add \
+  guskuma/sdd-workflow
+
+<span class="cm"># instala o plugin</span>
+/plugin install \
+  sdd-workflow@sdd-marketplace</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- chrome -->
+<nav class="prog" id="prog"></nav>
+<div class="counter"><b id="cur">01</b> / 10</div>
+<div class="hint">↑ ↓ · scroll para navegar</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const prog=document.getElementById('prog');
+  const cur=document.getElementById('cur');
+  const deck=document.getElementById('deck');
+  slides.forEach((s,i)=>{
+    const a=document.createElement('a');
+    a.href='#'+s.id;a.title=s.dataset.label;
+    a.addEventListener('click',e=>{e.preventDefault();s.scrollIntoView();});
+    prog.appendChild(a);
+  });
+  const dots=[...prog.children];
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        const i=slides.indexOf(e.target);
+        dots.forEach((d,j)=>d.classList.toggle('on',j===i));
+        cur.textContent=String(i+1).padStart(2,'0');
+      }
+    });
+  },{threshold:.55});
+  slides.forEach(s=>io.observe(s));
+  // keyboard nav
+  let idx=0;
+  deck.addEventListener('scroll',()=>{
+    idx=Math.round(deck.scrollTop/window.innerHeight);
+  },{passive:true});
+  window.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();idx=Math.min(idx+1,slides.length-1);slides[idx].scrollIntoView();}
+    if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();idx=Math.max(idx-1,0);slides[idx].scrollIntoView();}
+    if(e.key==='Home'){idx=0;slides[0].scrollIntoView();}
+    if(e.key==='End'){idx=slides.length-1;slides[idx].scrollIntoView();}
+  });
+</script>
+</body>
+</html>
