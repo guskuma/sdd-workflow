@@ -13,11 +13,11 @@ Validar se a **spec inteira** foi entregue — não apenas tasks isoladas.
 
 ## Contexto do projeto
 
-Gate completo: `AGENTS.md` (seção Gate de qualidade).
+Gate de qualidade do projeto: `AGENTS.md`. Aqui o nome é **validação da spec**. O gate de merge é o do `finish-branch`, fresco naquela sessão.
 
 ## Quando rodar
 
-Após todas as tasks com revisão de código aprovada (via `/sdd-06-execute`).
+Após todas as tasks com revisão de código aprovada (via `/sdd-06-execute`) e `status: executing` (ou `reviewed`, se for reexecução).
 
 ## Passos
 
@@ -30,11 +30,11 @@ Após todas as tasks com revisão de código aprovada (via `/sdd-06-execute`).
    - Restrições respeitadas (ver `specs/templates/sdd-restricoes.md` e `AGENTS.md`); violação = reprovar ou exigir atualização da spec com consenso
    - Cada US: critérios de aceite verificáveis
    - Edge cases da tabela testados ou cobertos por testes
-4. Rodar o **gate completo** via skill [`verification`](../verification/SKILL.md) (obrigatório — output fresco, não confiar em registro anterior):
+4. Rodar a **validação da spec** via skill [`verification`](../verification/SKILL.md), com o comando de gate completo do `AGENTS.md` (obrigatório — output fresco, não confiar em registro anterior):
 
    > Use o comando de gate completo definido no `AGENTS.md` (seção Gate de qualidade).
 
-   Registrar o bloco Verificação em `executions.md` (seção "Validação final") com comando, exit code e evidência.
+   Registrar o bloco Verificação em `executions.md` (seção "Validação final") com comando, exit code e evidência. Rotular como validação da spec, não como gate de merge.
 5. Self-review do diff total da feature (escopo do MR/PR).
 6. Produzir um **relatório de fechamento** no chat:
    - Goals: OK / pendente
@@ -45,8 +45,8 @@ Após todas as tasks com revisão de código aprovada (via `/sdd-06-execute`).
    - Desvios spec↔código (código sem spec = reprovar; desvio só válido se a spec foi atualizada com consenso)
    - Riscos residuais para o revisor humano do MR/PR
 7. Registrar em `executions.md` a seção "Revisão da spec" com data e resultado.
-8. Se aprovado: sugerir `/sdd-08-docs` (docs + `finish-branch` para merge/MR).
-9. Se reprovado: listar gaps e tasks de correção (novas ou reabrir).
+8. Se aprovado: `status` → `reviewed`. Sugerir `/sdd-08-docs`.
+9. Se reprovado: `status` → `executing`, mesmo que estivesse `reviewed`. Listar gaps e tasks de correção (novas ou reabrir).
 
 ## Regras
 
@@ -55,4 +55,4 @@ Após todas as tasks com revisão de código aprovada (via `/sdd-06-execute`).
 
 ## Saída esperada
 
-Aprovação ou lista de gaps; `executions.md` atualizado; o `status` da spec pode ir a `reviewed` antes de `done`.
+Aprovação com `status: reviewed`, ou lista de gaps com `status: executing` (reprovado volta para `executing` mesmo numa reexecução). `executions.md` atualizado. Esta fase não grava `done`.

@@ -2,6 +2,39 @@
 
 Usar no fim de cada **onda** de `/sdd-04-plan` (e na onda final `cross`), **antes** de `status: planned` e de sugerir `/sdd-05-review`. Subagente **não altera** `tasks.md` / `spec.md` — só revisa. O orquestrador aplica correções. Substituir `{...}`.
 
+- **1ª passada** do escopo: Task **novo** (fresco) com o pacote integral abaixo.
+- **2ª passada** (após correção do orquestrador): **preferir retomada** do mesmo revisor com o bloco **delta**; Task novo com pacote integral se não houver continuação.
+
+## Modo delta (retomada — 2ª passada do mesmo escopo)
+
+```
+## Plan compliance — delta — escopo {skeleton | fase-N | cross}
+
+NÃO edite arquivos. Você já revisou este escopo; Críticos da passada anterior estão FECHADOS salvo o que o orquestrador não corrigiu.
+
+### Fechado / ainda aberto
+{colar Críticos da 1ª passada + o que o orquestrador diz ter corrigido}
+
+### O que mudou em tasks.md / §5
+{trechos ou seções alteradas — só o delta}
+
+### Verificar agora
+1. Cada Crítico aberto foi resolvido no delta?
+2. A correção introduziu placeholder, Interface quebrada ou Step sem artefato no escopo tocado?
+3. (fase-N/cross) Nomes Consumes/Produces ainda consistentes no que mudou?
+
+### Retornar (mesmo formato fixo)
+**Escopo:** …
+**Resultado:** ✅ | ❌
+**Crítico:** … | "nenhum"
+**Melhoria:** …
+**plan_depth:** …
+**Zero-context:** …
+**Evidência:** paths/seções do delta
+```
+
+## Modo Task novo / 1ª passada (pacote integral)
+
 ```
 Você revisa o PLANO SDD (não código). NÃO edite arquivos. NÃO implemente.
 
@@ -33,7 +66,7 @@ tipo da spec: {feat|fix|…}
 
 ### Estrutura zero-context
 4. Global Constraints + Mapa presentes? (skeleton+)
-5. plan_depth registrado com critério plausível (§4.0)? Limiar/híbrido sem override → Ambíguo.
+5. plan_depth registrado com critério plausível (`references/plan-depth.md`)? Limiar/híbrido sem override → Ambíguo.
 6. (fase-N) Cada task obrigatória tem Context pack + Interfaces + Steps?
 7. (fase-N/cross) Interfaces: Produces de Tn = Consumes de Tn+1 (nomes idênticos)?
 
@@ -41,8 +74,8 @@ tipo da spec: {feat|fix|…}
 8. Steps = 1 ação, alvo 2–5 min?
 9. Artefatos batem com plan_depth?
    - snippets → snippet completo + comando + esperado
-   - contracts → assinaturas/Produces + teste (ou scaffold) completo; thin slice com teste completo
-10. Placeholders proibidos? (TBD, "similar à T0X", prosa vaga)
+   - contracts → assinaturas/Produces + teste (ou scaffold) completo; thin slice com teste completo; prosa só a frase permitida de `references/plan-depth.md`
+10. Placeholders proibidos? (TBD, "similar à T0X", prosa que não seja a frase permitida de `references/plan-depth.md`)
 
 ### Executabilidade
 11. (fase-N) Dá para implementar UMA task só com Constraints + Mapa + aquela task?

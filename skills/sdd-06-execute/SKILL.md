@@ -32,10 +32,20 @@ Válido para features, bugs (`fix`), mudanças de comportamento, refactors plane
 
 ## Pré-requisitos
 
-- Plano aprovado via `/sdd-05-review`.
+- `spec.md` com `status: approved` ou `executing` (retomada).
 - `executions.md` existe.
 - Branch da spec criada (se aplicável), registrada nos metadados.
 - Tasks com **Context pack** + **Interfaces** + **Steps** quando exigido em `/sdd-04-plan`.
+
+## Status da spec
+
+Grave no frontmatter de `spec.md`. Ciclo: `draft` → `research` → `specified` → `planned` → `approved` → `executing` → `reviewed` → `documented` → `done`.
+
+- `planned` ou anterior → **parar**. Pedir `/sdd-05-review`. Não implementar.
+- `in-review` (legado) → tratar como `approved` e reescrever o frontmatter para `approved` antes de seguir.
+- Imediatamente antes da primeira linha de código desta spec: `status` → `executing` se ainda estiver `approved`. Vale para o dispatch de implementador (sequencial ou paralelo) e para a degradação na mesma sessão.
+- Retomada com `executing`: não altere o status.
+- Esta fase não grava `reviewed`, `documented` nem `done`.
 
 ## Entrada
 
@@ -51,11 +61,28 @@ Válido para features, bugs (`fix`), mudanças de comportamento, refactors plane
 
 | Papel | Prompt | Modo |
 |-------|--------|------|
-| Implementador | [`prompt-implement.md`](./prompt-implement.md) | escreve código |
-| Revisor Estágio 1 | [`prompt-spec-compliance.md`](./prompt-spec-compliance.md) | **readonly** — não altera código |
-| Revisor Estágio 2 | [`prompt-code-quality.md`](./prompt-code-quality.md) (+ agente `code-reviewer` se existir) | **readonly** |
-| Gate receiving-review | skill [`receiving-review`](../receiving-review/SKILL.md) (+ [`prompt-receiving-review.md`](./prompt-receiving-review.md)) | **readonly** — filtra findings |
-| Fix de apontamentos | [`prompt-fix.md`](./prompt-fix.md) | escreve código — **só** findings aceitos |
+| Implementador | [`prompt-implement.md`](./prompt-implement.md) | escreve código — **Task novo** na 1ª vez |
+| Revisor (Estágios 1 e 2) | [`prompt-spec-compliance.md`](./prompt-spec-compliance.md) → [`prompt-code-quality.md`](./prompt-code-quality.md) | **readonly** — **mesmo** subagente na task; `code-reviewer` só se Task novo |
+| Gate receiving-review | skill [`receiving-review`](../receiving-review/SKILL.md) (+ [`prompt-receiving-review.md`](./prompt-receiving-review.md)) | **readonly** — filtra findings (orquestrador) |
+| Fix de apontamentos | [`prompt-fix.md`](./prompt-fix.md) | escreve código — **retoma** o implementador; **só** findings Aceitos |
+
+### Retomada (mesmo subagente)
+
+Quando a plataforma puder **continuar** um subagente (ver `using-sdd/references/*-tools.md`), o orquestrador **retoma** em vez de abrir Task novo:
+
+| Situação | Quem | O que enviar |
+|----------|------|----------------|
+| Fix após receiving-review | **Mesmo implementador** da task | Bloco curto de [`prompt-fix.md`](./prompt-fix.md) (Aceitos + iter) |
+| Estágio 1 ✅ → Estágio 2 | **Mesmo revisor** da task | Checklist de [`prompt-code-quality.md`](./prompt-code-quality.md) |
+| Após fix → Estágio 1 de novo (`iter` > 1) | **Mesmo revisor** da task | Modo **delta** nos prompts de review (veredito anterior fechado + diff novo) |
+
+**Task novo** (fallback) quando:
+
+1. A plataforma **não** retoma subagente, ou
+2. O implementador retornou `NEEDS_CONTEXT` / `BLOCKED` (sem diff estável para reaproveitar), ou
+3. O revisor da task já não estiver disponível.
+
+Nesses casos: pacote integral do prompt; Estágio 2 pode usar o agente `code-reviewer` se existir.
 
 O **orquestrador** (sessão principal) **não** escreve código salvo degradação. O gate **`receiving-review`** preferencialmente roda no **orquestrador** (tem o contexto); subagente readonly só se ajudar a preservar contexto.
 
@@ -64,7 +91,7 @@ O **orquestrador** (sessão principal) **não** escreve código salvo degradaç�
 1. A plataforma **não** tiver subagentes, ou
 2. O dev pedir explicitamente (“sem subagente” / “na mesma sessão”).
 
-Avisar uma vez ao degradar; anotar o modo **só no registro final** em `executions.md`.
+Avisar uma vez ao degradar; anotar o modo **só no registro final** em `executions.md`. Antes da primeira linha de código, gravar `executing` se o status ainda for `approved`.
 
 ## Worktree (opt-in — perguntar uma vez por sessão de execute)
 
@@ -92,42 +119,40 @@ Não criar worktree sem opt-in. Cleanup fica em **`finish-branch`** ao fechar a 
 
 Após o paralelo: gate da fase + **loop de revisão por task** (seção abaixo), sequencial.
 
-## Planejar antes de codar (obrigatório perguntar)
+## Planejar antes de codar
 
-**Antes de alterar código** (modo sequencial), o orquestrador deve **perguntar ao dev**:
+Perguntar **uma vez por fase**, e só se **alguma** task dessa fase não tem Steps executáveis (formato curto: `chore`, `docs`, `fix` de 1 arquivo, ou Steps ausentes).
 
-> "Deseja **planejar a execução** desta task/fase antes de implementar?"
+> "Deseja **planejar a execução** das tasks sem Steps desta fase antes de implementar?"
+
+O sim cobre só essas tasks. Task com Context pack + Interfaces + Steps: não entra na pergunta. Seguir os Steps. Registrar "Plano de execução: dispensado — Steps do plano".
+
+Fase em que toda task tem Steps: não perguntar.
 
 ### Se o dev responder **sim**
 
-1. Se a plataforma tiver **Plan mode** (ex.: Cursor via `SwitchMode` → `plan`; Claude via plan mode), solicitar a troca (o dev aprova na UI). Se **não** tiver, apenas siga em modo somente-leitura mental: não edite código ainda.
-2. Elaborar **micro-plano de execução** no chat:
-   - Task(s) e entregáveis
-   - Arquivos/classes a alterar (com trechos se útil)
-   - Ordem dos passos, testes previstos, riscos
-   - O que **não** será feito (escopo da task)
-3. Aguardar **aprovação explícita** do micro-plano no chat.
-4. Se trocou para Plan mode, voltar para o modo de implementação (o dev aprova).
-5. Incluir no registro final: "Plano de execução: aprovado em {data}".
-6. Só então dispatch do implementador.
+1. Se a plataforma tiver **Plan mode**, solicitar a troca (o dev aprova na UI). Sem Plan mode, não editar código ainda.
+2. Micro-plano no chat, só das tasks sem Steps: arquivos, ordem, testes, riscos, o que não será feito.
+3. Aguardar aprovação explícita.
+4. Voltar ao modo de implementação se trocou de modo.
+5. Registrar "Plano de execução: aprovado em {data}".
+6. Só então o dispatch.
 
 ### Se o dev responder **não**
 
-1. Incluir no registro final: "Plano de execução: dispensado".
-2. Seguir os **Steps** de `tasks.md` quando existirem; senão, DoD + spec.
-3. Para task **trivial** (ex.: ajuste pontual em 1 arquivo), aceitável; para task complexa, **recomendar** planejar, sem insistir após recusa.
+Registrar "Plano de execução: dispensado" nas tasks sem Steps e seguir DoD + spec.
 
 ### Se o dev não responder ainda
 
-Não implementar código até a pergunta ser respondida (ou o dev pedir para seguir sem planejar).
+Não implementar até a resposta, quando a pergunta tiver sido feita.
 
 ## Fluxo por task (sequencial)
 
 1. Identificar a task em `tasks.md` / `spec.md` §5 e a fase (se houver).
-2. **Perguntar** sobre o planejamento + seguir o fluxo acima.
-3. Se `tdd: true` → a skill **`tdd`** aplica-se ao implementador (Iron Law: teste vermelho antes da produção).
-4. **Dispatch implementador** (`prompt-implement.md`) — pai não escreve código (salvo degradação).
-5. Se teste/build falhar no report → invocar **`debugging`** antes de fix ad hoc; re-dispatch fix se necessário.
+2. Se alguma task da fase não tem Steps, perguntar o micro-plano **uma vez** (seção acima), antes da primeira dessas tasks. Task com Steps: seguir os Steps.
+3. Se `tdd: tbd` → parar e voltar ao `/sdd-03-specify`. Se `tdd: true` → a skill **`tdd`** aplica-se ao implementador.
+4. **Dispatch implementador** (`prompt-implement.md`) — Task novo; pai não escreve código (salvo degradação). Guardar o handle/id do subagente para retomada.
+5. Se teste/build falhar no report → invocar **`debugging`** antes de fix ad hoc; **retomar** o implementador (ou Task novo se `NEEDS_CONTEXT`/`BLOCKED` / sem retomada).
 6. **Gate iterativo** — invocar **`verification`** (pai). Se falhar: corrigir (via `debugging` / fix); **não** iniciar o loop de revisão.
 7. **Loop de revisão** (abaixo).
 8. **Só ao concluir** (aprovada, ressalvas aceitas pelo dev, ou escalada): registrar em `executions.md` e marcar `done` se aprovada.
@@ -136,112 +161,13 @@ Em **fase** sequencial: gate iterativo ao final da fase ou por task (conforme o 
 
 ## Loop de revisão (por task)
 
-**Ordem obrigatória em cada iteração:**
+Ler e seguir integralmente [`references/execute-review-loop.md`](./references/execute-review-loop.md) antes de dispatch de revisor ou de fix. Não improvisar o loop de memória.
 
-```
-Estágio 1 — Spec compliance
-  → se ❌: receiving-review → (aceitos? fix → iter++ → Estágio 1) | (só rejeitados? tratar E1 como ✅)
-  → se ✅: Estágio 2 — Code quality
-       → se Reprovada: receiving-review → (aceitos? fix → iter++ → Estágio 1)
-       → se Aprovada: concluir
-       → se Ressalvas: escalar ao dev
-```
+Iron Law: nenhum fix sem `receiving-review`. `iter` 1..4 pode corrigir. No `iter` 5 com Aceito crítico, parar e escalar. Sem sexto fix.
 
-**Nunca** iniciar o Estágio 2 com o Estágio 1 reprovado (após receiving-review: só avança se não restar finding **aceito** de E1).
+No handoff do Estágio 1 para o Estágio 2, colar os findings rejeitados como fechados.
 
-**Nunca** dispatch `prompt-fix` sem **`receiving-review`** nos apontamentos daquela reprovação.
-
-`iter` começa em 1; **máximo 5 iterações** (só incrementa quando houve **fix** com findings aceitos).
-
-### Estágio 1 — Spec compliance
-
-**Foco:** entregou o pedido? Nada a mais, nada a menos.
-
-Checklist:
-
-- [ ] DoD / entregável corresponde ao plano (tasks.md, Steps se houver)
-- [ ] **Interfaces** Consumes/Produces respeitadas (assinaturas/nomes), se existirem no plano
-- [ ] Critérios de aceite da US / RF cobertos
-- [ ] Sem shadow code (desvio documentado + spec atualizada **antes** do código)
-- [ ] Sem escopo **extra** (non-goals, features não pedidas)
-- [ ] Sem código **especulativo** (refator “de brinde”, abstração antecipada, feature futura)
-- [ ] Sem alterações **fora do escopo** da task (arquivos/trechos não listados em **Onde** ou Steps)
-- [ ] Sem escopo **faltante** (requisitos omitidos)
-- [ ] Steps executados conforme o plano
-
-Dispatch: [`prompt-spec-compliance.md`](./prompt-spec-compliance.md). Ler o diff em **Onde** — não confiar só no report do implementador.
-
-- Se ❌ → **Gate receiving-review** (abaixo) com os apontamentos Missing/Extra → só então fix ou reclassificar.
-
-### Estágio 2 — Code quality
-
-**Só após o Estágio 1 ✅** (incluindo o caso em que E1 ❌ foi anulado porque todos os findings foram rejeitados no receiving-review).
-
-Checklist:
-
-- [ ] Restrições da spec + `specs/templates/sdd-restricoes.md` + `AGENTS.md`
-- [ ] Gate iterativo verificado via skill **`verification`** (output fresco ou válido nesta conclusão)
-- [ ] Testes cobrem o comportamento da task
-- [ ] Edge cases da spec considerados
-- [ ] Sem regressão óbvia (usos alterados, integrações adjacentes)
-- [ ] TDD ok ou N/A justificado (`tdd`, `tdd_integracao`)
-
-Dispatch: [`prompt-code-quality.md`](./prompt-code-quality.md) (preferir subagente `code-reviewer` se a plataforma tiver).
-
-- Se **Reprovada** → **Gate receiving-review** com Crítico (e Importante se o revisor exigir fix) → só então fix ou reclassificar.
-- Se **Aprovada** → concluir; marcar task `done`.
-- Se **Aprovada com ressalvas** → **escalar ao dev** (não auto-aprovar). Ressalvas **não** passam por fix automático; o dev decide.
-
-### Gate receiving-review (obrigatório antes de qualquer fix)
-
-Invocar a skill **[`receiving-review`](../receiving-review/SKILL.md)** (template: [`prompt-receiving-review.md`](./prompt-receiving-review.md)) sobre a lista de apontamentos do estágio que reprovou.
-
-Para **cada** finding:
-
-| Veredito | Ação |
-|----------|------|
-| **Aceito** | Entra no lote do `prompt-fix.md` |
-| **Rejeitado** (falso positivo / fora de escopo / incorreto) | **Não** corrigir; registrar motivo (não conta como desobediência ao revisor) |
-| **Ambíguo** | **Parar** o loop; perguntar ao dev (receiving-review). Não fixar o lote até esclarecer |
-
-Regras:
-
-1. `prompt-fix` recebe **apenas** findings **Aceitos** (texto integral + motivo do aceito se útil).
-2. Se **nenhum** Aceito e nenhum Ambíguo → estágio tratado como ✅ para esse conjunto; seguir o fluxo (E1 → E2, ou E2 → concluir).
-3. Se há Aceitos → dispatch fix → `iter++` → **sempre** voltar ao **Estágio 1**.
-4. Rejeitar finding **não** incrementa `iter`.
-5. Orquestrador (ou subagente readonly) **lê o diff/spec** — não confiar só no texto do revisor.
-
-### Limite de iterações e escalação
-
-| Situação | Ação |
-|----------|------|
-| `iter` 1..5 com findings Aceitos após receiving-review | Fix + re-review desde Estágio 1 |
-| `iter == 5` e ainda crítico Aceito | **Parar**; mostrar apontamentos (+ rejeitados); pedir decisão do dev |
-| Estágio 2 com ressalvas | **Parar**; dev aceita ressalvas (`done`) ou pede mais uma rodada |
-| Ambíguo no receiving-review | **Parar**; esclarecer com o dev antes de fix |
-
-**Não** gravar cada iteração em `executions.md` — só o resultado final (ver abaixo).
-
-### Registro final em `executions.md`
-
-Somente ao concluir (ou escalar):
-
-```markdown
-**Modo:** subagentes | mesma sessão (degradação: …)
-**Worktree:** {path} (branch …) | dispensado | degradação: …
-**Plano de execução:** aprovado em {data} | dispensado
-**TDD:** sim (skill tdd) | N/A (tdd: false | integração fora)
-**Verificação:** … (comando, exit code, evidência)
-**Revisão Estágio 1 (spec compliance):** ✅ | ❌
-- Missing: ...
-- Extra: ...
-**Revisão Estágio 2 (code quality):** Aprovada | Aprovada com ressalvas | Reprovada
-- Crítico: ...
-- Sugestão: ...
-**Receiving-review (gate pré-fix):** Aceitos: … | Rejeitados: … | Ambíguos: …
-**Revisão de task (final):** Aprovada | Aprovada com ressalvas | Reprovada | Escalada ao dev
-```
+Ao concluir a task, preencher a seção **Revisão de task** de `specs/templates/executions-template.md`. Não inventar outro bloco.
 
 ## Desvios e shadow code (obrigatório)
 
@@ -255,30 +181,34 @@ Se surgir desvio durante a implementação ou implementação que **viole restri
 
 ## Ao concluir todas as tasks
 
-`/sdd-07-spec-review` → `/sdd-08-docs` → skill **`finish-branch`** (menu merge/MR) → `implementation-log.md` conforme `AGENTS.md`.
+`/sdd-07-spec-review` (`reviewed`) → `/sdd-08-docs` (`documented`) → skill **`finish-branch`**. `done`, `concluido`, `pr` e `closure.md` só no `finish-branch`, depois de merge local ou de MR/PR com URL.
 
-## TDD (se `tdd: true` no frontmatter)
+## TDD
 
-Invocar e seguir a skill **`tdd`** + `specs/templates/sdd-tdd.md` e integrações em `AGENTS.md`:
-
-- **Iron Law:** nenhum código de produção sem teste falhando pelo motivo certo primeiro; violação → apagar produção e recomeçar.
-- Seguir os Steps test-first quando aplicável.
-- Ciclo por task: red → green → refactor.
-- Respeitar `tdd_integracao`: integrações excluídas → **não impor** test-first.
-- No registro final: "TDD: sim (skill tdd)" ou "TDD: N/A (… )".
-- Estágio 1: comportamento pedido coberto pelos testes previstos no plano.
-- Estágio 2: diff mostra teste + produção; integrações excluídas conforme `tdd_integracao`.
+`tdd: tbd` → parar e voltar ao `/sdd-03-specify`. `tdd: true` → skill **`tdd`** (não repetir o ciclo aqui). `tdd: false` → não impor test-first. No registro da task: "TDD: sim (skill tdd)" ou "TDD: N/A (…)".
 
 ## Regras
 
 - O agente **não** alterna de modo sozinho — usa o recurso da plataforma e o dev aprova.
 - Commits apenas se o dev pedir.
 - Nunca declarar gate verde sem a skill **`verification`**.
-- Nunca dispatch `prompt-fix` sem skill **`receiving-review`** nos apontamentos (só Aceitos vão ao fix).
+- Nunca enviar `prompt-fix` sem skill **`receiving-review`** nos apontamentos (só Aceitos vão ao fix).
+- Preferir **retomada** do implementador (fix) e do revisor (E1→E2 e delta pós-fix); Task novo só no fallback.
 - Se a task criar/alterar tabelas, indexes ou migrations **PostgreSQL** → invocar **`postgresql-table-design`** antes do DDL.
 - **Disciplina (Execute):** código **mínimo** — só o que a task/Steps exigem; nada especulativo (refator extra, feature futura, abstração antecipada).
 - **Disciplina (Execute):** tocar **só** arquivos/trechos do escopo (**Onde**, Steps, micro-plano). Limpar ou refatorar código adjacente só se **alterado nesta task** e for necessário para o DoD.
 - A task só avança após **Revisão de task (final)** aprovada (ou ressalvas aceitas pelo dev).
+
+## Red flags
+
+| Racionalização | Realidade |
+|----------------|-----------|
+| "O implementador já sabe o review — ele mesmo revisa" | Papéis separados; retomada **não** funde autor e revisor |
+| "Um revisor para a fase inteira economiza Task" | Um revisor **por task**; achado de uma task não vaza para outra |
+| "Receiving-review é opcional se o implementador lembra" | Gate no orquestrador **antes** de qualquer fix |
+| "Sempre Task novo no fix" | Retomar o implementador é o padrão; Task novo só no fallback |
+| "O dev já aprovou no chat" | Sem `status: approved` ou `executing`, não implementar |
+| "Task pronta inclui a doc pública" | Doc pública é `/sdd-08-docs`, no checklist da spec — não é DoD da task |
 
 ## Saída esperada
 

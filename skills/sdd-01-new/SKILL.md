@@ -2,15 +2,16 @@
 name: sdd-01-new
 description: >-
   Fase New do SDD: inicia uma mudança rastreável (feat, fix, refactor, etc.). Lê a issue,
-  cria a pasta da spec, pergunta sobre TDD e feature flag, e sugere a branch. Use com
-  /sdd-01-new ou ao começar qualquer mudança que deva ser registrada em spec.
+  cria a pasta da spec e sugere a branch. TDD, feature flag e decomposição ficam
+  para o Specify. Use com /sdd-01-new ou ao começar qualquer mudança que deva ser
+  registrada em spec.
 ---
 
 # SDD — Nova spec
 
 ## Objetivo
 
-Criar a pasta e os arquivos iniciais de uma spec SDD, coletar informações essenciais (incluindo a issue), e registrar decisões de TDD, feature flag e branch.
+Criar a pasta e os arquivos iniciais de uma spec SDD, coletar a issue e o porquê, e deixar TDD, feature flag e decomposição para o Specify.
 
 ## Contexto do projeto
 
@@ -29,14 +30,21 @@ Aplica-se a **qualquer mudança** rastreável em spec: feature, bug/fix, altera�
 
 ## Passo 0 — Garantir o scaffold dos templates
 
-Os templates do SDD ficam **empacotados no plugin** (`skills/sdd-01-new/templates/`). Na primeira spec do repositório:
+Os templates do SDD ficam **empacotados no plugin** (`skills/sdd-01-new/templates/`). A cópia do projeto é `specs/templates/`.
 
-1. Verificar se existe `specs/templates/` no projeto.
-2. Se **não** existir, copiar os templates do plugin para `specs/templates/` do repositório:
-   - `spec-template.md`, `executions-template.md`, `tasks-template.md`, `design-template.md`,
-     `issue-summary-template.md`, `mr-template.md`, `sdd-tdd.md`, `sdd-restricoes.md`,
-     `sdd-branch.md`, `implementation-log-entry.md`
-3. Garantir que existe `specs/implementation-log.md` (criar vazio com cabeçalho se faltar).
+Lista: `spec-template.md`, `executions-template.md`, `tasks-template.md`, `design-template.md`, `issue-summary-template.md`, `mr-template.md`, `sdd-tdd.md`, `sdd-restricoes.md`, `sdd-branch.md`, `closure-template.md`.
+
+1. Se `specs/templates/` **não** existir, copiar a lista inteira e seguir.
+2. Se existir, comparar cada arquivo da lista com o do plugin: **ausente**, **igual** ou **diferente**. Não distinguir edição manual de scaffold antigo: os dois aparecem como diferente.
+3. Arquivo em `specs/templates/` fora da lista: **só no projeto**. Não apagar.
+4. Tudo igual e nada ausente → seguir, sem perguntar.
+5. Havendo ausente ou diferente, listar os dois grupos no chat e perguntar **uma vez**:
+
+   > "Atualizar `specs/templates/` com a versão do plugin? O sim copia os que ainda não existem e também substitui os alterados, inclusive edição local. Arquivos só no projeto permanecem."
+
+6. **Sim** → copiar **os ausentes e os alterados**. Os dois grupos. Não atualizar só um deles. **Não** → não copiar nenhum dos dois; seguir com a cópia local.
+
+**Não** criar `specs/implementation-log.md` (histórico = pastas com `status: done` + `closure.md`; ver `AGENTS.md`). Se o arquivo já existir (projeto legado), deixá-lo congelado — não escrever nele.
 
 > Onde a skill referencia `specs/templates/X.md`, é esse o local (já no repositório após o scaffold).
 
@@ -47,11 +55,8 @@ Os templates do SDD ficam **empacotados no plugin** (`skills/sdd-01-new/template
 - Coletar issue key, `tipo`, slug, título e contexto (perguntar o que faltar).
 - Ler a issue conforme `AGENTS.md` (ferramenta do projeto) para obter summary, descrição e anexos.
 - Se conseguir ler a issue, usar essas informações para reduzir perguntas manuais ao dev.
-- Se o pedido envolver **≥2 subsistemas independentes** (ver `AGENTS.md`), **avisar no chat antes de criar a pasta** e perguntar:
-  - Uma spec para tudo
-  - Dividir em várias specs (listar sugestões)
-  - Uma spec com fases explícitas
-- Se o dev optar por **várias specs**: criar pasta **apenas da primeira**; listar as demais sugeridas no chat.
+- Se o texto da issue já nomear **≥2 subsistemas independentes** (ver `AGENTS.md`), **avisar** no chat e anotar em **Lacunas** / **Por quê?** que o `/sdd-03-specify` fecha a decomposição. Não dividir a pasta aqui, salvo o dev já ter pedido a divisão na mensagem.
+- Se o dev já pediu várias specs: criar pasta **apenas da primeira** e listar as demais no chat.
 
 ### 2. Coletar "Por quê?"
 
@@ -60,27 +65,19 @@ Os templates do SDD ficam **empacotados no plugin** (`skills/sdd-01-new/template
 - **Modo rápido:** se issue + contexto já estiverem completos, não insistir em perguntas sequenciais.
 - O texto final vai para **Por quê?** em `spec.md` (passo 3).
 
-### 3. Perguntar TDD
+### 3. TDD e feature flag ficam em aberto
 
-Perguntar ao dev:
+Não perguntar. Gravar no frontmatter:
 
-> "Esta spec usará **TDD** (red → green → refactor por task)?"
+- `tdd: tbd`
+- `tdd_integracao: tbd`
+- `feature_flag: tbd`
 
-- Registrar a resposta no frontmatter de `spec.md`: `tdd: true | false`.
-- Seguir as convenções de `specs/templates/sdd-tdd.md` e as integrações em `AGENTS.md`.
-
-### 3.1 Perguntar feature flag
-
-Perguntar ao dev **independentemente do `tipo`**:
-
-> "Esta spec usará **feature flag** (habilitar/desabilitar o comportamento sem impactar outras partes do sistema)?"
-
-- Registrar a resposta no frontmatter de `spec.md`: `feature_flag: sim | nao | tbd`.
-- Consultar `AGENTS.md` § **Feature flags** para o padrão de implementação do projeto-alvo (mecanismo, convenção, default, path) — **não** hardcodar ferramenta na skill.
+A decisão vinculante é do `/sdd-03-specify`, quando o To Be existir. Não decidir `tdd_integracao` aqui.
 
 ### 4. Criar pasta e copiar templates
 
-1. Pasta: `specs/{YYYY-MM}-{ISSUE-KEY-ou-slug}/`
+1. Pasta: `specs/YYYY-MM-{ISSUE-KEY}-{slug}/` com issue; sem issue tracker, `specs/YYYY-MM-{slug}/`
 2. Copiar `specs/templates/spec-template.md` → `spec.md`
    - Preencher frontmatter: `issue`, `tipo`, `titulo`, `branch`, `tdd`, `tdd_integracao`, `feature_flag`, `criado`, `autor`
    - Preencher o link da issue com a URL base de `AGENTS.md` (ou `N/A`)
@@ -105,14 +102,6 @@ Seguir o fluxo completo em `specs/templates/sdd-branch.md` e a branch base em `A
 - Comunicar a branch base padrão e perguntar se o dev prefere outra antes de criar.
 - Criar a branch de trabalho `{tipo}/{ISSUE-KEY}` (ou `{tipo}/{slug}` sem issue tracker) só após confirmação explícita.
 - Registrar a branch de trabalho **e** a branch base usada em `spec.md` e `executions.md`.
-
-### 6. TDD — escopo de integrações (se `tdd: true`)
-
-Se o contexto inicial já indicar integrações excluídas do TDD em `AGENTS.md`:
-
-1. **Avisar** o dev que TDD nessas integrações fica **fora do escopo por padrão**.
-2. Perguntar se deseja incluir alguma integração no TDD.
-3. Registrar em `spec.md` frontmatter: `tdd_integracao: fora` ou `incluir: area1,area2` (conforme opt-in).
 
 ## Restrições
 

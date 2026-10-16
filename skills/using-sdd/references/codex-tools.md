@@ -10,6 +10,7 @@ As skills usam nomes de tools do estilo Claude Code/Cursor. No Codex, use o equi
 | `Grep` / `Glob` | busca de conteúdo / arquivos |
 | `Skill` (invocar skill) | ativação de skill por nome/descrição (descoberta nativa) |
 | `Task` (subagente) | requer `multi_agent = true` em `[features]` no config do Codex |
+| Retomar subagente (fix / E2 / delta / NEEDS_CONTEXT) | Continuar o mesmo agente multi-agente se o Codex expuser continuação; senão **Task novo** com o prompt integral |
 | `TodoWrite` | tracking nativo, se disponível; senão, lista no chat |
 | `SwitchMode` (Plan mode) | Sem equivalente — descreva o micro-plano no chat e siga |
 
@@ -23,3 +24,7 @@ multi_agent = true
 ```
 
 Sem esse recurso, execute as tasks **sequencialmente** (uma por vez).
+
+### Retomada
+
+Com `multi_agent = true`, preferir **continuar** o mesmo subagente quando `sdd-04-plan` / `sdd-06-execute` pedirem retomada. Sem API de continuação, abra um **Task novo** (prompt integral) — fallback explícito nas skills.

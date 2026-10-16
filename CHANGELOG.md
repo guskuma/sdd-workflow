@@ -17,6 +17,35 @@ Ao mudar comportamento, suba a versão em **todos** os manifestos (`plugin.json`
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-16
+
+### Added
+
+- `/sdd-init` em modo update: audit contra o contrato, lista do que mudaria e upgrades só com confirmação.
+- `closure.md` por spec e frontmatter `concluido` / `pr` (url, `#N`, `!N` ou `merged-local`). O histórico passa a ser `status: done` → `concluido` → `closure.md`.
+- Referências de `/sdd-04-plan` (`plan-depth`, `plan-task-format`, `plan-waves`, `plan-review`) e o loop de review do `/sdd-06-execute`.
+
+### Changed
+
+- Ciclo de status: `draft` → `research` → `specified` → `planned` → `approved` → `executing` → `reviewed` → `documented` → `done`. O Execute exige `approved`. O 05 grava `approved`. O 06 grava `executing` antes da primeira linha de código. O 07 grava `reviewed`; reprovação volta para `executing`. O 08 para em `documented`.
+- `done`, `concluido`, `pr` e `closure.md` só no `finish-branch`, depois de merge local ou de MR/PR com URL. Em seguida a skill pede o commit do fechamento: na base, sem push; na feature, com um segundo push.
+- DoD da task não inclui documentação pública. Isso fica no checklist de `executions.md`.
+- `/sdd-04-plan` e `/sdd-06-execute` são roteadores. Ondas só com os gatilhos de `plan-waves.md`.
+- `/sdd-05-review` julga o produto. Edição de Steps, Interfaces, mapa ou `plan_depth` reroda o gate.
+- TDD, feature flag e decomposição são decididos no `/sdd-03-specify`.
+- Micro-plano do Execute: uma vez por fase, só se alguma task não tem Steps. O sim cobre só essas tasks.
+- `iter` 5 escala sem novo fix. No execute, um dispatch com todos os Aceitos. Fora do execute, um Aceito por vez.
+- `/sdd-07-spec-review` é validação da spec. O gate de merge é o do `finish-branch`.
+- Em `contracts`, a única prosa extra no Step é a frase de `plan-depth.md`.
+- O agente `code-reviewer` devolve o formato do Estágio 2.
+- `/sdd-01-new`, com confirmação, copia os templates ausentes e substitui os alterados.
+- `specs/implementation-log.md` existente fica congelado. Skills não escrevem mais nele.
+
+### Removed
+
+- Status `in-review`. Spec antiga com esse valor equivale a `approved`.
+- Template `implementation-log-entry.md`.
+
 ## [1.2.0] - 2026-07-28
 
 ### Added

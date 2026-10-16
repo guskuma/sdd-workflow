@@ -3,11 +3,13 @@ issue: PROJ-XXXX
 tipo: feat
 titulo: Título curto da mudança
 branch: feat/PROJ-XXXX
-tdd: false
-tdd_integracao: fora
-feature_flag: nao
+tdd: tbd
+tdd_integracao: tbd
+feature_flag: tbd
 status: draft
 criado: YYYY-MM-DD
+concluido:     # YYYY-MM-DD quando finish-branch gravar status: done
+pr:            # url | #N | !N | merged-local — só no finish-branch
 autor: @usuario
 ---
 
@@ -20,12 +22,16 @@ autor: @usuario
 | Issue | [PROJ-XXXX]({ISSUE_BASE_URL}/PROJ-XXXX) — ou `N/A` |
 | Tipo | feat \| fix \| refactor \| perf \| chore \| docs |
 | Branch | `feat/PROJ-XXXX` (ver [sdd-branch.md](../templates/sdd-branch.md)) |
-| TDD | `false` · integrações: `fora` (ver [sdd-tdd.md](../templates/sdd-tdd.md) e [AGENTS.md](../../AGENTS.md)) |
-| Feature flag | `nao` (ver [AGENTS.md](../../AGENTS.md)) |
+| TDD | `tbd` até o `/sdd-03-specify` · integrações: `tbd` (ver [sdd-tdd.md](../templates/sdd-tdd.md) e [AGENTS.md](../../AGENTS.md)) |
+| Feature flag | `tbd` até o `/sdd-03-specify` (ver [AGENTS.md](../../AGENTS.md)) |
 | Pasta | `specs/YYYY-MM-PROJ-XXXX-slug/` |
-| Status | draft \| research \| specified \| planned \| in-review \| executing \| done |
+| Status | `draft` → `research` → `specified` → `planned` → `approved` → `executing` → `reviewed` → `documented` → `done` |
+| Concluído | YYYY-MM-DD (só com `status: done`, gravado pelo `finish-branch`) |
+| PR | url, `#N`, `!N` ou `merged-local` (só no `finish-branch`; vazio até lá) |
 
 **Tipos:** `feat` (feature/comportamento novo), `fix` (bug), `refactor`, `perf`, `chore`, `docs`.
+
+`/sdd-05-review` grava `approved` (obrigatório antes do Execute). `/sdd-06-execute` grava `executing`. `/sdd-07-spec-review` grava `reviewed`. `/sdd-08-docs` grava `documented` e não preenche `concluido`, `pr` nem `closure.md`. `finish-branch` grava `done` só depois de merge local ou de MR/PR com URL. Não usar `in-review`. Spec antiga com `in-review` equivale a `approved`.
 
 ## Por quê?
 
@@ -158,7 +164,7 @@ autor: @usuario
 
 <!-- Se < 5 tarefas, listar aqui (mesmo rigor zero-context quando o tipo exigir). Se ≥ 5, usar tasks.md -->
 
-> Quando o formato completo for obrigatório (`feat`/`refactor`/`perf`/`fix` multi-arquivo): incluir **Global Constraints**, **Mapa de arquivos**, **`plan_depth`**, e por task **Context pack** + **Interfaces** + **Steps** (ver `specs/templates/tasks-template.md` e `/sdd-04-plan` §4.0).
+> Quando o formato completo for obrigatório (`feat`/`refactor`/`perf`/`fix` multi-arquivo): incluir **Global Constraints**, **Mapa de arquivos**, **`plan_depth`**, e por task **Context pack** + **Interfaces** + **Steps** (ver `specs/templates/tasks-template.md` e `/sdd-04-plan`, `references/plan-depth.md`).
 
 ### Global Constraints
 
@@ -184,7 +190,7 @@ autor: @usuario
 - **Depende de:** —
 - **Interfaces:** Consumes: … · Produces: …
 - **DoD:** ...
-- **Context pack / Steps:** (obrigatório conforme `/sdd-04-plan` §4.1)
+- **Context pack / Steps:** (obrigatório conforme `/sdd-04-plan`, `references/plan-task-format.md`)
 
 ---
 

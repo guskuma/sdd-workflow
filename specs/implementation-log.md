@@ -1,6 +1,8 @@
 # Implementation Log
 
-Registro global de specs concluídas.
+> **Legado congelado.** Novas specs não acrescentam entradas aqui. Histórico = pastas com `status: done` + `closure.md` (ver `AGENTS.md` § Histórico de implementações).
+
+Registro global de specs concluídas (somente entradas anteriores à depreciação).
 
 ## 2026-06-19 — 1: Ask feature flag when creating SDD spec
 

@@ -52,7 +52,8 @@ Os comandos concretos do projeto estão no `AGENTS.md` (seção **Gate de qualid
 | Contexto | Comando |
 |----------|---------|
 | Gate iterativo (task/fase) | lint/compile → testes → build (ver `AGENTS.md`) |
-| Gate completo (spec) | comando completo de verificação (ver `AGENTS.md`) |
+| Validação da spec (`/sdd-07-spec-review`) | comando de gate completo do `AGENTS.md`. Não autoriza merge. |
+| Gate de merge (`finish-branch`) | o mesmo comando, output fresco naquela sessão |
 | Teste único (debug) | teste de uma classe/arquivo (ver `AGENTS.md`) |
 
 > Se o `AGENTS.md` não definir os comandos, **pergunte ao dev** quais são antes de afirmar gate verde.

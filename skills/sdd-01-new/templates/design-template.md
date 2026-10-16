@@ -1,6 +1,6 @@
 # Design: {titulo}
 
-> Spec: [spec.md](../spec.md) · Issue: PROJ-XXXX
+> Spec: [spec.md](./spec.md) · Issue: PROJ-XXXX
 
 ## Visão geral
 
@@ -13,8 +13,8 @@ Aprovação **incremental** com o dev durante `/sdd-03-specify`. Não avançar p
 | Bloco | Conteúdo | Aprovado pelo dev |
 |-------|----------|-------------------|
 | 1 | Visão geral + Arquitetura | [ ] Sim — data: |
-| 2 | Componentes + Reutilização | [ ] Sim — data: |
-| 3 | Decisões técnicas + Riscos | [ ] Sim — data: |
+| 2 | Componentes + Reutilização + fluxo de dados | [ ] Sim — data: |
+| 3 | Decisões + erros + teste + Riscos | [ ] Sim — data: |
 
 Registrar aprovações no chat; opcional: uma linha em `executions.md` na fase Specify.
 
@@ -38,6 +38,20 @@ flowchart LR
 ## Reutilização
 
 <!-- O que reaproveitar do código atual (classes, utils, padrões) -->
+
+## Fluxo de dados
+
+<!-- Quem produz o dado, quem consome, e o que atravessa cada fronteira. -->
+
+## Erros
+
+| Situação | Resposta |
+|----------|----------|
+| | |
+
+## Teste
+
+<!-- O que prova o caminho feliz e os erros da tabela acima. Comando no AGENTS.md. -->
 
 ## Decisões técnicas
 

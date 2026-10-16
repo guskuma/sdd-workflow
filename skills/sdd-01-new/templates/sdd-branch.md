@@ -8,7 +8,7 @@ Fonte única para nomenclatura de branches Git no fluxo SDD. **MR/PR, branch bas
 |------|-------|
 | Branch Git | `{tipo}/{ISSUE-KEY}` (ex.: `feat/PROJ-1234`); sem issue tracker: `{tipo}/{slug}` |
 | Tipos válidos | `feat`, `fix`, `refactor`, `perf`, `chore`, `docs` |
-| Pasta da spec | `specs/YYYY-MM-{ISSUE-KEY-ou-slug}/` |
+| Pasta da spec | Com issue: `specs/YYYY-MM-{ISSUE-KEY}-{slug}/`. Sem issue tracker: `specs/YYYY-MM-{slug}/` |
 | Título MR/PR | `{ISSUE-KEY}-{slug}` (formato do projeto em `AGENTS.md`) |
 | Criação | Sugerir em `/sdd-01-new`; criar só com confirmação do dev |
 | Branch base (padrão) | Conforme `AGENTS.md` |

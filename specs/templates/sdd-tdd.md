@@ -4,33 +4,26 @@ Fonte única para regras de TDD no fluxo SDD (genérico). **Áreas de integraç�
 
 Disciplina operacional (Iron Law, red/green, red flags): skill **`tdd`**.
 
-## Opt-in global
+## Opt-in
 
-Em `/sdd-01-new` o agente **pergunta** ao dev se a spec usará TDD.
+`/sdd-01-new` grava `tdd: tbd` e `tdd_integracao: tbd`. A decisão é do `/sdd-03-specify` (seção Decisões vinculantes).
 
-- Registrar `tdd: true | false` no frontmatter de `spec.md`.
-- Quando `tdd: false`: o gate do projeto (`AGENTS.md`) permanece obrigatório; sem impor a ordem test-first; skill **`tdd`** **não** se aplica.
-- Quando `tdd: true`: skill **`tdd`** é obrigatória em plan/execute — **nenhum código de produção sem teste falhando pelo motivo certo primeiro**.
+- `tdd: tbd` no Plan ou no Execute → parar e voltar ao 03.
+- `tdd: false` → gate do `AGENTS.md` obrigatório; skill **`tdd`** não se aplica.
+- `tdd: true` → skill **`tdd`** obrigatória no plan e no execute.
+- Campo ausente (legado) → tratar como `tdd: false`.
 
-## Ciclo (quando `tdd: true`)
+## Ciclo
 
-**Red → green → refactor** por task, em código testável sem depender de infra externa real. Ver skill **`tdd`**.
-
-- No **plan** (`/sdd-04-plan`): o DoD das tasks inclui a ordem explícita (teste falhando → implementação mínima → refactor); referenciar skill **`tdd`**.
-- No **execute** (`/sdd-06-execute`): micro-plano ou Steps; invocar **`tdd`**; implement + loop de revisão (Estágio 1 → Estágio 2); registrar em `executions.md` **ao concluir**; gate via skill **`verification`**.
-- No loop de revisão do execute: Estágio 1 spec compliance → Estágio 2 code quality; validar o teste de aceite.
+Red → green → refactor: skill **`tdd`**. O plan põe essa ordem nos Steps. O execute invoca a skill. Não copiar o ciclo para outras skills.
 
 ## Exclusão padrão de integrações
 
 Quando o escopo da spec incluir integrações pesadas listadas em `AGENTS.md`, TDD nessas áreas fica **fora do escopo por padrão**.
 
-### Comportamento obrigatório do agente
+### Quem decide
 
-Se research, plan ou specify identificar integrações excluídas em `AGENTS.md`:
-
-1. **Avisar** o dev que TDD nessas integrações fica **fora do escopo por padrão**.
-2. Registrar em `spec.md` (frontmatter `tdd_integracao`) e na subseção **TDD — escopo**: `integrações: fora` ou lista opt-in se o dev aceitar incluir.
-3. Só incluir TDD em integração após **opt-in explícito** do dev e atualização da spec.
+Só o `/sdd-03-specify` grava `tdd_integracao`. O research anota a integração em Lacunas. O plan não altera o frontmatter.
 
 ### Opt-in de integração
 

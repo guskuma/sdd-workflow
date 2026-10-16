@@ -1,6 +1,8 @@
 # Contrato do `AGENTS.md` do projeto-alvo
 
-As skills SDD são genéricas. O específico do projeto vive no `AGENTS.md` na **raiz do repositório**. Para o fluxo SDD funcionar bem, o `AGENTS.md` deve conter (adapte os títulos ao seu projeto):
+As skills SDD são genéricas. O específico do projeto vive no `AGENTS.md` na **raiz do repositório**. Para o fluxo SDD funcionar bem, o `AGENTS.md` deve conter (adapte os títulos ao seu projeto).
+
+O `/sdd-init` em modo update audita este contrato (checklist em `skills/sdd-init/references/agents-md-audit.md`), lista desalinhamentos e só aplica upgrades com confirmação.
 
 ## Seções recomendadas
 
@@ -51,14 +53,30 @@ As skills SDD são genéricas. O específico do projeto vive no `AGENTS.md` na *
 ```
 specs/
 ├── templates/                 # scaffoldado pelo /sdd-01-new (cópia dos templates do plugin)
-├── implementation-log.md      # log global
 └── YYYY-MM-{ISSUE-KEY}-slug/
     ├── spec.md
     ├── design.md          # opcional
     ├── tasks.md           # opcional (≥ 5 tasks)
     ├── executions.md
     ├── mr-template.md     # preenchido em /sdd-08-docs
-    └── issue-summary.md
+    ├── issue-summary.md
+    └── closure.md         # preenchido no finish-branch (histórico da entrega)
 ```
 
 > Sem issue tracker? Use um identificador curto no lugar de `{ISSUE-KEY}` (ex.: o slug) e marque os campos de issue como `N/A`.
+
+### Histórico de implementações
+
+Não há índice global editável. Para saber o que foi implementado e quando:
+
+1. Listar `specs/*/spec.md` com frontmatter `status: done`.
+2. Ordenar por `concluido` (desc).
+3. Ler `closure.md` na mesma pasta (entrega, issue, PR/MR, decisões, desvios).
+
+Campos de fechamento no frontmatter de `spec.md`: `status: done`, `concluido: YYYY-MM-DD`, `pr:` (url, `#N`, `!N` ou `merged-local`).
+
+`finish-branch` grava esses campos e o `closure.md` só depois de merge local ou de MR/PR com URL. `/sdd-08-docs` para em `status: documented` e deixa `pr` vazio.
+
+Ciclo de `status`: `draft` → `research` → `specified` → `planned` → `approved` → `executing` → `reviewed` → `documented` → `done`. O Execute exige `approved` (ou `executing` na retomada).
+
+**Legado:** se existir `specs/implementation-log.md`, tratá-lo como **congelado** (não criar em projetos novos; não escrever mais nele).

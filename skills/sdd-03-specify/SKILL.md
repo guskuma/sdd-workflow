@@ -40,9 +40,7 @@ Restrições padrão do repositório: `AGENTS.md`. Convenção geral: `specs/tem
    - Comparar caminhos plausíveis na tabela; indicar **recomendação** e marcar **escolhida** após alinhamento com o dev
    - Se só um caminho razoável: `N/A — abordagem única` + justificativa em uma frase
    - Apresentar trade-offs de forma conversacional; liderar com a recomendação e o porquê
-4. **Gate de decomposição** — após esboçar o To Be:
-   - Se goals/RF indicarem escopo grande (≥2 subsistemas independentes ou entregáveis desacoplados), propor divisão em **Escopo da entrega**
-   - Não definir `status: specified` sem decisão explícita do dev (uma spec, N specs ou fases)
+4. **Gate de decomposição** — a decisão vinculante está em **Decisões vinculantes**. Não definir `status: specified` sem ela.
 5. **Uma pergunta por vez** — para lacunas em RF, edge cases, restrições ou abordagens; preferir múltipla escolha; não enviar várias perguntas na mesma mensagem
 6. Preencher **§4 User stories** (Como/Quero/Para + critérios de aceite)
 7. Se a complexidade for alta: criar `design.md` (`specs/templates/design-template.md`) → fluxo **incremental** (blocos 1–3 com OK do dev após cada bloco); linkar em §3
@@ -53,18 +51,21 @@ Restrições padrão do repositório: `AGENTS.md`. Convenção geral: `specs/tem
 9. **Confirmação de entendimento** (obrigatório):
    - Paráfrase em §2; perguntar: "Está correto? O que ajustar?"
    - **Não** sugerir `/sdd-04-plan` até o dev confirmar
-10. `status` → `specified` somente após confirmação do dev **e** auto-revisão sem itens críticos em aberto
+10. `status` → `specified` somente após confirmação do dev, auto-revisão sem itens críticos, e **Decisões vinculantes** sem `tbd`.
 
 ## Por quê?
 
 Se o To Be revelar escopo diferente do registrado em **Por quê?**, refinar com confirmação do dev.
 
-## TDD — reavaliação de integrações
+## Decisões vinculantes (antes de `specified`)
 
-Se o To Be incluir integrações excluídas do TDD em `AGENTS.md` e `tdd: true`:
+O 01 deixa `tdd`, `tdd_integracao` e `feature_flag` como `tbd`. Fechar os três aqui, com o To Be na mesa. Sem `tbd` no frontmatter ao gravar `specified`.
 
-- Reavaliar `tdd_integracao` e **avisar** o dev (ver `specs/templates/sdd-tdd.md` e skill **`tdd`**).
-- Registrar a decisão no frontmatter antes de avançar para o Plan.
+1. **Decomposição** — se goals/RF indicarem ≥2 subsistemas ou entregáveis desacoplados (ou o 02 anotou isso em Lacunas): o dev escolhe uma spec, N specs ou fases. Se forem N specs, criar a pasta seguinte e registrar o corte em **Escopo da entrega**.
+2. **TDD** — perguntar sim ou não. Gravar `tdd: true` ou `tdd: false`. Se `true` e o To Be tocar integração excluída em `AGENTS.md`: avisar que fica fora por padrão e perguntar o opt-in. Gravar `tdd_integracao: fora` ou `incluir: area1,area2`. Se `false`, gravar `tdd_integracao: fora`.
+3. **Feature flag** — perguntar sim ou não. Gravar `feature_flag: sim` ou `nao`. Se `sim` e o `AGENTS.md` não tiver o padrão, anotar mecanismo, nome, default e path na spec. Não editar `AGENTS.md` aqui.
+
+Skill **`tdd`** e `specs/templates/sdd-tdd.md` só descrevem o ciclo. A decisão é esta seção.
 
 ## Schema PostgreSQL
 

@@ -2,8 +2,8 @@
 name: tdd
 description: >-
   TDD condicional: red → green → refactor com Iron Law. Invocar quando a spec tiver
-  tdd: true (frontmatter) durante Execute (06), Plan (04) ou debug de comportamento.
-  Não aplica se tdd: false ou legado sem campo. Genérico — stack e exclusões em AGENTS.md.
+  tdd: true durante Execute, Plan ou debug. tdd: tbd volta ao Specify. Não aplica se
+  tdd: false ou legado sem campo. Genérico — exclusões em AGENTS.md.
 ---
 
 # TDD (condicional)
@@ -24,7 +24,8 @@ Violação da letra = violação do espírito. Se escreveu produção antes do t
 
 | Situação | Ação |
 |----------|------|
-| `tdd: true` no frontmatter de `spec.md` | **Obrigatório** em `/sdd-06-execute` (e Steps no plan) |
+| `tdd: true` no frontmatter de `spec.md` | **Obrigatório** em `/sdd-06-execute` e nos Steps do plan |
+| `tdd: tbd` | **Não** implementar. Voltar ao `/sdd-03-specify` |
 | `tdd: false` ou campo ausente (legado) | **Não** invocar — gate do `AGENTS.md` basta |
 | Integração listada como fora em `AGENTS.md` | Test-first **N/A** salvo `tdd_integracao` com opt-in |
 | Bugfix com `tdd: true` | Teste do sintoma primeiro (deve falhar) |

@@ -27,6 +27,7 @@ As skills SDD são **genéricas**. Tudo que é específico do projeto (stack, co
 
 - **Sempre** consulte o `AGENTS.md` do projeto antes de assumir comandos, paths ou convenções.
 - Se o projeto **não tiver** `AGENTS.md`, avise o dev e sugira rodar `/sdd-init` para análise automática do repositório e geração guiada.
+- Se já tiver `AGENTS.md` mas o fluxo parecer desalinhado com o plugin atual, sugira `/sdd-init` de novo — a skill audita o contrato, lista o que mudaria e só atualiza com confirmação.
 - Onde uma skill disser "gate de qualidade", "issue tracker", "integrações externas" ou "branch base", o valor concreto está no `AGENTS.md`.
 
 ## Como acessar skills
@@ -46,6 +47,8 @@ As skills usam nomes de tools do estilo Claude Code / Cursor (`Read`, `Edit`, `B
 
 Se a sua plataforma **não** tiver um recurso citado (ex.: `SwitchMode` para Plan mode, ou subagentes via `Task`), degrade graciosamente: descreva o micro-plano no chat e siga sem o recurso, sem inventar comportamento.
 
+Quando `sdd-04-plan` / `sdd-06-execute` pedirem **retomar** um subagente (fix no implementador, E1→E2 / delta no revisor, material faltante no planejador): continue o mesmo `Task` se a plataforma permitir; senão abra um **Task novo** com o prompt integral (fallback documentado nas skills).
+
 ## A regra
 
 **Invoque as skills relevantes ANTES de qualquer resposta ou ação.** Mesmo 1% de chance de aplicar = invoque para checar. Se a skill invocada não servir, você não precisa usá-la.
@@ -63,9 +66,13 @@ Regras transversais — valem em **qualquer** fase do SDD (e nas skills transver
 
 ```
 /sdd-init (bootstrap do projeto) → /sdd-01-new → /sdd-02-research → /sdd-03-specify → /sdd-04-plan → /sdd-05-review (plano)
- → /sdd-06-execute (implement + review → receiving-review → fix; worktree opt-in) [TDD opcional, decidido no 01]
+ → /sdd-06-execute (implement + review → receiving-review → fix; worktree opt-in) [TDD opcional, decidido no 03]
  → /sdd-07-spec-review → /sdd-08-docs → finish-branch
 ```
+
+Status em `spec.md`: `draft` → `research` → `specified` → `planned` → `approved` → `executing` → `reviewed` → `documented` → `done`.
+
+O Execute exige `approved` (ou `executing` na retomada). `/sdd-08-docs` para em `documented`. `done`, `concluido`, `pr` e `closure.md` só no `finish-branch`, depois de merge local ou de MR/PR com URL. Em seguida a skill pede o commit desses arquivos: na branch base, sem push; na feature, com um segundo push para o MR incluir o fechamento. Sem sim, o fechamento fica só no working tree.
 
 **Skills transversais** (invocadas dentro das fases, não as substituem): `debugging`, `verification`, `tdd` (se `tdd: true`), `parallel-execution`, `worktrees` (opt-in no 06), `receiving-review`, `finish-branch`, `commit-message`, `postgresql-table-design` (schema Postgres), `writing-skills` (ao editar skills do plugin).
 

@@ -18,7 +18,7 @@ Consultar o `AGENTS.md` — seção **Mapa de research (As Is)** para paths de c
 
 ## Pré-requisitos
 
-- Pasta da spec em `specs/YYYY-MM-{ISSUE-KEY-ou-slug}/` com `spec.md` (criada via `/sdd-01-new`).
+- Pasta da spec em `specs/YYYY-MM-{ISSUE-KEY}-{slug}/` (sem issue: `specs/YYYY-MM-{slug}/`) com `spec.md` (criada via `/sdd-01-new`).
 - Issue key no frontmatter (ou `N/A`).
 
 ## Passos
@@ -33,13 +33,9 @@ Consultar o `AGENTS.md` — seção **Mapa de research (As Is)** para paths de c
 4. Atualizar `status` no frontmatter para `research`.
 5. Resumir no chat: achados principais + perguntas em aberto.
 
-## TDD — aviso de integrações
+## TDD e feature flag
 
-Se o research identificar integrações excluídas do TDD em `AGENTS.md` e `tdd: true`:
-
-- **Avisar** o dev que TDD nessas áreas fica fora do escopo por padrão (ver `specs/templates/sdd-tdd.md`).
-- Sugerir atualizar `tdd_integracao` no frontmatter se o dev quiser incluir.
-- Não alterar `tdd_integracao` sem confirmação explícita do dev.
+Não decidir `tdd`, `tdd_integracao` nem `feature_flag` nesta fase. Se o As Is encontrar integração listada como fora do TDD em `AGENTS.md`, anotar em **Lacunas** para o `/sdd-03-specify`.
 
 ## Regras
 

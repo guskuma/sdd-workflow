@@ -89,7 +89,7 @@ Para CADA task da fase:
 3. **Interfaces:** Consumes/Produces com nomes/assinaturas **exatos** (alinhados a B e entre tasks desta fase)
 4. **Steps:** 1 ação, alvo 2–5 min; artefato conforme plan_depth:
    - snippets → snippet **completo** + comando (do gate/AGENTS) + output esperado
-   - contracts → assinaturas/Produces + teste **completo** (ou scaffold) que trava comportamento; thin slice de negócio com teste completo
+   - contracts → assinaturas/Produces + teste **completo** (ou scaffold) que trava comportamento; thin slice de negócio com teste completo. Prosa de produção só a frase permitida de `references/plan-depth.md`, com caminho do teste, asserção e Produces preenchidos
 5. **DoD** alinhado ao template (gate + Interfaces + sem shadow code)
 
 Proibido nos Steps: TBD, TODO, "similar à T0X", "adicionar validação" sem o como, paths fora do Mapa, tipos não definidos em Interfaces/Constraints/Mapa, step de commit.
@@ -124,9 +124,24 @@ Se material insuficiente ou dúvida de domínio: **NEEDS_CONTEXT** (lista o que 
 **NEEDS_CONTEXT / BLOCKED:** o que falta (se aplicável)
 ```
 
+## Retomada após NEEDS_CONTEXT (padrão)
+
+Se o planejador **não** editou `tasks.md` e listou o que falta: **retomar o mesmo** subagente com só o bloco abaixo (não reenviar A–F inteiro). Sem continuação na plataforma → fallback = re-dispatch do prompt integral.
+
+```
+## Material que faltava (retomada)
+
+Você pediu NEEDS_CONTEXT. Segue **somente** o que faltava. Não invente o resto.
+Ainda vale o Iron Law: se ainda faltar item obrigatório → NEEDS_CONTEXT de novo (sem editar tasks.md).
+
+{colar só os itens A–F faltantes — trechos completos}
+
+Quando o material bastar: escrever as tasks da fase em tasks.md e retornar DONE no formato fixo.
+```
+
 ## Checklist do orquestrador (antes do dispatch)
 
 1. Preencher A–F (em especial **E** e **D**).
-2. Dispatch **um** planejador por vez (nunca paralelo com outro planejador).
+2. Dispatch **um** planejador por vez (nunca paralelo com outro planejador). Guardar handle/id para retomada.
 3. Após DONE: reler `tasks.md` (tasks da fase) antes do self-review 4.3 — não confiar só no summary.
-4. Se `NEEDS_CONTEXT`: completar material e re-dispatch (não detalhar a fase “de memória” na sessão inchada).
+4. Se `NEEDS_CONTEXT`: completar **só** o que faltou → **retomar** o mesmo planejador (bloco acima); re-dispatch integral só no fallback. Não detalhar a fase “de memória” na sessão inchada.

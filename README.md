@@ -4,7 +4,7 @@ Fluxo de desenvolvimento guiado por spec, empacotado como **plugin de skills** i
 
 As skills cobrem o ciclo completo — `/sdd-init` (bootstrap) → `01 New` → `02 Research` → `03 Specify` → `04 Plan` → `05 Review` → `06 Execute` (implement + review loop; worktree opt-in) → `07 Spec review` → `08 Docs` → `finish-branch` — mais skills transversais de **TDD condicional**, **debugging**, **verificação**, **worktrees**, **receber review**, **execução paralela**, **commit message** e **design de schema PostgreSQL**.
 
-Em cada mudança rastreável, o fluxo também **gera documentação de histórico** versionada no repositório — pasta `specs/` com spec (As Is → To Be), plano, execuções, revisões e `implementation-log.md` — registrando o porquê, o que mudou e como foi validado.
+Em cada mudança rastreável, o fluxo também **gera documentação de histórico** versionada no repositório — pasta `specs/` com spec (As Is → To Be), plano, execuções, revisões e `closure.md` por spec concluída — registrando o porquê, o que mudou e como foi validado.
 
 > **Genérico por design.** As skills não assumem stack/linguagem. O específico de cada projeto (comandos de build, issue tracker, integrações, branch base, mapas) vive no `AGENTS.md` do repositório que consome o plugin. Veja o contrato em [`skills/using-sdd/references/agents-md-contract.md`](skills/using-sdd/references/agents-md-contract.md).
 
@@ -12,30 +12,32 @@ Em cada mudança rastreável, o fluxo também **gera documentação de históric
 
 ## Documentação de histórico
 
-O `/sdd-01-new` faz o scaffold de `specs/` na primeira mudança do repositório (templates em `specs/templates/`). Cada spec vive em uma pasta datada e acumula artefatos ao longo das fases:
+O `/sdd-01-new` copia os templates do plugin para `specs/templates/`. Se a pasta já existe, compara com o plugin. Com confirmação, copia os que faltam e também substitui os que divergiram. Cada spec vive em uma pasta datada e acumula artefatos ao longo das fases:
 
 ```
 specs/
-├── templates/                 # cópia dos templates do plugin (primeira spec)
-├── implementation-log.md      # índice global de specs concluídas
+├── templates/                 # cópia dos templates do plugin (o 01, com confirmação, copia os que faltam e substitui os que divergiram)
 └── YYYY-MM-{ISSUE-KEY}-slug/
     ├── spec.md                # As Is, To Be, goals, restrições (research → specify)
     ├── design.md              # opcional — alta complexidade (specify)
     ├── tasks.md               # opcional — backlog detalhado (plan, ≥ 5 tasks)
     ├── executions.md          # gates, revisões, desvios, fechamento (execute → docs)
     ├── issue-summary.md       # snapshot da issue (new)
-    └── mr-template.md         # corpo do MR/PR (preenchido em docs)
+    ├── mr-template.md         # corpo do MR/PR (preenchido em docs)
+    └── closure.md             # histórico da entrega (preenchido no finish-branch)
 ```
 
 | Arquivo | Fase principal | O que registra |
 |---------|----------------|----------------|
-| `spec.md` | 02 Research → 03 Specify | Contexto, As Is, To Be, goals, non-goals, restrições |
+| `spec.md` | 02 Research → finish-branch | Contexto, As Is, To Be; status até `documented` no 08; `done`, `concluido` e `pr` só no `finish-branch` |
 | `design.md` | 03 Specify | Decisões de design quando a complexidade exige |
 | `tasks.md` | 04 Plan | Backlog zero-context: Constraints, mapa, Interfaces, Steps; em specs grandes, **Plan em ondas** (progresso + checkpoints) |
 | `executions.md` | 06 Execute → 08 Docs | O que foi feito, gates, revisões, documentação |
 | `issue-summary.md` | 01 New | Snapshot da issue no início |
 | `mr-template.md` | 08 Docs | Descrição pronta para abrir o MR/PR |
-| `implementation-log.md` | 08 Docs | Entrada por spec concluída (link, branch, data) |
+| `closure.md` | finish-branch | Entrega, issue, PR/MR (`merged-local` ou URL), decisões e desvios |
+
+> Histórico global: listar `specs/*/spec.md` com `status: done`, ordenar por `concluido`, ler `closure.md`. `done` só existe depois de merge local ou de MR/PR com URL. Não há índice compartilhado editável (evita conflito de merge).
 
 > Sem issue tracker? Use um identificador curto no lugar de `{ISSUE-KEY}` (ex.: o slug) e marque os campos de issue como `N/A`. A convenção completa está em [`skills/using-sdd/references/agents-md-contract.md`](skills/using-sdd/references/agents-md-contract.md).
 
@@ -44,8 +46,8 @@ specs/
 | Skill | Tipo | Para que serve |
 |-------|------|----------------|
 | `using-sdd` | bootstrap | Disciplina de uso + adaptação entre plataformas |
-| `sdd-init` | bootstrap | Análise do repositório + geração de `AGENTS.md`, `CLAUDE.md` e `GEMINI.md` (idempotente) |
-| `sdd-01-new` … `sdd-08-docs` | fases | Ciclo SDD ponta a ponta (TDD e feature flag decididos no `01-new`; padrão de implementação no `AGENTS.md` via `/sdd-init`) |
+| `sdd-init` | bootstrap | Análise do repositório + geração de `AGENTS.md`, `CLAUDE.md` e `GEMINI.md` (idempotente; em update audita o contrato e só aplica upgrades com confirmação) |
+| `sdd-01-new` … `sdd-08-docs` | fases | Ciclo SDD ponta a ponta (TDD e feature flag decididos no `03-specify`; padrão de implementação no `AGENTS.md` via `/sdd-init`) |
 | `tdd` | transversal | Red → green → refactor com Iron Law (só se `tdd: true`) |
 | `debugging` | transversal | Causa raiz antes do fix (4 fases + instrumentação multi-camada) |
 | `verification` | transversal | Evidência antes de afirmar sucesso |
@@ -110,7 +112,9 @@ Detalhes: [`.opencode/INSTALL.md`](.opencode/INSTALL.md).
 
 Para o fluxo funcionar bem, o repositório que usa o plugin precisa de um `AGENTS.md` na raiz com, no mínimo: **Gate de qualidade** (comandos de lint/test/build), **issue tracker**, **branches**, **integrações externas** e **restrições padrão**. Modelo completo em [`skills/using-sdd/references/agents-md-contract.md`](skills/using-sdd/references/agents-md-contract.md).
 
-> **Primeira vez no projeto?** Rode `/sdd-init` — a skill detecta stack, comandos de CI, issue tracker e convenções Git quando possível, gera `AGENTS.md` (ou preenche lacunas no existente) e cria `CLAUDE.md` / `GEMINI.md` apontando para ele.
+> **Primeira vez no projeto?** Rode `/sdd-init` — a skill detecta stack, comandos de CI, issue tracker e convenções Git quando possível, gera `AGENTS.md` e cria `CLAUDE.md` / `GEMINI.md` apontando para ele.
+>
+> **Já tem SDD e atualizou o plugin?** Rode `/sdd-init` de novo — a skill audita o `AGENTS.md` contra o contrato atual, lista o que está ausente ou desatualizado e só aplica as atualizações que você confirmar.
 
 ## Compatibilidade por plataforma
 

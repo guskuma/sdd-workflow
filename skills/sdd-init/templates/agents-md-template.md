@@ -57,15 +57,31 @@
 ```
 specs/
 ├── templates/                 # scaffoldado pelo /sdd-01-new
-├── implementation-log.md      # log global
 └── YYYY-MM-{ISSUE-KEY}-slug/
     ├── spec.md
     ├── design.md              # opcional
     ├── tasks.md               # opcional (≥ 5 tasks)
     ├── executions.md
     ├── mr-template.md         # preenchido em /sdd-08-docs
-    └── issue-summary.md
+    ├── issue-summary.md
+    └── closure.md             # preenchido no finish-branch (histórico da entrega)
 ```
+
+### Histórico de implementações
+
+Não há índice global editável. Para saber o que foi implementado e quando:
+
+1. Listar `specs/*/spec.md` com frontmatter `status: done`.
+2. Ordenar por `concluido` (desc).
+3. Ler `closure.md` na mesma pasta (entrega, issue, PR/MR, decisões, desvios).
+
+Campos de fechamento no frontmatter de `spec.md`: `status: done`, `concluido: YYYY-MM-DD`, `pr:` (url, `#N`, `!N` ou `merged-local`).
+
+`finish-branch` grava esses campos e o `closure.md` só depois de merge local ou de MR/PR com URL. `/sdd-08-docs` para em `status: documented` e deixa `pr` vazio.
+
+Ciclo de `status`: `draft` → `research` → `specified` → `planned` → `approved` → `executing` → `reviewed` → `documented` → `done`. O Execute exige `approved` (ou `executing` na retomada).
+
+**Legado:** se existir `specs/implementation-log.md`, tratá-lo como **congelado** (não criar em projetos novos; não escrever mais nele).
 
 ## Mapa de research (As Is)
 

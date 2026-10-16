@@ -1,8 +1,9 @@
 ---
 name: sdd-08-docs
 description: >-
-  Fase Docs do SDD: atualiza a documentação pública e preenche o mr-template.md ao
-  finalizar uma spec. Use com /sdd-08-docs após /sdd-07-spec-review aprovado.
+  Fase Docs do SDD: atualiza a documentação pública e preenche o mr-template.md.
+  Grava status documented. Não fecha a spec. Use com /sdd-08-docs após
+  /sdd-07-spec-review aprovado (status reviewed).
 ---
 
 # SDD — Documentação + MR/PR
@@ -17,7 +18,7 @@ Consultar o `AGENTS.md` para: mapa de documentação, issue tracker/MR, ADR, che
 
 ## Quando rodar
 
-Ao **finalizar a spec** (após `/sdd-07-spec-review` aprovado), antes de `implementation-log.md` e do MR/PR.
+Após `/sdd-07-spec-review` aprovado (`status: reviewed`, ou `documented` se for reexecução), antes do `finish-branch`. Esta fase não cria `closure.md` e não grava `done`. Em reexecução, não volte o status para `reviewed`.
 
 ## Passos — Documentação
 
@@ -77,16 +78,31 @@ Ao **finalizar a spec** (após `/sdd-07-spec-review` aprovado), antes de `implem
 - Se for só mudança interna sem impacto em contrato público: registrar N/A com justificativa.
 - Comentário na issue e ADR são opcionais, mas a decisão do dev deve ficar registrada no `executions.md`.
 
-## Após docs — finalizar branch
+## Feature flag no `AGENTS.md` (opcional)
+
+Se `feature_flag: sim` e o § Feature flags do `AGENTS.md` estiver vazio, placeholder ou `N/A` genérico:
+
+1. Perguntar uma vez: "Deseja que eu grave no `AGENTS.md` o padrão desta flag (mecanismo, nome, default, path)?"
+2. Só escrever depois do sim. Se não, o padrão fica na spec e em `tasks.md`.
+
+## Após docs — status e branch
 
 Com documentação e `mr-template.md` prontos:
 
-1. Atualizar `specs/implementation-log.md` e `status: done` em `spec.md` (se ainda não).
-2. Invocar a skill **`finish-branch`**: gate completo via **`verification`** → menu (merge local / abrir MR/PR / manter / descartar) → executar a escolha.
-3. Não abrir MR/PR nem mergear **sem** passar por `finish-branch` (Iron Law de verificação fresca).
+1. Em `spec.md`: `status: documented`. Deixar `concluido` e `pr` vazios. Não criar `closure.md`. Não editar `specs/implementation-log.md` (legado).
+2. Marcar em `executions.md` as seções Documentação e MR/PR.
+3. Invocar a skill **`finish-branch`**: gate completo via **`verification`** → menu (merge local / abrir MR/PR / manter / descartar). `done`, `concluido`, `pr` e `closure.md` são dessa skill, e só depois de merge local ou de MR/PR com URL.
+4. Não abrir MR/PR nem mergear **sem** passar por `finish-branch`.
 
 Feedback de review no MR depois de aberto → skill **`receiving-review`**.
 
+## Red flags
+
+| Racionalização | Realidade |
+|----------------|-----------|
+| "Fecho a spec agora para não esquecer o histórico" | `done` e `closure.md` só no `finish-branch`, com merge ou URL |
+| "`pr: pending` já registra o fechamento" | `pr` vazio até o `finish-branch`; `pending` não fecha |
+
 ## Saída esperada
 
-Documentação alinhada à spec (ou justificativa N/A); `mr-template.md` preenchido; `executions.md` atualizado; `implementation-log.md` + `status: done`; transição para **`finish-branch`**.
+Documentação alinhada à spec (ou justificativa N/A); `mr-template.md` preenchido; `executions.md` atualizado; `status: documented`; transição para **`finish-branch`**.

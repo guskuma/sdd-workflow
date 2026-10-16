@@ -49,8 +49,7 @@ Não substitui os Estágios 1–2 (eles **produzem** os findings). Esta skill **
 3. VERIFICAR — checar no codebase / spec / AGENTS.md
 4. AVALIAR  — faz sentido NESTE projeto?
 5. RESPONDER — ack técnico ou pushback fundamentado
-6. IMPLEMENTAR — só Aceitos; um item por vez; verification após cada um
-                 (no 06: passo 6 = dispatch prompt-fix com o lote Aceito)
+6. IMPLEMENTAR — só Aceitos, na regra do contexto (abaixo)
 ```
 
 ## Fontes
@@ -65,7 +64,7 @@ Não substitui os Estágios 1–2 (eles **produzem** os findings). Esta skill **
 
 Se **qualquer** item da lista estiver unclear:
 
-1. **Parar** — não implementar os “claros” primeiro (no 06: não dispatch fix).
+1. **Parar** — não implementar os claros primeiro. No 06, não disparar o `prompt-fix`.
 2. Perguntar só sobre os ambíguos (agrupar numa mensagem se forem dependentes).
 3. Itens podem ser relacionados; entendimento parcial = implementação errada.
 
@@ -81,13 +80,27 @@ Antes de aceitar um finding, checar:
 
 Se parecer errado → **Rejeitado** com raciocínio técnico e evidência. Se não puder verificar → **Ambíguo** e perguntar ao dev.
 
-## Implementação (após Aceitos)
+## Como corrigir
 
-1. Um item por vez (ou grupo atomicamente dependente) — no 06 o `prompt-fix` recebe o lote Aceito.
-2. Se a mudança alterar comportamento da spec → **atualizar spec/tasks antes** (fluxo de desvio SDD).
-3. Após o fix: skill **`verification`** (gate do 06).
-4. Se falhar teste/build → skill **`debugging`**, não stack de patches.
-5. Commits só se o dev pedir.
+Duas regras. O contexto escolhe uma. Não misturar na mesma lista.
+
+### No `/sdd-06-execute`
+
+Um dispatch com **todos** os Aceitos daquela reprovação (`prompt-fix`). O filtro já leu cada finding. A verificação é a do loop (gate + Estágio 1 de novo), não um `verification` entre itens.
+
+Ambíguo bloqueia o lote. Não corrigir os claros antes.
+
+### Fora do execute
+
+Um Aceito por vez. Skill **`verification`** depois de cada um. Juntar itens só quando forem inseparáveis: o mesmo comportamento quebra se um for corrigido sem o outro.
+
+Ambíguo: parar. Não implementar os claros primeiro.
+
+## Implementação (depois da regra acima)
+
+1. Se a mudança alterar comportamento da spec → atualizar spec/tasks **antes** (fluxo de desvio SDD).
+2. Se teste ou build falhar → skill **`debugging`**, não uma pilha de patches.
+3. Commits só se o dev pedir.
 
 ## Red flags — parar
 
@@ -99,6 +112,8 @@ Se parecer errado → **Rejeitado** com raciocínio técnico e evidência. Se n�
 | "O bot pediu, então está certo" | Verificar no código |
 | "É só um nit, pulo a verification" | Evidence before done |
 | "Aceito para não discutir" | Correção técnica > conforto social |
+| "No 06 eu corrijo um Aceito por vez" | No execute o dispatch é o lote da reprovação |
+| "No MR eu mando a lista inteira num patch" | Fora do execute, um Aceito por vez |
 
 ## Saída esperada
 

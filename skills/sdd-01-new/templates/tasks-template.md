@@ -22,7 +22,7 @@
 
 ## Profundidade do plano (`plan_depth`)
 
-> Decidir **depois** do Mapa de arquivos, **antes** dos Steps. Ver árvore em `/sdd-04-plan` §4.0.
+> Decidir **depois** do Mapa de arquivos, **antes** dos Steps. Ver árvore em `/sdd-04-plan`, `references/plan-depth.md`.
 
 | Campo | Valor |
 |-------|-------|
@@ -31,13 +31,13 @@
 | **Override do dev?** | não \| sim |
 
 - **`snippets`:** step de código = snippet **completo** + verificação com comando/esperado.
-- **`contracts`:** step de código = assinaturas/esqueleto + **Produces**; verificação com teste **completo** (ou scaffold verificável). Corpo completo só em thin slice / steps que cabem em 2–5 min.
+- **`contracts`:** step de código = assinaturas/esqueleto + **Produces**; verificação com teste **completo** (ou scaffold verificável). Corpo completo só se couber em 2–5 min; senão, só a frase permitida em `/sdd-04-plan`, `references/plan-depth.md`.
 - Override por task: campo **Profundidade** na tabela da task.
 - Override por fase: anotar na coluna/modo da fase ou no Critério.
 
 ## Progresso do Plan (ondas)
 
-> Preencher quando `/sdd-04-plan` §4.2 (Plan em ondas) estiver ativo. Sessão nova retoma por esta tabela — não pelo chat.
+> Preencher quando o plan em ondas estiver ativo (`/sdd-04-plan`, `references/plan-waves.md`). Sessão nova retoma por esta tabela — não pelo chat.
 
 | Onda | Escopo | Status | Compliance | Nota |
 |------|--------|--------|------------|------|
@@ -185,7 +185,9 @@ Esperado: FAILURE — {motivo}
 
 - [ ] **Step 4: Implementação mínima que satisfaz o teste + Produces**
 
-> Corpo completo no Plan **só** se couber em 2–5 min; senão: “implementar o mínimo que faça o teste passar respeitando Produces {assinaturas}” — o Execute preenche o corpo.
+> Corpo completo no Plan **só** se couber em 2–5 min. Senão, a única prosa permitida, com os três campos preenchidos:
+
+`Corpo mínimo que faça o teste {caminho-do-teste} falhar na asserção "{texto}" e depois passar, respeitando Produces {assinaturas}.`
 
 - [ ] **Step 5: Rodar teste — confirmar PASS** + gate iterativo (`AGENTS.md`)
 
@@ -197,7 +199,8 @@ Esperado: FAILURE — {motivo}
 - [ ] Gate iterativo verde (skill `verification` em `executions.md`)
 - [ ] Revisão do `/sdd-06-execute` aprovada (Estágio 1 + Estágio 2 + receiving-review quando houver fix)
 - [ ] Sem shadow code (tudo rastreável na spec)
-- [ ] Docs (`/sdd-08-docs`) se impacto em API/contrato público
+
+Documentação pública não é DoD desta task. Ela entra no checklist de `executions.md`, na fase `/sdd-08-docs`.
 
 ### Notas de execução
 
